@@ -2,7 +2,7 @@
 
 # Cotecna Stencil Components
 
-This project contains some standalone Web Components using Stencil, most of them are form fields (text and numeric inputs, dropdowns and multidropdowns) created without any framework dependency, all of them are plain components.
+This project contains some standalone Web Components using Stencil, most of them are form fields: text and numeric inputs, dropdowns and multidropdowns...
 All these components are just Web Components, so they work in any major framework or with no framework at all.
 
 ## Getting Started
