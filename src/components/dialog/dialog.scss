@@ -1,0 +1,61 @@
+:host {
+  .dialog {
+    display: flex;
+    position: absolute;
+    z-index: 99;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+  }
+  
+  .dialog-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 500px;
+    
+    .options {
+      max-height: 500px;
+      overflow: auto;
+    }
+  }
+
+  .actions-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 16px;
+    
+    button {
+      text-transform: uppercase;
+      margin-left: 8px;
+      background-color: transparent;
+      border: 0px solid;
+      line-height: 36px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .primary-btn {
+      color: var(--primary-color);
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+}
