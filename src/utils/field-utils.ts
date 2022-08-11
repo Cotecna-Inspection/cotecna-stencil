@@ -5,7 +5,8 @@ import { Field } from "../models/field";
 export function isValid(field: Field) {
   switch(field.type) {
     case ControlType.MultiDropdown:
-      return field?.required && field?.value?.length > 0
+      if (field.required) return field?.value?.length > 0;
+      else return true;
     default:
       throw 'Field type not supported';
   }
