@@ -90,8 +90,7 @@ export class MultidropdownEditable {
   }
 
   private hasValueChanged(): boolean {
-    return this.selectedOptionsIds?.length > 0 && 
-           JSON.stringify(this.field.value) != JSON.stringify(this.selectedOptionsIds);
+    return JSON.stringify(this.field.value) != JSON.stringify(this.selectedOptionsIds);
   }
 
   private sortOptions(a: SelectedOption, b: SelectedOption) {
