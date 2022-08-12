@@ -3,6 +3,8 @@ import { FieldMode } from '../../enums/fieldMode';
 import { ControlState } from '../../models/controlState';
 import { Field } from '../../models/field';
 import { isValid } from '../../utils/field-utils';
+
+/** @internal **/
 @Component({
   tag: 'cotecna-multidropdown',
   styleUrl: 'multidropdown.scss',

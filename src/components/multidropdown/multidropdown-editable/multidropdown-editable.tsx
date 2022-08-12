@@ -3,6 +3,7 @@ import { DialogAction } from "../../../enums/dialogAction";
 import { Field } from "../../../models/field";
 import { SelectedOption } from "../../../models/selectedOption";
 
+/** @internal **/
 @Component({
   tag: 'cotecna-multidropdown-editable',
   styleUrl: 'multidropdown-editable.scss',

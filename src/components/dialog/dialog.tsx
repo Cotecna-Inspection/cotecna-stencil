@@ -1,6 +1,7 @@
 import { Component, EventEmitter, h, Event } from "@stencil/core";
 import { DialogAction } from "../../enums/dialogAction";
 
+/** @internal **/
 @Component({
   tag: 'cotecna-dialog',
   styleUrl: 'dialog.scss',

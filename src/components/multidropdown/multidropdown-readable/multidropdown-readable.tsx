@@ -2,6 +2,7 @@ import { Component, h, Prop } from "@stencil/core";
 import { Field } from "../../../models/field";
 import { getIconPath, isValid } from "../../../utils/field-utils";
 
+/** @internal **/
 @Component({
   tag: 'cotecna-multidropdown-readable',
   styleUrl: 'multidropdown-readable.scss',
