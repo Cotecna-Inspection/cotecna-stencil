@@ -1,6 +1,6 @@
 import { Component, h, Prop } from "@stencil/core";
 import { Field } from "../../../models/field";
-import { getIconPath, isValid } from "../../../utils/field-utils";
+import { getIconPNGPath, isValid } from "../../../utils/field-utils";
 
 /** @internal **/
 @Component({
@@ -29,7 +29,7 @@ export class MultidropdownReadable {
           </div>
         </div>
         <span class="spacer"></span>
-        <img src={getIconPath('arrow_drop_down')}></img>
+        <img src={getIconPNGPath('arrow_drop_down')}></img>
       </div>
     )
   }

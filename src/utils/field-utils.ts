@@ -12,6 +12,10 @@ export function isValid(field: Field) {
   }
 }
 
-export function getIconPath(iconName: string): string {
+export function getIconPNGPath(iconName: string): string {
   return getAssetPath(`../assets/${iconName}.png`);
+}
+
+export function getIconSVGPath(iconName: string): string {
+  return getAssetPath(`../assets/${iconName}.svg`);
 }
