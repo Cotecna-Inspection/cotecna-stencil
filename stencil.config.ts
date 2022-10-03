@@ -5,7 +5,8 @@ export const config: Config = {
   namespace: 'cotecna-stencil-components',
   bundles: [
     { components: ['cotecna-multidropdown', 'cotecna-multidropdown-readable', 'cotecna-multidropdown-editable'] },
-    { components: ['cotecna-dialog'] }
+    { components: ['cotecna-dialog'] },
+    { components: ['cotecna-email-box'] }
   ],
   outputTargets: [
     {
@@ -16,7 +17,7 @@ export const config: Config = {
       type: 'dist-custom-elements',
       copy: [
         {
-          src: '**/*.{jpg,png}',
+          src: '**/*.{jpg,png,svg}',
           dest: 'dist/components/assets'
         }
       ]
