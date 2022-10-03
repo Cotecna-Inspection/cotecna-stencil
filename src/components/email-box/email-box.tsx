@@ -18,13 +18,13 @@ export class EmailBox {
   control!: any;
 
   @Prop()
-  defaultEmails!: string[];
-
-  @Prop()
-  readonly: boolean;
+  defaultEmails: string[] = [];
 
   @Event()
   change: EventEmitter<ControlState>;
+
+  @State()
+  private readonly: boolean;
 
   @State() 
   private addedEmails: string[] = [];
