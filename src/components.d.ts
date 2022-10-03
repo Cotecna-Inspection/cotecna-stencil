@@ -15,7 +15,6 @@ export namespace Components {
         "control": any;
         "defaultEmails": string[];
         "field": Field;
-        "readonly": boolean;
     }
     interface CotecnaMultidropdown {
         "control": any;
@@ -90,10 +89,9 @@ declare namespace LocalJSX {
     }
     interface CotecnaEmailBox {
         "control": any;
-        "defaultEmails": string[];
+        "defaultEmails"?: string[];
         "field": Field;
         "onChange"?: (event: CotecnaEmailBoxCustomEvent<ControlState>) => void;
-        "readonly"?: boolean;
     }
     interface CotecnaMultidropdown {
         "control": any;
