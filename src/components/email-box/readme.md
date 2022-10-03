@@ -34,9 +34,9 @@ const emailBoxField = {
 const multidropdownControl = {
   id: 'email-box-1',
   defaultEmails: [
-    'marcel.pujol@cotecna.es',
-    'carles.romo@cotecna.es',
-    'eltjo.kraai@cotecna.es'
+    'user1@test.com',
+    'user2@test.com',
+    'user3@test.com'
   ]
 }
 ```
