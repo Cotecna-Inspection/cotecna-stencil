@@ -1,7 +1,7 @@
 import { Component, Element, h, Prop, Event, EventEmitter, State } from '@stencil/core';
 import { ControlState } from '../../models/controlState';
 import { Field } from '../../models/field';
-import { getIconSVGPath } from '../../utils/field-utils';
+import { getIconSVGPath, isValid } from '../../utils/field-utils';
 
 @Component({
   tag: 'cotecna-email-box',
@@ -23,9 +23,6 @@ export class EmailBox {
   @Prop()
   readonly: boolean;
 
-  @Prop()
-  allowsAddMore: boolean;
-
   @Event()
   change: EventEmitter<ControlState>;
 
@@ -34,6 +31,10 @@ export class EmailBox {
 
   @Element()
   private element: HTMLElement;
+
+  componentDidLoad() {
+    this.readonly = this.field.readOnly;
+  }
 
   render() {
     return (
@@ -54,7 +55,9 @@ export class EmailBox {
   }
 
   private getContainerClass(): string {
-    return 'email-box-container';
+    return this.readonly
+      ? 'email-box-container readonly'
+      : 'email-box-container';
   }
 
   private displayDefaultEmails(): any {
@@ -94,6 +97,7 @@ export class EmailBox {
     if (event.key === this.enterCode && element?.validity?.valid) {
       const emailToAdd = element.value;
       this.addEmail(emailToAdd);
+      this.updateAndTriggerOnChange();
       element.value = '';
     }
   }
@@ -103,6 +107,7 @@ export class EmailBox {
     const indexEmailToDelete = event.target.dataset.index;
     if (indexEmailToDelete >= 0) this.addedEmails.splice(indexEmailToDelete, 1);
     this.addedEmails = [...this.addedEmails];
+    this.updateAndTriggerOnChange();
   }
 
   private setEmailFieldValidity(element) {
@@ -113,5 +118,17 @@ export class EmailBox {
 
   private addEmail(email: string) {
     this.addedEmails = [...this.addedEmails, email];
+  }
+
+  private updateAndTriggerOnChange() {
+    this.field.value = [...this.addedEmails];
+    this.onChange();
+  }
+
+  private onChange() {
+    this.change.emit({
+      isValid: isValid(this.field),
+      value: this.field.value
+    } as ControlState);
   }
 }

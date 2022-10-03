@@ -12,7 +12,6 @@ export namespace Components {
     interface CotecnaDialog {
     }
     interface CotecnaEmailBox {
-        "allowsAddMore": boolean;
         "control": any;
         "defaultEmails": string[];
         "field": Field;
@@ -90,7 +89,6 @@ declare namespace LocalJSX {
         "onClickDialogAction"?: (event: CotecnaDialogCustomEvent<DialogAction>) => void;
     }
     interface CotecnaEmailBox {
-        "allowsAddMore"?: boolean;
         "control": any;
         "defaultEmails": string[];
         "field": Field;
