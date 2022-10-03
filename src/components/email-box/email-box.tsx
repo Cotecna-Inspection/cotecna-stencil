@@ -47,7 +47,7 @@ export class EmailBox {
           <input id="add-email-input" 
             type="email"
             class="add-email-input"
-            onKeyPress={this.handleKeyPress.bind(this)}></input>
+            onKeyUp={this.handleKeyPress.bind(this)}></input>
         </div>
       </div>
     )
@@ -87,6 +87,7 @@ export class EmailBox {
   }
 
   private handleKeyPress(event: KeyboardEvent) {
+    event.stopPropagation();
     const element = event.target as any;
     this.setEmailFieldValidity(element);
 
