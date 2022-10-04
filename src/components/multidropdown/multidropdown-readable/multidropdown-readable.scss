@@ -1,0 +1,58 @@
+:host {
+  .field-base {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    border-bottom: 1px solid lightgrey;
+    font-size: 14px;
+
+    label {
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    img {
+      width: 26px;
+      height: 26px;
+      opacity: 0.7;
+    }
+
+    .readonly-container {
+      display:flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      margin: 4px 0px 4px;
+      cursor: pointer;
+    }
+  
+    .values {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin: 4px 0px 4px;
+      .chip {
+        padding-top: 7px;
+        padding-bottom: 7px;
+        padding-right: 12px;
+        padding-left: 12px;
+        margin: 4px;
+        border-radius: 16px;
+        background-color: var(--primary-color);
+        color: white;
+      }
+    }
+  
+    .mandatory-symbol {
+      color: #e5a038;
+      font-weight: 700;
+    }
+  
+    .spacer {
+      flex: 1 1 auto;
+    }
+  }
+
+  .invalid-field {
+    border-bottom: 1px solid red; 
+  }
+}
