@@ -1,4 +1,4 @@
-import { Component, Element, h, Prop, Event, EventEmitter, State } from '@stencil/core';
+import { Component, Element, h, Prop, Event, EventEmitter, State, Watch } from '@stencil/core';
 import { ControlState } from '../../models/controlState';
 import { Field } from '../../models/field';
 import { getIconSVGPath, isValid } from '../../utils/field-utils';
@@ -32,9 +32,13 @@ export class EmailBox {
   @Element()
   private element: HTMLElement;
 
+  @Watch('field')
+  onFieldChanged() {
+    this.initValues();
+  }
+
   componentDidLoad() {
-    this.readonly = this.field.readOnly;
-    this.addedEmails = [... this.field.value];
+   this.initValues();
   }
 
   render() {
@@ -53,6 +57,11 @@ export class EmailBox {
         </div>
       </div>
     )
+  }
+
+  private initValues() {
+    this.readonly = this.field.readOnly;
+    this.addedEmails = [... this.field.value];
   }
 
   private getContainerClass(): string {
