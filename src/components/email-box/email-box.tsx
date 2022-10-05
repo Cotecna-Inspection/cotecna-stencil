@@ -34,6 +34,7 @@ export class EmailBox {
 
   componentDidLoad() {
     this.readonly = this.field.readOnly;
+    this.addedEmails = [... this.field.value];
   }
 
   render() {

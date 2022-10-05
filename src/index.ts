@@ -83,7 +83,10 @@ function configEmailBox() {
     label: 'Share by Email',
     order: 2,
     propertyName: 'share-by-email',
-    value: [],
+    value: [
+      'testA@cotecna.es',
+      'testB@cotecna.es',
+    ],
     readableValue: [],
     required: false,
     visible: true,
@@ -100,9 +103,19 @@ function configEmailBox() {
   };
 }
 
+function setEvents() {
+  const emailBoxCheckbox = document.getElementById('email-box-checkbox');
+  emailBoxCheckbox?.addEventListener('change', (event: any) => {  
+    console.log('event', event);
+  }, false);
+}
+
+setEvents();
 configMultiDropdown();
 configEmailBox();
 
 document.addEventListener('change', (event: any) => {
-  console.log('event', event.detail);
+  console.log('change event', event.detail);
 }, false);
+
+
