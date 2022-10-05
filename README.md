@@ -5,6 +5,14 @@
 This project contains some standalone Web Components using Stencil, most of them are form fields: text and numeric inputs, dropdowns and multidropdowns...
 All these components are just Web Components, so they work in any major framework or with no framework at all.
 
+## Available components
+| Name | Link 
+| -----| ------------------ |
+| Dialog | [ Documentation ](./src/components/dialog/readme.md) |
+| Multidropdown | [ Documentation ](./src/components/multidropdown/readme.md) |
+| Email Box | [Documentation](./src/components/email-box/readme.md) |
+
+
 ## Getting Started
 
 To start building a new web component using Stencil, clone this repo to a new directory:
