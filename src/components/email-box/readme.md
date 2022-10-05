@@ -12,7 +12,7 @@ You can set this component as readonly without any interaction with the user.
 ## Events
 | Name | Description | Type |
 |------ | ------------| -----|
-| `change` | Emits an event when the value of this field is changed | `ControlState` |
+| `fieldChange` | Emits an event when the value of this field is changed | `ControlState` |
 
 ## Usage example
 On your typescript field:
@@ -44,7 +44,8 @@ On your html template:
 ```html
 <cotecna-email-box
   [field]="multidropdownField"
-  [control]="multidropdownControl">
+  [control]="multidropdownControl"
+  (fieldChange)="onFieldChange($event)">
 </cotecna-email-box>
 ```
 
