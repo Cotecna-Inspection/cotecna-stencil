@@ -114,8 +114,8 @@ setEvents();
 configMultiDropdown();
 configEmailBox();
 
-document.addEventListener('change', (event: any) => {
-  console.log('change event', event.detail);
+document.addEventListener('fieldChange', (event: any) => {
+  console.log('fieldChange event', event.detail);
 }, false);
 
 

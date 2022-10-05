@@ -91,12 +91,12 @@ declare namespace LocalJSX {
         "control": any;
         "defaultEmails"?: string[];
         "field": Field;
-        "onChange"?: (event: CotecnaEmailBoxCustomEvent<ControlState>) => void;
+        "onFieldChange"?: (event: CotecnaEmailBoxCustomEvent<ControlState>) => void;
     }
     interface CotecnaMultidropdown {
         "control": any;
         "field": Field;
-        "onChange"?: (event: CotecnaMultidropdownCustomEvent<ControlState>) => void;
+        "onFieldChange"?: (event: CotecnaMultidropdownCustomEvent<ControlState>) => void;
     }
     interface CotecnaMultidropdownEditable {
         "control": any;
