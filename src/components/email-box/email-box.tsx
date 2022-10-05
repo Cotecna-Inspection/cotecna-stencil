@@ -21,7 +21,7 @@ export class EmailBox {
   defaultEmails: string[] = [];
 
   @Event()
-  change: EventEmitter<ControlState>;
+  fieldChange: EventEmitter<ControlState>;
 
   @State()
   private readonly: boolean;
@@ -127,7 +127,7 @@ export class EmailBox {
   }
 
   private onChange() {
-    this.change.emit({
+    this.fieldChange.emit({
       isValid: isValid(this.field),
       value: this.field.value
     } as ControlState);

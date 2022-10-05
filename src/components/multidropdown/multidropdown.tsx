@@ -19,7 +19,7 @@ export class Multidropdown {
   control!: any;
 
   @Event()
-  change: EventEmitter<ControlState>;
+  fieldChange: EventEmitter<ControlState>;
 
   @State() private mode: FieldMode = FieldMode.READ;
 
@@ -48,7 +48,7 @@ export class Multidropdown {
   }
 
   private onChange() {
-    this.change.emit({
+    this.fieldChange.emit({
       isValid: isValid(this.field),
       value: this.field.value,
       readableValue: this.field.readableValue
