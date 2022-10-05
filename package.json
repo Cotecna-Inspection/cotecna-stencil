@@ -1,7 +1,16 @@
 {
   "name": "@cotecna/stencil-components",
-  "version": "0.0.1-alpha.5",
+  "version": "0.0.1-alpha.6",
   "description": "Cotecna Stencil Components",
+  "author": "Cotecna",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "Stencil",
+    "WebComponents"
+  ],
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "es2015": "dist/esm/index.mjs",
@@ -20,6 +29,7 @@
   ],
   "scripts": {
     "build": "stencil build",
+    "release": "stencil build --ci --prod",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
@@ -33,7 +43,6 @@
     "@types/jest": "^27.0.3",
     "jest": "^27.4.5",
     "jest-cli": "^27.4.5",
-    "puppeteer": "^10.0.0"
-  },
-  "license": "MIT"
+    "puppeteer": "^18.0.5"
+  }
 }
