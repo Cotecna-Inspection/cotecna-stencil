@@ -26,6 +26,9 @@
     "generate": "stencil generate"
   },
   "dependencies": {
+    "@capacitor/android": "^3.8.0",
+    "@capacitor/core": "^3.8.0",
+    "@capacitor/ios": "^3.8.0",
     "@stencil/core": "^2.13.0",
     "@stencil/sass": "^1.5.2"
   },
@@ -33,7 +36,8 @@
     "@types/jest": "^27.0.3",
     "jest": "^27.4.5",
     "jest-cli": "^27.4.5",
-    "puppeteer": "^10.0.0"
+    "puppeteer": "^10.0.0",
+    "@capacitor/cli": "^3.8.0"
   },
   "license": "MIT"
 }
