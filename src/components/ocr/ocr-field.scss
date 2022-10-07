@@ -1,0 +1,12 @@
+:host {
+  display: block;
+
+  .ocr-field-container {
+    display: flex;
+    flex-direction: column;
+    button, input {
+      width: 150px !important;
+      margin-top: 16px;
+    }
+  }
+}
