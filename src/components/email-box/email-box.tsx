@@ -17,9 +17,6 @@ export class EmailBox {
   @Prop()
   control!: any;
 
-  @Prop()
-  defaultEmails: string[] = [];
-
   @Event()
   fieldChange: EventEmitter<ControlState>;
 
@@ -101,15 +98,20 @@ export class EmailBox {
 
   private handleKeyPress(event: KeyboardEvent) {
     event.stopPropagation();
-    const element = event.target as any;
-    this.setEmailFieldValidity(element);
+    const field = event.target as any;
+    this.markFieldValidityStatus(field);
 
-    if (event.key === this.enterCode && element?.validity?.valid) {
-      const emailToAdd = element.value;
-      this.addEmail(emailToAdd);
-      this.updateAndTriggerOnChange();
-      element.value = '';
-    }
+    if (event.key === this.enterCode && field?.validity?.valid) {
+      if (!this.emailAlreadyExists(field.value)) {
+        const emailToAdd = field.value;
+        this.addEmail(emailToAdd);
+        this.updateAndTriggerOnChange();
+        field.value = '';
+      }
+      else {
+        this.markFieldValidityStatus(field,'Email already exists');
+      }
+    } 
   }
 
   private handleDelete(event: any) {
@@ -120,8 +122,14 @@ export class EmailBox {
     this.updateAndTriggerOnChange();
   }
 
-  private setEmailFieldValidity(element) {
-    element.validity.valid 
+  private emailAlreadyExists(email: string): boolean {
+    return this.addedEmails.some(addedEmail => addedEmail === email) ||
+           this.control?.defaultEmails?.some(defaultEmail => defaultEmail === email);
+  }
+
+  private markFieldValidityStatus(element, errorMessage: string = '') {
+    element.setCustomValidity(errorMessage);
+    element.validity.valid
       ? element.classList.remove('invalid') 
       : element.classList.add('invalid');
   }

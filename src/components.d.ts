@@ -13,7 +13,6 @@ export namespace Components {
     }
     interface CotecnaEmailBox {
         "control": any;
-        "defaultEmails": string[];
         "field": Field;
     }
     interface CotecnaMultidropdown {
@@ -89,7 +88,6 @@ declare namespace LocalJSX {
     }
     interface CotecnaEmailBox {
         "control": any;
-        "defaultEmails"?: string[];
         "field": Field;
         "onFieldChange"?: (event: CotecnaEmailBoxCustomEvent<ControlState>) => void;
     }
