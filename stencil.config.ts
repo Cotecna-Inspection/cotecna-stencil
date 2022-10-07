@@ -6,7 +6,8 @@ export const config: Config = {
   bundles: [
     { components: ['cotecna-multidropdown', 'cotecna-multidropdown-readable', 'cotecna-multidropdown-editable'] },
     { components: ['cotecna-dialog'] },
-    { components: ['cotecna-email-box'] }
+    { components: ['cotecna-email-box'] },
+    { components: ['cotecna-ocr']}
   ],
   outputTargets: [
     {
@@ -28,6 +29,12 @@ export const config: Config = {
     {
       type: 'www',
       serviceWorker: null, // disable service workers
+      copy: [
+        {
+          src: '**/*.{jpg,png,svg}',
+          dest: 'assets'
+        }
+      ]
     },
   ],
   globalStyle: "src/styles.scss",
@@ -36,5 +43,10 @@ export const config: Config = {
       includePaths: ['./node_modules'],
       injectGlobalPaths: ["src/styles.scss"]
     })
-  ]
+  ],
+  devServer: {
+    reloadStrategy: 'pageReload',
+    port: 3333,
+    address: 'http://192.168.0.12'
+  }
 };

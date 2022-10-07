@@ -27,6 +27,8 @@ export namespace Components {
     interface CotecnaMultidropdownReadable {
         "field": Field;
     }
+    interface CotecnaOcr {
+    }
 }
 export interface CotecnaDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -75,12 +77,19 @@ declare global {
         prototype: HTMLCotecnaMultidropdownReadableElement;
         new (): HTMLCotecnaMultidropdownReadableElement;
     };
+    interface HTMLCotecnaOcrElement extends Components.CotecnaOcr, HTMLStencilElement {
+    }
+    var HTMLCotecnaOcrElement: {
+        prototype: HTMLCotecnaOcrElement;
+        new (): HTMLCotecnaOcrElement;
+    };
     interface HTMLElementTagNameMap {
         "cotecna-dialog": HTMLCotecnaDialogElement;
         "cotecna-email-box": HTMLCotecnaEmailBoxElement;
         "cotecna-multidropdown": HTMLCotecnaMultidropdownElement;
         "cotecna-multidropdown-editable": HTMLCotecnaMultidropdownEditableElement;
         "cotecna-multidropdown-readable": HTMLCotecnaMultidropdownReadableElement;
+        "cotecna-ocr": HTMLCotecnaOcrElement;
     }
 }
 declare namespace LocalJSX {
@@ -106,12 +115,15 @@ declare namespace LocalJSX {
     interface CotecnaMultidropdownReadable {
         "field": Field;
     }
+    interface CotecnaOcr {
+    }
     interface IntrinsicElements {
         "cotecna-dialog": CotecnaDialog;
         "cotecna-email-box": CotecnaEmailBox;
         "cotecna-multidropdown": CotecnaMultidropdown;
         "cotecna-multidropdown-editable": CotecnaMultidropdownEditable;
         "cotecna-multidropdown-readable": CotecnaMultidropdownReadable;
+        "cotecna-ocr": CotecnaOcr;
     }
 }
 export { LocalJSX as JSX };
@@ -123,6 +135,7 @@ declare module "@stencil/core" {
             "cotecna-multidropdown": LocalJSX.CotecnaMultidropdown & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownElement>;
             "cotecna-multidropdown-editable": LocalJSX.CotecnaMultidropdownEditable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownEditableElement>;
             "cotecna-multidropdown-readable": LocalJSX.CotecnaMultidropdownReadable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownReadableElement>;
+            "cotecna-ocr": LocalJSX.CotecnaOcr & JSXBase.HTMLAttributes<HTMLCotecnaOcrElement>;
         }
     }
 }
