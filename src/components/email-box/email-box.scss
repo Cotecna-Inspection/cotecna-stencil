@@ -19,7 +19,6 @@
   .email-box-container {
     max-width: 350px;
     min-width: 350px;
-    padding-top: 16px;
     position: relative;
   }& .readonly {
     pointer-events: none;
@@ -34,7 +33,7 @@
 
   label {
     position: absolute;
-    top: 7px;
+    top: -8px;
     left: 16px;
     background-color: white;
     color: rgba(0, 0, 0, 0.54)

@@ -10,6 +10,7 @@ function configMultiDropdown() {
 
 function configEmailBox() {
   var emailBoxField: any = document.querySelector('cotecna-email-box');
+  emailBoxField.style.cssText = 'margin-top:16px;';
   emailBoxField.field = EMAIL_BOX_FIELD;
   emailBoxField.control = EMAIL_BOX_FIELD_CONTROL;
 
