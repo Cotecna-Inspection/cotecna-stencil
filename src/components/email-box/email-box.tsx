@@ -66,8 +66,10 @@ export class EmailBox {
 
   private initValues() {
     this.readonly = this.field.readOnly;
-    this.addedEmails = [... this.field.value];
-    this.defaultEmails = [... this.control?.defaultEmails];
+    this.addedEmails = [...this.field.value];
+    if (this.control?.defaultEmails?.length) {
+      this.defaultEmails = [...this.control.defaultEmails];
+    }
   }
 
   private getContainerClass(): string {
