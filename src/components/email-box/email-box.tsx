@@ -49,7 +49,7 @@ export class EmailBox {
   render() {
     return (
       <div class={ this.getContainerClass()} onClick={this.handleClick.bind(this)}>
-        <label>{this.field.label}</label>
+        <label part="label">{this.field.label}</label>
         <div class="border">
           <div class="emails-container">
             { this.displayDefaultEmails() }
