@@ -12,6 +12,10 @@ function configEmailBox() {
   var emailBoxField: any = document.querySelector('cotecna-email-box');
   emailBoxField.field = EMAIL_BOX_FIELD;
   emailBoxField.control = EMAIL_BOX_FIELD_CONTROL;
+
+  setTimeout(() => {
+    emailBoxField.control = Object.assign({}, EMAIL_BOX_FIELD_CONTROL, { defaultEmails: ['marti.soriano@cotecna.es', 'testuser@cotecna.es']});
+  }, 3000);
 }
 
 function setEvents() {

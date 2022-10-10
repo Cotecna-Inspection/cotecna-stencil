@@ -23,6 +23,9 @@ export class EmailBox {
   @State()
   private readonly: boolean;
 
+  @State()
+  private defaultEmails: string[] = [];
+
   @State() 
   private addedEmails: string[] = [];
 
@@ -31,6 +34,11 @@ export class EmailBox {
 
   @Watch('field')
   onFieldChanged() {
+    this.initValues();
+  }
+
+  @Watch('control')
+  onControlChanged() {
     this.initValues();
   }
 
@@ -59,6 +67,7 @@ export class EmailBox {
   private initValues() {
     this.readonly = this.field.readOnly;
     this.addedEmails = [... this.field.value];
+    this.defaultEmails = [... this.control?.defaultEmails];
   }
 
   private getContainerClass(): string {
@@ -68,7 +77,7 @@ export class EmailBox {
   }
 
   private displayDefaultEmails(): any {
-    return this.control?.defaultEmails?.map((defaultEmail, index) => {
+    return this.defaultEmails?.map((defaultEmail, index) => {
       return (
         <div id={`default-email-${index}`} class="default-email-chip">
           { defaultEmail }
