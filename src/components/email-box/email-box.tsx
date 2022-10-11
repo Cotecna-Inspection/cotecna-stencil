@@ -49,9 +49,12 @@ export class EmailBox {
   render() {
     return (
       <div class={ this.getContainerClass()} onClick={this.handleClick.bind(this)} part="container">
-        <label part="label">{this.field.label}</label>
+        <label part="label">
+          {this.field.label}
+          {this.getSymbol()}
+        </label>
         <div class="border">
-          <div class="emails-container">
+          <div class="emails-container" part="emails-container">
             { this.displayDefaultEmails() }
             { this.displayAddedEmails() }
           </div>
@@ -67,15 +70,20 @@ export class EmailBox {
   private initValues() {
     this.readonly = this.field.readOnly;
     this.addedEmails = [...this.field.value];
-    if (this.control?.defaultEmails?.length) {
-      this.defaultEmails = [...this.control.defaultEmails];
-    }
+    this.defaultEmails = (this.control?.defaultEmails?.length) 
+      ? [...this.control.defaultEmails] 
+      : [];
   }
 
   private getContainerClass(): string {
-    return this.readonly
-      ? 'email-box-container readonly'
-      : 'email-box-container';
+    let containerClass = 'email-box-container';
+    if (this.readonly) containerClass = `${containerClass} readonly`;
+    if (!isValid(this.field)) containerClass = `${containerClass} invalid-field`;
+    return containerClass;
+  }
+
+  private getSymbol(): string {
+    return this.field.required ? <span class="mandatory-symbol">*</span> : null;
   }
 
   private displayDefaultEmails(): any {

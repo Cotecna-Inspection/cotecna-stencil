@@ -39,6 +39,17 @@
     color: rgba(0, 0, 0, 0.54)
   }
 
+  .mandatory-symbol {
+    color: #e5a038;
+    font-weight: 700;
+  }
+
+  .invalid-field {
+    .border {
+      border: 1px solid red; 
+    }
+  }
+
   .border {
     border: 1px solid #D4D4D4;
     padding: 16px 8px;
