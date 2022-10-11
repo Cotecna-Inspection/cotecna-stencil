@@ -73,6 +73,7 @@ export class EmailBox {
     this.defaultEmails = (this.control?.defaultEmails?.length) 
       ? [...this.control.defaultEmails] 
       : [];
+    this.setEmailContainerScrollToBottom();
   }
 
   private getContainerClass(): string {
@@ -155,6 +156,14 @@ export class EmailBox {
 
   private addEmail(email: string) {
     this.addedEmails = [...this.addedEmails, email];
+    this.setEmailContainerScrollToBottom();
+  }
+
+  private setEmailContainerScrollToBottom(): void {
+    const emailsContainer = this.element.shadowRoot.querySelector('.emails-container');
+    if (emailsContainer) {
+      setTimeout(_ => emailsContainer.scrollTop = emailsContainer.scrollHeight, 0);
+    }
   }
 
   private updateAndTriggerOnChange() {
