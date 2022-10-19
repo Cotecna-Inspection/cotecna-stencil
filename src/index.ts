@@ -15,7 +15,21 @@ function configEmailBox() {
   emailBoxField.control = EMAIL_BOX_FIELD_CONTROL;
 
   setTimeout(() => {
-    emailBoxField.control = Object.assign({}, EMAIL_BOX_FIELD_CONTROL, { defaultEmails: ['marti.soriano@cotecna.es', 'testuser@cotecna.es']});
+    emailBoxField.control = {
+      ...EMAIL_BOX_FIELD_CONTROL, 
+      defaultEmails: [
+        'testuser-1@cotecna.es',
+        'testuser-2@cotecna.es',
+        'testuser-3@cotecna.es',
+        'testuser-4@cotecna.es',
+        'testuser-5@cotecna.es',
+        'testuser-6@cotecna.es',
+        'testuser-7@cotecna.es',
+        'testuser-8@cotecna.es',
+        'testuser-9@cotecna.es',
+        'testuser-10@cotecna.es'
+      ]
+    };
   }, 3000);
 }
 

@@ -122,7 +122,7 @@ export class EmailBox {
     const field = event.target as any;
     this.markFieldValidityStatus(field);
 
-    if (event.key === this.enterCode && field?.validity?.valid) {
+    if (event.key === this.enterCode && field?.validity?.valid && field?.value?.trim()?.length) {
       if (!this.emailAlreadyExists(field.value)) {
         const emailToAdd = field.value;
         this.addEmail(emailToAdd);
@@ -144,8 +144,8 @@ export class EmailBox {
   }
 
   private emailAlreadyExists(email: string): boolean {
-    return this.addedEmails.some(addedEmail => addedEmail === email) ||
-           this.control?.defaultEmails?.some(defaultEmail => defaultEmail === email);
+    return this.addedEmails.some(addedEmail => addedEmail?.toLowerCase() === email?.toLowerCase()) ||
+           this.control?.defaultEmails?.some(defaultEmail => defaultEmail?.toLowerCase() === email?.toLowerCase());
   }
 
   private markFieldValidityStatus(element, errorMessage: string = '') {
