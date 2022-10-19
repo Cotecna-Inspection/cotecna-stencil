@@ -21,9 +21,14 @@
     min-width: 350px;
     position: relative;
   }& .readonly {
-    pointer-events: none;
     input {
       display: none;
+    }
+    .added-email-chip {
+      pointer-events: none;
+      .delete-chip {
+        display: none;
+      }
     }
   }:hover {
    .border {

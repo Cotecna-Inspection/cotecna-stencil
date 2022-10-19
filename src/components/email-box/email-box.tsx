@@ -103,6 +103,7 @@ export class EmailBox {
         <div id={`added-email-${index}`} class="added-email-chip">
           { email }
           <img src={ getIconSVGPath('delete_filled') }
+            class="delete-chip"
             data-index={index} 
             onClick={this.handleDelete.bind(this)}></img>
         </div>
