@@ -1,4 +1,5 @@
 import { Component, Element, h, Prop, Event, EventEmitter, State, Watch } from '@stencil/core';
+import { MouseEvent } from '../../enums/mouse-event.enum';
 import { ControlState } from '../../models/controlState';
 import { Field } from '../../models/field';
 import { getIconSVGPath, isValid } from '../../utils/field-utils';
@@ -48,7 +49,11 @@ export class EmailBox {
 
   render() {
     return (
-      <div class={ this.getContainerClass()} onClick={this.handleClick.bind(this)} part="container">
+      <div class={ this.getContainerClass()} 
+        onClick={this.handleClick.bind(this)} 
+        onMouseLeave={this.handleMouseEvent.bind(this, MouseEvent.LEAVE)}
+        onMouseEnter={this.handleMouseEvent.bind(this, MouseEvent.ENTER)} 
+        part="container">
         <label part="label">
           {this.field.label}
           {this.getSymbol()}
@@ -57,6 +62,7 @@ export class EmailBox {
           <div class="emails-container" part="emails-container">
             { this.displayDefaultEmails() }
             { this.displayAddedEmails() }
+            { this.displayPlaceholder() }
           </div>
           <input id="add-email-input" 
             type="email"
@@ -109,6 +115,30 @@ export class EmailBox {
         </div>
       )
     });
+  }
+
+  private displayPlaceholder(): any {
+    return (this.addedEmails?.length === 0 && this.defaultEmails?.length === 0) 
+        ? <div class="placeholder" part="placeholder">{this.getPlaceholderText()}</div>
+        : null;
+  }
+
+  private getPlaceholderText(): string {
+    return (!this.readonly) ? 'Enter your emails here' : 'No emails available';
+  }
+
+  private handleMouseEvent(mouseEvent: MouseEvent) {
+    if (!this.readonly && isValid(this.field)) {
+      let border: any = this.element.shadowRoot.querySelector('.border');
+      switch(mouseEvent) {
+        case MouseEvent.ENTER:
+          border.style.border = `1px solid rgba(0,0,0,0.54)`;
+          break;
+        case MouseEvent.LEAVE:
+          border.style.border = `1px solid #D4D4D4`;
+          break;
+      }
+    }
   }
 
   private handleClick() {
