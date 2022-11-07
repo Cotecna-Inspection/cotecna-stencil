@@ -3,6 +3,7 @@
   "version": "0.0.2-beta.1",
   "description": "Cotecna Stencil Components",
   "author": "Cotecna",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
@@ -27,7 +28,8 @@
     "loader/"
   ],
   "scripts": {
-    "build": "stencil build",
+    "build": "stencil build --docs",
+    "release": "stencil build --ci --prod",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
@@ -40,7 +42,8 @@
     "@stencil/core": "^2.13.0",
     "@stencil/sass": "^1.5.2",
     "cordova-plugin-camera": "^6.0.0",
-    "cordova-plugin-ml-text": "^3.1.0"
+    "cordova-plugin-ml-text": "^3.1.0",
+    "puppeteer": "^18.0.5"
   },
   "devDependencies": {
     "@capacitor/cli": "^3.8.0",
