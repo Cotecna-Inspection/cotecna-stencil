@@ -55,21 +55,21 @@ export class ObjectCounter {
     </div>);
   }
 
-    private renderImage() {
-      if (this.imageSrc) {
-        let myPhoto: string = `data:image/jpeg;base64, ${this.imageSrc}`;
-        return <div class="image-container"><img src={myPhoto}/></div>;
-      }
-
-      return null;
+  private renderImage() {
+    if (this.imageSrc) {
+      let myPhoto: string = `data:image/jpeg;base64, ${this.imageSrc}`;
+      return <div class="image-container"><img src={myPhoto}/></div>;
     }
 
-    private showDeleteButton() {
-      return this.imageSrc ? 
-        <div class="delete-button-container" onClick={() => this.deletePhoto()}>
-          <button class="delete-button"><img src={getIconPNGPath('delete')}></img></button>
-        </div> : null;
-    }
+    return null;
+  }
+
+  private showDeleteButton() {
+    return this.imageSrc ? 
+      <div class="delete-button-container" onClick={() => this.deletePhoto()}>
+        <button class="delete-button"><img src={getIconPNGPath('delete')}></img></button>
+      </div> : null;
+  }
 
   private takePhoto() {
       document.addEventListener("deviceready", () => {
@@ -100,7 +100,7 @@ export class ObjectCounter {
     await this.sendCountRequest(formData);
   }
 
-  sendCountRequest(formData: FormData) : Promise<any> {
+  private sendCountRequest(formData: FormData) : Promise<any> {
     return new Promise(() => {
       let request = new XMLHttpRequest();
       request.open('POST', this.control.counterUrl);
@@ -116,7 +116,7 @@ export class ObjectCounter {
     });
   }
 
-  convertBase64ToBlob(data, type): Blob {
+  private convertBase64ToBlob(data, type): Blob {
     let byteString = atob(data);
     const ab = new ArrayBuffer(byteString.length);
     let ia = new Uint8Array(ab);
