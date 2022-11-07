@@ -1,6 +1,7 @@
 import { Component, h, State, Prop } from "@stencil/core";
 import { Field } from "../../models/field";
 import { getIconPNGPath } from "../../utils/field-utils";
+import { convertBase64ToBlob } from "../../utils/image-utils";
 declare var navigator;
 
 /** @internal **/
@@ -12,22 +13,25 @@ declare var navigator;
 export class ObjectCounter {
 
   @Prop()
-  field!: Field;
+  public field!: Field;
   
   @Prop()
-  hasConnection: boolean; 
+  public hasConnection: boolean; 
 
   @Prop()
   control!: any;
 
   @State()
-  imageSrc: string;
+  private imageSrc: string;
 
   @State() 
-  showCountedLabel = false;
+  private showCountedLabel = false;
 
   @State() 
-  counted: number;
+  private counted: number;
+
+  private readonly IMAGE_TYPE: string = "image/jpg";
+  private readonly IMAGE_PREFIX: string = "data:image/jpeg;base64";
   
 
   render() {
@@ -45,19 +49,19 @@ export class ObjectCounter {
                 <input id="countingResult" type="number" required={this.field.required} value={this.counted}/>
             </div>
             <div class="camera-button-container">
-                <button class="camera-button" onClick={() => this.takePhoto()}><img src={getIconPNGPath('photo_camera')}></img></button>
+                <button class="camera-button" onClick={() => this.takePhoto()} disabled={!this.hasConnection}><img src={getIconPNGPath('photo_camera')}></img></button>
             </div>
             {this.showDeleteButton()}
         </div>
         {
-          this.hasConnection ? <p class="no-connection-message">No connection. Please fill manually.</p> : null
+          !this.hasConnection ? <p class="no-connection-message">No connection. Please fill manually.</p> : null
         }
     </div>);
   }
 
   private renderImage() {
     if (this.imageSrc) {
-      let myPhoto: string = `data:image/jpeg;base64, ${this.imageSrc}`;
+      const myPhoto: string = `${this.IMAGE_PREFIX}, ${this.imageSrc}`;
       return <div class="image-container"><img src={myPhoto}/></div>;
     }
 
@@ -86,16 +90,16 @@ export class ObjectCounter {
         });
   }
 
-  private deletePhoto() {
+  private deletePhoto() : void {
     this.imageSrc = "";
     this.counted = null;
     this.showCountedLabel = false;
   }
 
   private async countItems(): Promise<void> {
-    const blobImage = this.convertBase64ToBlob(this.imageSrc, "image/jpg");
-    const file = new File([blobImage], 'image', { type: 'image/jpg'});
-    let formData = new FormData();
+    const blobImage = convertBase64ToBlob(this.imageSrc, this.IMAGE_TYPE);
+    const file = new File([blobImage], 'image', { type: this.IMAGE_TYPE});
+    const formData = new FormData();
     formData.append('image', file);
     await this.sendCountRequest(formData);
   }
@@ -116,14 +120,6 @@ export class ObjectCounter {
     });
   }
 
-  private convertBase64ToBlob(data, type): Blob {
-    let byteString = atob(data);
-    const ab = new ArrayBuffer(byteString.length);
-    let ia = new Uint8Array(ab);
-    for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type });
-  }
+
 }
 
