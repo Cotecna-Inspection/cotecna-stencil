@@ -43,6 +43,7 @@
     "@stencil/sass": "^1.5.2",
     "cordova-plugin-camera": "^6.0.0",
     "cordova-plugin-ml-text": "^3.1.0",
+    "cordova-plugin-network-information": "^3.0.0",
     "puppeteer": "^18.0.5"
   },
   "devDependencies": {
@@ -52,6 +53,5 @@
     "jest-cli": "^27.4.5",
     "puppeteer": "^10.0.0",
     "typescript": "^4.8.4"
-  },
-  "license": "MIT"
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, h, State, Prop } from "@stencil/core";
 import { Field } from "../../models/field";
+import { hasNetworkConnection } from "../../utils/check-network-connection-utils";
 import { getIconPNGPath } from "../../utils/field-utils";
 import { convertBase64ToBlob } from "../../utils/image-utils";
 declare var navigator;
@@ -16,9 +17,6 @@ export class ObjectCounter {
   public field!: Field;
   
   @Prop()
-  public hasConnection: boolean; 
-
-  @Prop()
   public control!: any;
 
   @State()
@@ -30,9 +28,16 @@ export class ObjectCounter {
   @State() 
   private counted: number;
 
+  @State()
+  private hasConnection: boolean = false;
+
   private readonly IMAGE_TYPE: string = "image/jpg";
   private readonly IMAGE_PREFIX: string = "data:image/jpeg;base64";
   
+  componentWillLoad() {
+    this.createNetworkListeners();
+    this.hasConnection = hasNetworkConnection();
+  }
 
   render() {
     return(
@@ -54,9 +59,20 @@ export class ObjectCounter {
             {this.showDeleteButton()}
         </div>
         {
-          !this.hasConnection ? <p class="no-connection-message">No connection. Please fill manually.</p> : null
+          !this.hasConnection ? <p class="no-connection-message">No connection. Please fill manually.</p> : null 
         }
     </div>);
+  }
+
+  private createNetworkListeners() {
+    console.log('init listeners')
+    document.addEventListener('online', _ => {
+      this.hasConnection = true;
+    }, false);
+    document.addEventListener('offline', _ => {
+      this.hasConnection = false;
+    }, false);
+    console.log('end listeners')
   }
 
   private renderImage() {
