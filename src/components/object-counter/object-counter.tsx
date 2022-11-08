@@ -56,16 +56,14 @@ export class ObjectCounter {
         </div>
         <div class={{"field-container": true, 'invalid-field': !isValid(this.field)}}>
             <div class="input-container">
-                {
-                    this.renderImage()
-                }
-                {this.showCountedLabel ? <p>Counted:</p> : null}
-                <input id="countingResult" type="number" required={this.field.required} value={this.field.value.counted} onChange={e => this.onChangeCountedResult(e)}/>
+                { this.renderImage() }
+                { this.showCountedLabel ? <p>Counted:</p> : null }
+                <input id="countingResult" type="number" required={this.field.required} value={this.field?.value?.counted} onChange={e => this.onChangeCountedResult(e)}/>
             </div>
             <div class="camera-button-container">
                 <button class="camera-button" onClick={() => this.takePhoto()} disabled={!this.hasConnection}><img src={getIconPNGPath('photo_camera')}></img></button>
             </div>
-            {this.showDeleteButton()}
+            { this.showDeleteButton() }
         </div>
         {
           !this.hasConnection ? <p class="no-connection-message">No connection. Please fill manually.</p> : null 
