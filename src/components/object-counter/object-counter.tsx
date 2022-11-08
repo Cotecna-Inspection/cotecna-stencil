@@ -19,7 +19,7 @@ export class ObjectCounter {
   public hasConnection: boolean; 
 
   @Prop()
-  control!: any;
+  public control!: any;
 
   @State()
   private imageSrc: string;
