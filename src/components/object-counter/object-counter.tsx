@@ -1,8 +1,10 @@
-import { Component, h, State, Prop } from "@stencil/core";
+import { Component, h, State, Prop, Event, EventEmitter } from "@stencil/core";
+import { ControlState } from "../../models/controlState";
 import { Field } from "../../models/field";
 import { hasNetworkConnection } from "../../utils/check-network-connection-utils";
-import { getIconPNGPath } from "../../utils/field-utils";
+import { getIconPNGPath, getSymbol, isValid } from "../../utils/field-utils";
 import { convertBase64ToBlob } from "../../utils/image-utils";
+
 declare var navigator;
 
 /** @internal **/
@@ -20,16 +22,19 @@ export class ObjectCounter {
   public control!: any;
 
   @State()
-  private imageSrc: string;
+  private imageInBase64: string;
 
   @State() 
   private showCountedLabel = false;
 
   @State() 
-  private counted: number;
+  private counted: number = null;
 
   @State()
   private hasConnection: boolean = false;
+
+  @Event()
+  public fieldChange: EventEmitter<ControlState>;
 
   private readonly IMAGE_TYPE: string = "image/jpg";
   private readonly IMAGE_PREFIX: string = "data:image/jpeg;base64";
@@ -41,11 +46,14 @@ export class ObjectCounter {
 
   render() {
     return(
-    <div class="object-counter-container">
+    <div class="object-counter-container" part="container">
         <div class="label-container">
-            <label>{this.field.label}</label>
+            <label part="label">
+              {this.field.label}
+              {getSymbol(this.field)}
+            </label>
         </div>
-        <div class="field-container">
+        <div class={{"field-container": true, 'invalid-field': !isValid(this.field)}}>
             <div class="input-container">
                 {
                     this.renderImage()
@@ -65,27 +73,24 @@ export class ObjectCounter {
   }
 
   private createNetworkListeners() {
-    console.log('init listeners')
     document.addEventListener('online', _ => {
       this.hasConnection = true;
     }, false);
     document.addEventListener('offline', _ => {
       this.hasConnection = false;
     }, false);
-    console.log('end listeners')
   }
 
   private renderImage() {
-    if (this.imageSrc) {
-      const myPhoto: string = `${this.IMAGE_PREFIX}, ${this.imageSrc}`;
+    if (this.imageInBase64) {
+      const myPhoto: string = `${this.IMAGE_PREFIX}, ${this.imageInBase64}`;
       return <div class="image-container"><img src={myPhoto}/></div>;
     }
-
     return null;
   }
 
   private showDeleteButton() {
-    return this.imageSrc ? 
+    return this.imageInBase64 ? 
       <div class="delete-button-container" onClick={() => this.deletePhoto()}>
         <button class="delete-button"><img src={getIconPNGPath('delete')}></img></button>
       </div> : null;
@@ -94,26 +99,28 @@ export class ObjectCounter {
   private takePhoto() {
       document.addEventListener("deviceready", () => {
           navigator.camera.getPicture(
-            (imageData) => {
-              this.imageSrc = imageData;
-              this.countItems();
+            async (imageData) => {
+              this.imageInBase64 = imageData;
+              await this.performCountItems();
+              this.onChange();
             },
             (err) => {
               console.error('err', err);
             },
             { quality: 100, correctOrientation: true,
-              destinationType: navigator.camera.DestinationType.DATA_URL });
+              destinationType: navigator.camera.DestinationType.DATA_URL 
+            });
         });
   }
 
   private deletePhoto() : void {
-    this.imageSrc = "";
+    this.imageInBase64 = "";
     this.counted = null;
     this.showCountedLabel = false;
   }
 
-  private async countItems(): Promise<void> {
-    const blobImage = convertBase64ToBlob(this.imageSrc, this.IMAGE_TYPE);
+  private async performCountItems(): Promise<void> {
+    const blobImage = convertBase64ToBlob(this.imageInBase64, this.IMAGE_TYPE);
     const file = new File([blobImage], 'image', { type: this.IMAGE_TYPE});
     const formData = new FormData();
     formData.append('image', file);
@@ -136,6 +143,11 @@ export class ObjectCounter {
     });
   }
 
-
+  private onChange() {
+    this.fieldChange.emit({
+      isValid: isValid(this.field),
+      value: { image: this.imageInBase64, counted: this.counted }
+    });
+  }
 }
 

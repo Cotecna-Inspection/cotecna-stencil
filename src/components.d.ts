@@ -39,6 +39,10 @@ export interface CotecnaMultidropdownEditableCustomEvent<T> extends CustomEvent<
     detail: T;
     target: HTMLCotecnaMultidropdownEditableElement;
 }
+export interface CotecnaObjectCounterCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCotecnaObjectCounterElement;
+}
 declare global {
     interface HTMLCotecnaDialogElement extends Components.CotecnaDialog, HTMLStencilElement {
     }
@@ -85,7 +89,7 @@ declare namespace LocalJSX {
     interface CotecnaMultidropdown {
         "control": any;
         "field": Field;
-        "onChange"?: (event: CotecnaMultidropdownCustomEvent<ControlState>) => void;
+        "onFieldChange"?: (event: CotecnaMultidropdownCustomEvent<ControlState>) => void;
     }
     interface CotecnaMultidropdownEditable {
         "control": any;
@@ -98,6 +102,7 @@ declare namespace LocalJSX {
     interface CotecnaObjectCounter {
         "control": any;
         "field": Field;
+        "onFieldChange"?: (event: CotecnaObjectCounterCustomEvent<ControlState>) => void;
     }
     interface IntrinsicElements {
         "cotecna-dialog": CotecnaDialog;

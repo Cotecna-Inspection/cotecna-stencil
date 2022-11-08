@@ -1,6 +1,6 @@
 import { Component, h, Prop } from "@stencil/core";
 import { Field } from "../../../models/field";
-import { getIconPNGPath, isValid } from "../../../utils/field-utils";
+import { getIconPNGPath, getSymbol, isValid } from "../../../utils/field-utils";
 
 /** @internal **/
 @Component({
@@ -22,7 +22,7 @@ export class MultidropdownReadable {
         <div class="readonly-container">
           <label>
             {this.field.label}
-            {this.getSymbol()}
+            {getSymbol(this.field)}
           </label>
           <div class="values">
             { this.field?.readableValue?.map(value => <div class="chip">{value}</div>)}
@@ -32,10 +32,6 @@ export class MultidropdownReadable {
         <img src={getIconPNGPath('arrow_drop_down')}></img>
       </div>
     )
-  }
-
-  private getSymbol(): string {
-    return this.field.required ? <span class="mandatory-symbol">*</span> : null;
   }
 
   private sortReadableValues(a: string, b: string) {
