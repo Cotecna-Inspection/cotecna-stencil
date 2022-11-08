@@ -1,4 +1,4 @@
-import { Component, h, State, Prop, Event, EventEmitter } from "@stencil/core";
+import { Component, h, State, Prop, Event, EventEmitter, Watch } from "@stencil/core";
 import { ControlState } from "../../models/controlState";
 import { Field } from "../../models/field";
 import { hasNetworkConnection } from "../../utils/check-network-connection-utils";
@@ -27,14 +27,15 @@ export class ObjectCounter {
   @State() 
   private showCountedLabel = false;
 
-  @State() 
-  private counted: number = null;
-
   @State()
   private hasConnection: boolean = false;
 
   @Event()
   public fieldChange: EventEmitter<ControlState>;
+
+  @Watch('field')
+  onFieldChanged() {
+  }
 
   private readonly IMAGE_TYPE: string = "image/jpg";
   private readonly IMAGE_PREFIX: string = "data:image/jpeg;base64";
@@ -59,7 +60,7 @@ export class ObjectCounter {
                     this.renderImage()
                 }
                 {this.showCountedLabel ? <p>Counted:</p> : null}
-                <input id="countingResult" type="number" required={this.field.required} value={this.counted}/>
+                <input id="countingResult" type="number" required={this.field.required} value={this.field.value.counted} onChange={e => this.onChangeCountedResult(e)}/>
             </div>
             <div class="camera-button-container">
                 <button class="camera-button" onClick={() => this.takePhoto()} disabled={!this.hasConnection}><img src={getIconPNGPath('photo_camera')}></img></button>
@@ -82,8 +83,8 @@ export class ObjectCounter {
   }
 
   private renderImage() {
-    if (this.imageInBase64) {
-      const myPhoto: string = `${this.IMAGE_PREFIX}, ${this.imageInBase64}`;
+    if (this.field?.value?.image) {
+      const myPhoto: string = `${this.IMAGE_PREFIX}, ${this.field.value.image}`;
       return <div class="image-container"><img src={myPhoto}/></div>;
     }
     return null;
@@ -115,7 +116,7 @@ export class ObjectCounter {
 
   private deletePhoto() : void {
     this.imageInBase64 = "";
-    this.counted = null;
+    this.field = {...this.field, value: { image: null, counted: null }};
     this.showCountedLabel = false;
   }
 
@@ -133,20 +134,27 @@ export class ObjectCounter {
       request.open('POST', this.control.counterUrl);
       request.send(formData);
       request.onreadystatechange = () => {
-        
         if (request.response) {
           const response = JSON.parse(request.response);
-          this.counted = response.totalDetected;
+          this.field.value.counted = response.totalDetected;
+          this.field.value.image = this.imageInBase64;
           this.showCountedLabel = true;
         };
       }
     });
   }
 
+  private onChangeCountedResult(event: Event) {
+    const target: any = event.target;
+    const value = (target.value != '') ? +target.value : null;
+    this.field = {...this.field, value: { image: this.field.value.image, counted: value }};
+    this.onChange();
+  }
+
   private onChange() {
     this.fieldChange.emit({
       isValid: isValid(this.field),
-      value: { image: this.imageInBase64, counted: this.counted }
+      value: this.field.value
     });
   }
 }

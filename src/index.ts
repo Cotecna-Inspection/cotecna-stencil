@@ -5,3 +5,7 @@ import { configObjectCounter } from "./integration-test/object-counter-integrati
 configEmailBox();
 configMultiDropdown();
 configObjectCounter();
+
+document.addEventListener('fieldChange', (event: any) => {
+  console.log(`that's my event!`, event.detail.value);
+});

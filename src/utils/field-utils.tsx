@@ -11,7 +11,7 @@ export function isValid(field: Field) {
       if (field.required) return field?.value?.length > 0;
       else return true;
     case ControlType.ObjectCounter:
-      if (field.required) return field?.value?.image?.length > 0 && field.value.counted != null;
+      if (field.required) return field?.value?.counted != null;
       else return true;
     default:
       throw 'Field type not supported';
