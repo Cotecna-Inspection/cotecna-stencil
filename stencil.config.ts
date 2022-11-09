@@ -43,7 +43,9 @@ export const config: Config = {
       injectGlobalPaths: ["src/styles.scss"]
     })
   ],
-  //Uncomment to debug
+  /**
+   * NOTE: UNCOMMENT THE NEXT LINES TO DEBUG, SET YOUR PORT AND IP ADDRESS
+   */
   // devServer: {
   //   reloadStrategy: 'pageReload',
   //   port: ,
