@@ -11,6 +11,8 @@ All these components are just Web Components, so they work in any major framewor
 | Dialog | [ Documentation ](./src/components/dialog/readme.md) |
 | Multidropdown | [ Documentation ](./src/components/multidropdown/readme.md) |
 | Email Box | [Documentation](./src/components/email-box/readme.md) |
+| OCR | [Documentation](./src/components/ocr/readme.md) |
+| ObjectCounter | [Documentation](./src/components/object-counter/readme.md) |
 
 
 ## Getting Started
