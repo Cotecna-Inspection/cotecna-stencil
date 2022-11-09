@@ -7,5 +7,5 @@ configMultiDropdown();
 configObjectCounter();
 
 document.addEventListener('fieldChange', (event: any) => {
-  console.log(`that's my event!`, event.detail.value);
+  console.log('fieldChange.event', event.detail.value);
 });

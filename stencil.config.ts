@@ -6,8 +6,6 @@ export const config: Config = {
   bundles: [
     { components: ['cotecna-multidropdown', 'cotecna-multidropdown-readable', 'cotecna-multidropdown-editable'] },
     { components: ['cotecna-dialog'] },
-    { components: ['cotecna-email-box'] },
-    { components: ['cotecna-ocr'] },
     { components: ['cotecna-object-counter'] }
   ],
   outputTargets: [
