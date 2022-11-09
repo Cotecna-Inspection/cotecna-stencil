@@ -1,4 +1,4 @@
-import { getAssetPath } from "@stencil/core";
+import { getAssetPath, h } from "@stencil/core";
 import { ControlType } from "../enums/controlType";
 import { Field } from "../models/field";
 
@@ -10,9 +10,16 @@ export function isValid(field: Field) {
     case ControlType.EmailBox:
       if (field.required) return field?.value?.length > 0;
       else return true;
+    case ControlType.ObjectCounter:
+      if (field.required) return field?.value?.counted != null;
+      else return true;
     default:
       throw 'Field type not supported';
   }
+}
+
+export function getSymbol(field: Field): any {
+  return field.required ? <span class="mandatory-symbol">*</span> : null;
 }
 
 export function getIconPNGPath(iconName: string): string {

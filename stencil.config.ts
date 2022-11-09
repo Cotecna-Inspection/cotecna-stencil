@@ -7,7 +7,8 @@ export const config: Config = {
     { components: ['cotecna-multidropdown', 'cotecna-multidropdown-readable', 'cotecna-multidropdown-editable'] },
     { components: ['cotecna-dialog'] },
     { components: ['cotecna-email-box'] },
-    { components: ['cotecna-ocr']}
+    { components: ['cotecna-ocr'] },
+    { components: ['cotecna-object-counter'] }
   ],
   outputTargets: [
     {
@@ -44,9 +45,12 @@ export const config: Config = {
       injectGlobalPaths: ["src/styles.scss"]
     })
   ],
-  devServer: {
-    reloadStrategy: 'pageReload',
-    port: 3333,
-    address: 'http://192.168.0.12'
-  }
+  /**
+   * NOTE: UNCOMMENT THE NEXT LINES TO DEBUG, SET YOUR PORT AND IP ADDRESS
+   */
+  // devServer: {
+  //   reloadStrategy: 'pageReload',
+  //   port: ,
+  //   address: ''
+  // }
 };

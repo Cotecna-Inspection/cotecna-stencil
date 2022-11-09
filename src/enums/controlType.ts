@@ -19,5 +19,6 @@ export enum ControlType {
   TextArea = "TextArea",
   TimePicker = "Time", 
   Timestamp = "Timestamp",
-  EmailBox = "EmailBox"
+  EmailBox = "EmailBox",
+  ObjectCounter = "ObjectCounter"
 }
