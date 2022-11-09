@@ -19,7 +19,7 @@ export class MultidropdownReadable {
   render() {
     return (
       <div class={{"field-base": true, 'invalid-field': !isValid(this.field)}}>
-        <div class="readonly-container">
+        <div class="readonly-container" part="readonly-container">
           <label>
             {this.field.label}
             {getSymbol(this.field)}

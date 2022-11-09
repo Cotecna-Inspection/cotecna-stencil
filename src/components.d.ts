@@ -11,6 +11,10 @@ import { ControlState } from "./models/controlState";
 export namespace Components {
     interface CotecnaDialog {
     }
+    interface CotecnaEmailBox {
+        "control": any;
+        "field": Field;
+    }
     interface CotecnaMultidropdown {
         "control": any;
         "field": Field;
@@ -26,10 +30,18 @@ export namespace Components {
         "control": any;
         "field": Field;
     }
+    interface CotecnaOcr {
+        "control": any;
+        "field": Field;
+    }
 }
 export interface CotecnaDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCotecnaDialogElement;
+}
+export interface CotecnaEmailBoxCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCotecnaEmailBoxElement;
 }
 export interface CotecnaMultidropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -43,12 +55,22 @@ export interface CotecnaObjectCounterCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCotecnaObjectCounterElement;
 }
+export interface CotecnaOcrCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCotecnaOcrElement;
+}
 declare global {
     interface HTMLCotecnaDialogElement extends Components.CotecnaDialog, HTMLStencilElement {
     }
     var HTMLCotecnaDialogElement: {
         prototype: HTMLCotecnaDialogElement;
         new (): HTMLCotecnaDialogElement;
+    };
+    interface HTMLCotecnaEmailBoxElement extends Components.CotecnaEmailBox, HTMLStencilElement {
+    }
+    var HTMLCotecnaEmailBoxElement: {
+        prototype: HTMLCotecnaEmailBoxElement;
+        new (): HTMLCotecnaEmailBoxElement;
     };
     interface HTMLCotecnaMultidropdownElement extends Components.CotecnaMultidropdown, HTMLStencilElement {
     }
@@ -74,17 +96,30 @@ declare global {
         prototype: HTMLCotecnaObjectCounterElement;
         new (): HTMLCotecnaObjectCounterElement;
     };
+    interface HTMLCotecnaOcrElement extends Components.CotecnaOcr, HTMLStencilElement {
+    }
+    var HTMLCotecnaOcrElement: {
+        prototype: HTMLCotecnaOcrElement;
+        new (): HTMLCotecnaOcrElement;
+    };
     interface HTMLElementTagNameMap {
         "cotecna-dialog": HTMLCotecnaDialogElement;
+        "cotecna-email-box": HTMLCotecnaEmailBoxElement;
         "cotecna-multidropdown": HTMLCotecnaMultidropdownElement;
         "cotecna-multidropdown-editable": HTMLCotecnaMultidropdownEditableElement;
         "cotecna-multidropdown-readable": HTMLCotecnaMultidropdownReadableElement;
         "cotecna-object-counter": HTMLCotecnaObjectCounterElement;
+        "cotecna-ocr": HTMLCotecnaOcrElement;
     }
 }
 declare namespace LocalJSX {
     interface CotecnaDialog {
         "onClickDialogAction"?: (event: CotecnaDialogCustomEvent<DialogAction>) => void;
+    }
+    interface CotecnaEmailBox {
+        "control": any;
+        "field": Field;
+        "onFieldChange"?: (event: CotecnaEmailBoxCustomEvent<ControlState>) => void;
     }
     interface CotecnaMultidropdown {
         "control": any;
@@ -104,12 +139,19 @@ declare namespace LocalJSX {
         "field": Field;
         "onFieldChange"?: (event: CotecnaObjectCounterCustomEvent<ControlState>) => void;
     }
+    interface CotecnaOcr {
+        "control": any;
+        "field": Field;
+        "onFieldChange"?: (event: CotecnaOcrCustomEvent<ControlState>) => void;
+    }
     interface IntrinsicElements {
         "cotecna-dialog": CotecnaDialog;
+        "cotecna-email-box": CotecnaEmailBox;
         "cotecna-multidropdown": CotecnaMultidropdown;
         "cotecna-multidropdown-editable": CotecnaMultidropdownEditable;
         "cotecna-multidropdown-readable": CotecnaMultidropdownReadable;
         "cotecna-object-counter": CotecnaObjectCounter;
+        "cotecna-ocr": CotecnaOcr;
     }
 }
 export { LocalJSX as JSX };
@@ -117,10 +159,12 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "cotecna-dialog": LocalJSX.CotecnaDialog & JSXBase.HTMLAttributes<HTMLCotecnaDialogElement>;
+            "cotecna-email-box": LocalJSX.CotecnaEmailBox & JSXBase.HTMLAttributes<HTMLCotecnaEmailBoxElement>;
             "cotecna-multidropdown": LocalJSX.CotecnaMultidropdown & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownElement>;
             "cotecna-multidropdown-editable": LocalJSX.CotecnaMultidropdownEditable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownEditableElement>;
             "cotecna-multidropdown-readable": LocalJSX.CotecnaMultidropdownReadable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownReadableElement>;
             "cotecna-object-counter": LocalJSX.CotecnaObjectCounter & JSXBase.HTMLAttributes<HTMLCotecnaObjectCounterElement>;
+            "cotecna-ocr": LocalJSX.CotecnaOcr & JSXBase.HTMLAttributes<HTMLCotecnaOcrElement>;
         }
     }
 }

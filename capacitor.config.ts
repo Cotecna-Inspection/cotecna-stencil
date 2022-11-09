@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: "com.cotecna.stencilcomponents",
-  appName: "cotecna-stencil-components",
+  appName: "Cotecna Stencil Components",
   webDir: "www",
   bundledWebRuntime: false,
   /**

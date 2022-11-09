@@ -7,6 +7,13 @@
         font-weight: 700;
     }
 
+    .label-container {
+      label {
+        font-size: 12px;
+        opacity: 0.6;
+      }
+    }
+
     .field-container {
         display: flex;
         border-bottom: 1px solid rgb(0, 0, 0, 0.3);
@@ -43,6 +50,7 @@
                 border: none;
                 background: none;
                 width: 100%;
+                outline: none;
             }
         }
 

@@ -6,6 +6,8 @@ export const config: Config = {
   bundles: [
     { components: ['cotecna-multidropdown', 'cotecna-multidropdown-readable', 'cotecna-multidropdown-editable'] },
     { components: ['cotecna-dialog'] },
+    { components: ['cotecna-email-box'] },
+    { components: ['cotecna-ocr'] },
     { components: ['cotecna-object-counter'] }
   ],
   outputTargets: [
@@ -32,6 +34,10 @@ export const config: Config = {
         {
           src: '**/*.{jpg,png,svg}',
           dest: 'assets'
+        },
+        {
+          src: '../node_modules/@ionic/pwa-elements/dist/ionicpwaelements/',
+          dest: 'build/ionicpwaelements'
         }
       ]
     },
@@ -48,7 +54,7 @@ export const config: Config = {
    */
   // devServer: {
   //   reloadStrategy: 'pageReload',
-  //   port: ,
+  //   port: 0,
   //   address: ''
   // }
 };

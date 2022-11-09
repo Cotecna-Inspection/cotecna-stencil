@@ -3,3 +3,5 @@ dist
 www
 loader
 .npmrc
+android
+ios

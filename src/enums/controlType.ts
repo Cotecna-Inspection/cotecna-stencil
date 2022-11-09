@@ -20,5 +20,6 @@ export enum ControlType {
   TimePicker = "Time", 
   Timestamp = "Timestamp",
   EmailBox = "EmailBox",
+  Ocr = "Ocr",
   ObjectCounter = "ObjectCounter"
 }
