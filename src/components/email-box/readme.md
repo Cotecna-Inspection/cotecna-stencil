@@ -3,6 +3,7 @@ This StencilJS component allows you to render an email box field as standalone c
 
 You can set this component as readonly without any interaction with the user.
 
+## Properties
 | Name | Description     | Type     | Mandatory     |
 | -------- | --------------- | -------- | ----------- |
 | `field`  | The field definition that will be rendered  | `Field` | `true` |
@@ -47,7 +48,6 @@ On your html template:
   (fieldChange)="onFieldChange($event)">
 </cotecna-email-box>
 ```
-
 
 ----------------------------------------------
 
