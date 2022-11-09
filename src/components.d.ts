@@ -27,11 +27,11 @@ export namespace Components {
     interface CotecnaMultidropdownReadable {
         "field": Field;
     }
-    interface CotecnaOcr {
-    }
     interface CotecnaObjectCounter {
         "control": any;
         "field": Field;
+    }
+    interface CotecnaOcr {
     }
 }
 export interface CotecnaDialogCustomEvent<T> extends CustomEvent<T> {
@@ -85,17 +85,17 @@ declare global {
         prototype: HTMLCotecnaMultidropdownReadableElement;
         new (): HTMLCotecnaMultidropdownReadableElement;
     };
-    interface HTMLCotecnaOcrElement extends Components.CotecnaOcr, HTMLStencilElement {
-    }
-    var HTMLCotecnaOcrElement: {
-        prototype: HTMLCotecnaOcrElement;
-        new (): HTMLCotecnaOcrElement;
-    }
     interface HTMLCotecnaObjectCounterElement extends Components.CotecnaObjectCounter, HTMLStencilElement {
     }
     var HTMLCotecnaObjectCounterElement: {
         prototype: HTMLCotecnaObjectCounterElement;
         new (): HTMLCotecnaObjectCounterElement;
+    };
+    interface HTMLCotecnaOcrElement extends Components.CotecnaOcr, HTMLStencilElement {
+    }
+    var HTMLCotecnaOcrElement: {
+        prototype: HTMLCotecnaOcrElement;
+        new (): HTMLCotecnaOcrElement;
     };
     interface HTMLElementTagNameMap {
         "cotecna-dialog": HTMLCotecnaDialogElement;
@@ -103,8 +103,8 @@ declare global {
         "cotecna-multidropdown": HTMLCotecnaMultidropdownElement;
         "cotecna-multidropdown-editable": HTMLCotecnaMultidropdownEditableElement;
         "cotecna-multidropdown-readable": HTMLCotecnaMultidropdownReadableElement;
-        "cotecna-ocr": HTMLCotecnaOcrElement;
         "cotecna-object-counter": HTMLCotecnaObjectCounterElement;
+        "cotecna-ocr": HTMLCotecnaOcrElement;
     }
 }
 declare namespace LocalJSX {
@@ -130,13 +130,12 @@ declare namespace LocalJSX {
     interface CotecnaMultidropdownReadable {
         "field": Field;
     }
-    interface CotecnaOcr {
-        
-    }
     interface CotecnaObjectCounter {
         "control": any;
         "field": Field;
         "onFieldChange"?: (event: CotecnaObjectCounterCustomEvent<ControlState>) => void;
+    }
+    interface CotecnaOcr {
     }
     interface IntrinsicElements {
         "cotecna-dialog": CotecnaDialog;
@@ -144,8 +143,8 @@ declare namespace LocalJSX {
         "cotecna-multidropdown": CotecnaMultidropdown;
         "cotecna-multidropdown-editable": CotecnaMultidropdownEditable;
         "cotecna-multidropdown-readable": CotecnaMultidropdownReadable;
-        "cotecna-ocr": CotecnaOcr;
         "cotecna-object-counter": CotecnaObjectCounter;
+        "cotecna-ocr": CotecnaOcr;
     }
 }
 export { LocalJSX as JSX };
@@ -157,8 +156,8 @@ declare module "@stencil/core" {
             "cotecna-multidropdown": LocalJSX.CotecnaMultidropdown & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownElement>;
             "cotecna-multidropdown-editable": LocalJSX.CotecnaMultidropdownEditable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownEditableElement>;
             "cotecna-multidropdown-readable": LocalJSX.CotecnaMultidropdownReadable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownReadableElement>;
-            "cotecna-ocr": LocalJSX.CotecnaOcr & JSXBase.HTMLAttributes<HTMLCotecnaOcrElement>;
             "cotecna-object-counter": LocalJSX.CotecnaObjectCounter & JSXBase.HTMLAttributes<HTMLCotecnaObjectCounterElement>;
+            "cotecna-ocr": LocalJSX.CotecnaOcr & JSXBase.HTMLAttributes<HTMLCotecnaOcrElement>;
         }
     }
 }
