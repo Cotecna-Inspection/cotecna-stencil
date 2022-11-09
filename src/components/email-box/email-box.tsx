@@ -1,4 +1,5 @@
-import { Component, Element, h, Prop, Event, EventEmitter, State } from '@stencil/core';
+import { Component, Element, h, Prop, Event, EventEmitter, State, Watch } from '@stencil/core';
+import { MouseEvent } from '../../enums/mouse-event.enum';
 import { ControlState } from '../../models/controlState';
 import { Field } from '../../models/field';
 import { getIconSVGPath, isValid } from '../../utils/field-utils';
@@ -17,14 +18,14 @@ export class EmailBox {
   @Prop()
   control!: any;
 
-  @Prop()
-  defaultEmails: string[] = [];
-
   @Event()
-  change: EventEmitter<ControlState>;
+  fieldChange: EventEmitter<ControlState>;
 
   @State()
   private readonly: boolean;
+
+  @State()
+  private defaultEmails: string[] = [];
 
   @State() 
   private addedEmails: string[] = [];
@@ -32,18 +33,36 @@ export class EmailBox {
   @Element()
   private element: HTMLElement;
 
+  @Watch('field')
+  onFieldChanged() {
+    this.initValues();
+  }
+
+  @Watch('control')
+  onControlChanged() {
+    this.initValues();
+  }
+
   componentDidLoad() {
-    this.readonly = this.field.readOnly;
+   this.initValues();
   }
 
   render() {
     return (
-      <div class={ this.getContainerClass()} onClick={this.handleClick.bind(this)}>
-        <label>{this.field.label}</label>
+      <div class={ this.getContainerClass()} 
+        onClick={this.handleClick.bind(this)} 
+        onMouseLeave={this.handleMouseEvent.bind(this, MouseEvent.LEAVE)}
+        onMouseEnter={this.handleMouseEvent.bind(this, MouseEvent.ENTER)} 
+        part="container">
+        <label part="label">
+          {this.field.label}
+          {this.getSymbol()}
+        </label>
         <div class="border">
-          <div class="emails-container">
+          <div class="emails-container" part="emails-container">
             { this.displayDefaultEmails() }
             { this.displayAddedEmails() }
+            { this.displayPlaceholder() }
           </div>
           <input id="add-email-input" 
             type="email"
@@ -54,14 +73,28 @@ export class EmailBox {
     )
   }
 
+  private initValues() {
+    this.readonly = this.field.readOnly;
+    this.addedEmails = [...this.field.value];
+    this.defaultEmails = (this.control?.defaultEmails?.length) 
+      ? [...this.control.defaultEmails] 
+      : [];
+    this.setEmailContainerScrollToBottom();
+  }
+
   private getContainerClass(): string {
-    return this.readonly
-      ? 'email-box-container readonly'
-      : 'email-box-container';
+    let containerClass = 'email-box-container';
+    if (this.readonly) containerClass = `${containerClass} readonly`;
+    if (!isValid(this.field)) containerClass = `${containerClass} invalid-field`;
+    return containerClass;
+  }
+
+  private getSymbol(): string {
+    return this.field.required ? <span class="mandatory-symbol">*</span> : null;
   }
 
   private displayDefaultEmails(): any {
-    return this.control?.defaultEmails?.map((defaultEmail, index) => {
+    return this.defaultEmails?.map((defaultEmail, index) => {
       return (
         <div id={`default-email-${index}`} class="default-email-chip">
           { defaultEmail }
@@ -76,11 +109,36 @@ export class EmailBox {
         <div id={`added-email-${index}`} class="added-email-chip">
           { email }
           <img src={ getIconSVGPath('delete_filled') }
+            class="delete-chip"
             data-index={index} 
             onClick={this.handleDelete.bind(this)}></img>
         </div>
       )
     });
+  }
+
+  private displayPlaceholder(): any {
+    return (this.addedEmails?.length === 0 && this.defaultEmails?.length === 0) 
+        ? <div class="placeholder" part="placeholder">{this.getPlaceholderText()}</div>
+        : null;
+  }
+
+  private getPlaceholderText(): string {
+    return (!this.readonly) ? 'Enter your emails here' : 'No emails available';
+  }
+
+  private handleMouseEvent(mouseEvent: MouseEvent) {
+    if (!this.readonly && isValid(this.field)) {
+      let border: any = this.element.shadowRoot.querySelector('.border');
+      switch(mouseEvent) {
+        case MouseEvent.ENTER:
+          border.style.border = `1px solid rgba(0,0,0,0.54)`;
+          break;
+        case MouseEvent.LEAVE:
+          border.style.border = `1px solid #D4D4D4`;
+          break;
+      }
+    }
   }
 
   private handleClick() {
@@ -91,15 +149,20 @@ export class EmailBox {
 
   private handleKeyPress(event: KeyboardEvent) {
     event.stopPropagation();
-    const element = event.target as any;
-    this.setEmailFieldValidity(element);
+    const field = event.target as any;
+    this.markFieldValidityStatus(field);
 
-    if (event.key === this.enterCode && element?.validity?.valid) {
-      const emailToAdd = element.value;
-      this.addEmail(emailToAdd);
-      this.updateAndTriggerOnChange();
-      element.value = '';
-    }
+    if (event.key === this.enterCode && field?.validity?.valid && field?.value?.trim()?.length) {
+      if (!this.emailAlreadyExists(field.value)) {
+        const emailToAdd = field.value;
+        this.addEmail(emailToAdd);
+        this.updateAndTriggerOnChange();
+        field.value = '';
+      }
+      else {
+        this.markFieldValidityStatus(field,'Email already exists');
+      }
+    } 
   }
 
   private handleDelete(event: any) {
@@ -110,14 +173,28 @@ export class EmailBox {
     this.updateAndTriggerOnChange();
   }
 
-  private setEmailFieldValidity(element) {
-    element.validity.valid 
+  private emailAlreadyExists(email: string): boolean {
+    return this.addedEmails.some(addedEmail => addedEmail?.toLowerCase() === email?.toLowerCase()) ||
+           this.control?.defaultEmails?.some(defaultEmail => defaultEmail?.toLowerCase() === email?.toLowerCase());
+  }
+
+  private markFieldValidityStatus(element, errorMessage: string = '') {
+    element.setCustomValidity(errorMessage);
+    element.validity.valid
       ? element.classList.remove('invalid') 
       : element.classList.add('invalid');
   }
 
   private addEmail(email: string) {
     this.addedEmails = [...this.addedEmails, email];
+    this.setEmailContainerScrollToBottom();
+  }
+
+  private setEmailContainerScrollToBottom(): void {
+    const emailsContainer = this.element.shadowRoot.querySelector('.emails-container');
+    if (emailsContainer) {
+      setTimeout(_ => emailsContainer.scrollTop = emailsContainer.scrollHeight, 0);
+    }
   }
 
   private updateAndTriggerOnChange() {
@@ -126,7 +203,7 @@ export class EmailBox {
   }
 
   private onChange() {
-    this.change.emit({
+    this.fieldChange.emit({
       isValid: isValid(this.field),
       value: this.field.value
     } as ControlState);

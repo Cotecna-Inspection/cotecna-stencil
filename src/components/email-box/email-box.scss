@@ -19,25 +19,36 @@
   .email-box-container {
     max-width: 350px;
     min-width: 350px;
-    padding-top: 16px;
     position: relative;
   }& .readonly {
-    pointer-events: none;
     input {
       display: none;
     }
-  }:hover {
-   .border {
-    border: 1px solid rgba(0, 0, 0, 0.54)
-   }
+    .added-email-chip {
+      pointer-events: none;
+      .delete-chip {
+        display: none;
+      }
+    }
   }
 
   label {
     position: absolute;
-    top: 7px;
+    top: -8px;
     left: 16px;
     background-color: white;
     color: rgba(0, 0, 0, 0.54)
+  }
+
+  .mandatory-symbol {
+    color: #e5a038;
+    font-weight: 700;
+  }
+
+  .invalid-field {
+    .border {
+      border: 1px solid red; 
+    }
   }
 
   .border {
@@ -61,6 +72,11 @@
       @extend .email-chip;
       background-color: var(--primary-color);
       color: #eaeaea;
+    }
+    .placeholder {
+      color: #0009;
+      font-size: 12px;
+      margin-left: 4px;
     }
   }
 

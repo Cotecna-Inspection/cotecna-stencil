@@ -1,6 +1,6 @@
 {
   "name": "@cotecna/stencil-components",
-  "version": "0.0.2-beta.1",
+  "version": "0.0.3-beta.1",
   "description": "Cotecna Stencil Components",
   "author": "Cotecna",
   "publishConfig": {
@@ -27,7 +27,7 @@
     "loader/"
   ],
   "scripts": {
-    "build": "stencil build --docs",
+    "build": "stencil build",
     "release": "stencil build --ci --prod",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",

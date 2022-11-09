@@ -16,7 +16,7 @@ This component has two different modes:
 ## Events
 | Name | Description | Type |
 |------ | ------------| -----|
-| `change` | Emits an event when the value of this field is changed | `ControlState` |
+| `fieldChange` | Emits an event when the value of this field is changed | `ControlState` |
 
 ## Usage example
 On your typescript field:
@@ -50,7 +50,8 @@ On your html template:
 ```html
 <cotecna-multidropdown
   [field]="multidropdownField"
-  [control]="multidropdownControl">
+  [control]="multidropdownControl"
+  (fieldChange)="onFieldChange($event)">
 </cotecna-multdropdown>
 ```
 
