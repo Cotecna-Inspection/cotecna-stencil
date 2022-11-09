@@ -12,6 +12,13 @@
       font-weight: 700;
     }
 
+    .label-container {
+      label {
+        font-size: 12px;
+        opacity: 0.6;
+      }
+    }
+
     .field-container {
       display: flex;
       flex-direction: row;
