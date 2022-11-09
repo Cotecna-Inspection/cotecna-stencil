@@ -56,8 +56,10 @@ export class OcrField {
           value={this.field.value}
           onChange={(e) => this.onChangeOcrResult(e)}>
         </textarea>
-        <button onClick={() => this.takePictureAndPerformOcr()}><img src={getIconPNGPath('photo_camera')}></img></button>
-        <button onClick={() => this.deleteOcrResult()}><img src={getIconPNGPath('delete')}></img></button>
+        <div class="actions-container">
+          <button onClick={() => this.takePictureAndPerformOcr()}><img src={getIconPNGPath('photo_camera')}></img></button>
+          <button onClick={() => this.deleteOcrResult()}><img src={getIconPNGPath('delete')}></img></button>
+        </div>
       </div>
     )
   }

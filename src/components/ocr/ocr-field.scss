@@ -29,6 +29,7 @@
       }
 
       textarea {
+        width: 100%;
         border: 0px solid;
         max-height: 80px;
         overflow: auto;
@@ -38,16 +39,21 @@
         outline: none;
       }
 
-      button {
+      .actions-container {
         display: flex;
         flex-direction: row;
-        align-items: flex-end;
-        border: 0px solid;
-        background: none;
-        font-size: 12px;
-
-        img {
-          width: 24px
+        justify-content: flex-end;
+        button {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-end;
+          border: 0px solid;
+          background: none;
+          font-size: 12px;
+  
+          img {
+            width: 24px
+          }
         }
       }
     }
