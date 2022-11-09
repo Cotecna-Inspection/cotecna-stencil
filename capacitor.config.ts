@@ -5,7 +5,9 @@ const config: CapacitorConfig = {
   appName: "cotecna-stencil-components",
   webDir: "www",
   bundledWebRuntime: false,
-  //Uncomment to debug
+  /**
+   * NOTE: UNCOMMENT THE NEXT LINES TO DEBUG, SET YOUR IP ADDRESS AND PORT ON THE URL PROPERTY
+   */
   // server: {
   //   iosScheme: "http",
   //   androidScheme: "http",
