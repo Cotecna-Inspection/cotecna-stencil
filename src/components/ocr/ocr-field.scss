@@ -2,11 +2,46 @@
   display: block;
 
   .ocr-field-container {
+    max-width: 350px;
+    min-width: 350px;
     display: flex;
     flex-direction: column;
-    button, input {
-      width: 150px !important;
-      margin-top: 16px;
+
+    .mandatory-symbol {
+      color: #e5a038;
+      font-weight: 700;
+    }
+
+    .field-container {
+      display: flex;
+      flex-direction: row;
+      border-bottom: 1px solid rgb(0, 0, 0, 0.3);
+
+      &.invalid-field {
+        border-bottom: 1px solid red;
+      }
+
+      textarea {
+        border: 0px solid;
+        max-height: 80px;
+        overflow: auto;
+        resize: none;
+        font-family: inherit;
+        font-size: inherit;
+      }
+
+      button {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        border: 0px solid;
+        background: none;
+        font-size: 12px;
+
+        img {
+          width: 24px
+        }
+      }
     }
   }
 }
