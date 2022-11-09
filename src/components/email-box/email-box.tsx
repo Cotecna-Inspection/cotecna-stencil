@@ -4,6 +4,7 @@ import { ControlState } from '../../models/controlState';
 import { Field } from '../../models/field';
 import { getIconSVGPath, isValid } from '../../utils/field-utils';
 
+/** @internal **/
 @Component({
   tag: 'cotecna-email-box',
   styleUrl: 'email-box.scss',

@@ -20,9 +20,9 @@ export function configEmailBox() {
 
   emailBoxField.control = {
     defaultEmails: [
-      "marcel.pujol@cotecna.es",
-      "carles.romo@cotecna.es",
-      "eltjo.kraai@cotecna.es",
+      "user1@mycompany.com",
+      "user2@mycompany.com",
+      "user3@mycompany.com",
     ],
   };
 }
