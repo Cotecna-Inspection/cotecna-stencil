@@ -32,6 +32,8 @@ export namespace Components {
         "field": Field;
     }
     interface CotecnaOcr {
+        "control": any;
+        "field": Field;
     }
 }
 export interface CotecnaDialogCustomEvent<T> extends CustomEvent<T> {
@@ -53,6 +55,10 @@ export interface CotecnaMultidropdownEditableCustomEvent<T> extends CustomEvent<
 export interface CotecnaObjectCounterCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCotecnaObjectCounterElement;
+}
+export interface CotecnaOcrCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCotecnaOcrElement;
 }
 declare global {
     interface HTMLCotecnaDialogElement extends Components.CotecnaDialog, HTMLStencilElement {
@@ -136,6 +142,9 @@ declare namespace LocalJSX {
         "onFieldChange"?: (event: CotecnaObjectCounterCustomEvent<ControlState>) => void;
     }
     interface CotecnaOcr {
+        "control": any;
+        "field": Field;
+        "onFieldChange"?: (event: CotecnaOcrCustomEvent<ControlState>) => void;
     }
     interface IntrinsicElements {
         "cotecna-dialog": CotecnaDialog;

@@ -34,6 +34,10 @@ export const config: Config = {
         {
           src: '**/*.{jpg,png,svg}',
           dest: 'assets'
+        },
+        {
+          src: '../node_modules/@ionic/pwa-elements/dist/ionicpwaelements/',
+          dest: 'build/ionicpwaelements'
         }
       ]
     },
@@ -50,7 +54,7 @@ export const config: Config = {
    */
   // devServer: {
   //   reloadStrategy: 'pageReload',
-  //   port: ,
+  //   port: 0,
   //   address: ''
   // }
 };
