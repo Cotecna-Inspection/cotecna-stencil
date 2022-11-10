@@ -7,6 +7,15 @@
     display: flex;
     flex-direction: column;
 
+    &.readonly {
+      pointer-events: none;
+      button {
+        img {
+            filter: invert(70%);
+        }
+      }
+    }
+
     .mandatory-symbol {
       color: #e5a038;
       font-weight: 700;
@@ -55,6 +64,14 @@
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
+        &.disabled {
+          button:first-child {
+            pointer-events: none;
+            img {
+                filter: invert(70%);
+            }
+          }
+        }
         button {
           display: flex;
           flex-direction: row;
@@ -62,7 +79,7 @@
           border: 0px solid;
           background: none;
           font-size: 12px;
-  
+          user-select: none;
           img {
             width: 24px
           }

@@ -3,6 +3,7 @@ import { Field } from '../../models/field';
 import { getIconPNGPath, getSymbol, isValid } from '../../utils/field-utils';
 import { OCRResult } from './models/ocr-result.model';
 import { ControlState } from '../../models/controlState';
+import { isMobileView } from '../../utils/check-is-mobile-utils';
 
 declare var navigator;
 declare var mltext;
@@ -32,15 +33,22 @@ export class OcrField {
   @State()
   private textFound: boolean = true;
 
+  @State()
+  private readonly: boolean = false;
+
   @Event()
   public fieldChange: EventEmitter<ControlState>;
 
   private readonly ERROR_MESSAGE: string = `Something went wrong. Please, try it later.`;
   private readonly NO_TEXT_FOUND_MESSAGE: string = `No text found. Try again with another photo or fill it manually.`;
 
+  componentWillLoad() {
+    this.setReadonly();
+  }
+
   render() {
     return (
-      <div class="ocr-field-container" part="container">
+      <div class={{"ocr-field-container": true, "readonly": this.readonly}} part="container">
         { this.getFieldLabel() }
         { this.getFieldContainer() }
         { this.showFieldMessages() }
@@ -61,13 +69,14 @@ export class OcrField {
 
   private getFieldContainer(): any {
     return (
-      <div class={{"field-container": true, 'invalid-field': !isValid(this.field)}}>
+      <div class={{"field-container": true, 'invalid-field': !isValid(this.field) && !this.readonly}}>
         <textarea id={`ocr-result-${this.field.id}`}
           rows={4} cols={50} 
           value={this.field.value}
           onChange={(e) => this.onChangeOcrResult(e)}>
         </textarea>
-        <div class="actions-container">
+        {}
+        <div class={{"actions-container": true, 'disabled': !isMobileView()}}>
           <button onClick={() => this.takePictureAndPerformOcr()}><img src={getIconPNGPath('photo_camera')}></img></button>
           { this.ocrResultAsString ? <button onClick={() => this.deleteOcrResult()}><img src={getIconPNGPath('delete')}></img></button> : null }
         </div>
@@ -149,5 +158,9 @@ export class OcrField {
       isValid: isValid(this.field),
       value: this.field.value
     })
+  }
+
+  private setReadonly() {
+    this.readonly = this.field?.readOnly;
   }
 }
