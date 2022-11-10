@@ -12,6 +12,18 @@
       font-weight: 700;
     }
 
+    .error-message {
+      color: red;
+      font-size: 12px;
+      margin: 0px;
+    }
+
+    .info-message {
+      color: var(--primary-color);
+      font-size: 12px;
+      margin: 0px;
+    }
+
     .label-container {
       label {
         font-size: 12px;
