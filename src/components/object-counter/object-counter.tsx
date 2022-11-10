@@ -4,6 +4,7 @@ import { Field } from "../../models/field";
 import { hasNetworkConnection } from "../../utils/check-network-connection-utils";
 import { getIconPNGPath, getSymbol, isValid } from "../../utils/field-utils";
 import { convertBase64ToBlob } from "../../utils/image-utils";
+import { isMobileView } from "../../utils/check-is-mobile-utils";
 
 declare var navigator;
 
@@ -49,11 +50,12 @@ export class ObjectCounter {
   componentWillLoad() {
     this.createNetworkListeners();
     this.hasConnection = hasNetworkConnection();
+    if (this.field) this.field.readOnly = !isMobileView();
   }
 
   render() {
     return(
-    <div class="object-counter-container" part="container">
+    <div class={{"object-counter-container": true, "readonly": this.field.readOnly}} part="container">
         <div class="label-container">
             <label part="label">
               {this.field.label}
@@ -64,7 +66,7 @@ export class ObjectCounter {
           this.isLoading
             ? ( <cotecna-loader color="#000087"></cotecna-loader> )
             : (
-                <div class={{"field-container": true, 'invalid-field': !isValid(this.field)}}>
+                <div class={{"field-container": true, 'invalid-field': !isValid(this.field) && !this.field.readOnly}}>
                     <div class="input-container">
                         { this.renderImage() }
                         { this.showCountedLabel ? <p>Counted:</p> : null }
@@ -106,17 +108,19 @@ export class ObjectCounter {
       </div> : null;
   }
 
-  private async takePictureAndPerformCounting(): Promise<void> {
+  private takePictureAndPerformCounting(): void {
     document.addEventListener("deviceready", () => {
       navigator.camera.getPicture(
-        async(imageData) => {
-          await this.performCountItems(imageData);
-          this.onChange();
+        (imageData) => {
+          this.imageInBase64 = imageData;
+          this.performCountItems(imageData);
         },
         (err) => {
           throw err;
         },
-        { quality: 100, correctOrientation: true,
+        { 
+          quality: 80, 
+          correctOrientation: true,
           destinationType: navigator.camera.DestinationType.DATA_URL 
         }
       );
@@ -139,8 +143,10 @@ export class ObjectCounter {
       const formData = new FormData();
       formData.append('image', file);
       await this.sendCountRequest(formData);
+      this.onChange();
     } catch(err) {
       this.hasError = true;
+      this.deletePhoto();
       throw err;
     } finally {
       this.isLoading = false;
@@ -148,18 +154,21 @@ export class ObjectCounter {
   }
 
   private sendCountRequest(formData: FormData) : Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       let request = new XMLHttpRequest();
       request.open('POST', this.control.counterUrl);
       request.send(formData);
       request.onreadystatechange = () => {
-        if (request.status === 200) {
-          const response = JSON.parse(request.response);
-          this.counted = response.totalDetected;
-          this.showCountedLabel = true;
-          resolve(this.counted);
-        };
-        reject('Error on the detection API');
+        if (request.readyState === 4) {
+          if (request.response) {
+            if (request.status !== 200) reject( `Error on the detection API: status ${request.status}`);
+            const response = JSON.parse(request.response);
+            this.counted = response.totalDetected;
+            this.showCountedLabel = true;
+            resolve();
+          }
+          else reject(`Error on the detection API: no response`);
+        }
       }
     });
   }
