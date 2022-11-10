@@ -3,8 +3,8 @@
     min-width: 350px;
 
     &.readonly {
+      pointer-events: none;
         button {
-            pointer-events: none;
             img {
                 filter: invert(70%);
             }
