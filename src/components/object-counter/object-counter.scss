@@ -2,6 +2,13 @@
     max-width: 350px;
     min-width: 350px;
 
+    &.readonly {
+        pointer-events: none;
+        img {
+            filter: invert(70%);
+        }
+    }
+
     .mandatory-symbol {
         color: #e5a038;
         font-weight: 700;
