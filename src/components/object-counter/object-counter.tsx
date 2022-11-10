@@ -40,6 +40,9 @@ export class ObjectCounter {
   @State()
   private hasError: boolean = false;
 
+  @State()
+  private readonly: boolean = false;
+
   @Event()
   public fieldChange: EventEmitter<ControlState>;
 
@@ -50,12 +53,12 @@ export class ObjectCounter {
   componentWillLoad() {
     this.createNetworkListeners();
     this.hasConnection = hasNetworkConnection();
-    if (this.field) this.field.readOnly = !isMobileView();
+    this.setReadonly();
   }
 
   render() {
     return(
-    <div class={{"object-counter-container": true, "readonly": this.field.readOnly}} part="container">
+    <div class={{"object-counter-container": true, "readonly": this.readonly}} part="container">
         <div class="label-container">
             <label part="label">
               {this.field.label}
@@ -66,16 +69,16 @@ export class ObjectCounter {
           this.isLoading
             ? ( <cotecna-spinner-loader color="#000087"></cotecna-spinner-loader> )
             : (
-                <div class={{"field-container": true, 'invalid-field': !isValid(this.field) && !this.field.readOnly}}>
+                <div class={{"field-container": true, 'invalid-field': !isValid(this.field) && !this.readonly}}>
                     <div class="input-container">
                         { this.renderImage() }
                         { this.showCountedLabel ? <p>Counted:</p> : null }
                         <input id="countingResult" type="number" required={this.field.required} value={this.counted} onChange={e => this.onChangeCountedValue(e)}/>
                     </div>
-                    <div class="camera-button-container">
-                        <button class="camera-button" onClick={() => this.takePictureAndPerformCounting()} disabled={!this.hasConnection}><img src={getIconPNGPath('photo_camera')}></img></button>
-                    </div>
-                    { this.showDeleteButton() }
+                    <div class={{"actions-container": true, 'disabled': !isMobileView()}}>
+                        <button onClick={() => this.takePictureAndPerformCounting()} disabled={!this.hasConnection}><img src={getIconPNGPath('photo_camera')}></img></button>
+                        { this.imageInBase64 ? <button onClick={() => this.deletePhoto()}><img src={getIconPNGPath('delete')}></img></button> : null }
+                    </div>  
                 </div>
             )
         }
@@ -99,13 +102,6 @@ export class ObjectCounter {
       return <div class="image-container"><img src={myPhoto}/></div>;
     }
     return null;
-  }
-
-  private showDeleteButton() {
-    return this.imageInBase64 ? 
-      <div class="delete-button-container" onClick={() => this.deletePhoto()}>
-        <button class="delete-button"><img src={getIconPNGPath('delete')}></img></button>
-      </div> : null;
   }
 
   private takePictureAndPerformCounting(): void {
@@ -189,6 +185,10 @@ export class ObjectCounter {
 
   private updateFieldValue(): void {
     this.field.value = { counted: this.counted, image: this.imageInBase64 };
+  }
+
+  private setReadonly(): void {
+    this.readonly = this.field?.readOnly;
   }
 }
 
