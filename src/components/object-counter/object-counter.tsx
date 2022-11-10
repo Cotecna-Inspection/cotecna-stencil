@@ -64,7 +64,7 @@ export class ObjectCounter {
         </div>
         {
           this.isLoading
-            ? ( <cotecna-loader color="#000087"></cotecna-loader> )
+            ? ( <cotecna-spinner-loader color="#000087"></cotecna-spinner-loader> )
             : (
                 <div class={{"field-container": true, 'invalid-field': !isValid(this.field) && !this.field.readOnly}}>
                     <div class="input-container">
