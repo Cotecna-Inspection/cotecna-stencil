@@ -22,22 +22,29 @@ export class ObjectCounter {
   public control!: any;
 
   @State()
-  private imageInBase64: string;
+  private imageInBase64: string = null;
 
   @State()
   private counted: number = null;
 
   @State() 
-  private showCountedLabel = false;
+  private showCountedLabel: boolean = false;
+
+  @State()
+  private isLoading: boolean = false;
 
   @State()
   private hasConnection: boolean = false;
+
+  @State()
+  private hasError: boolean = false;
 
   @Event()
   public fieldChange: EventEmitter<ControlState>;
 
   private readonly IMAGE_TYPE: string = "image/jpg";
   private readonly IMAGE_PREFIX: string = "data:image/jpeg;base64";
+  private readonly ERROR_MESSAGE: string = `Something went wrong. Please, try it later.`
   
   componentWillLoad() {
     this.createNetworkListeners();
@@ -53,20 +60,25 @@ export class ObjectCounter {
               {getSymbol(this.field)}
             </label>
         </div>
-        <div class={{"field-container": true, 'invalid-field': !isValid(this.field)}}>
-            <div class="input-container">
-                { this.renderImage() }
-                { this.showCountedLabel ? <p>Counted:</p> : null }
-                <input id="countingResult" type="number" required={this.field.required} value={this.counted} onChange={e => this.onChangeCountedValue(e)}/>
-            </div>
-            <div class="camera-button-container">
-                <button class="camera-button" onClick={() => this.takePhoto()} disabled={!this.hasConnection}><img src={getIconPNGPath('photo_camera')}></img></button>
-            </div>
-            { this.showDeleteButton() }
-        </div>
         {
-          !this.hasConnection ? <p class="no-connection-message">No connection. Please fill manually.</p> : null 
+          this.isLoading
+            ? ( <cotecna-loader color="#000087"></cotecna-loader> )
+            : (
+                <div class={{"field-container": true, 'invalid-field': !isValid(this.field)}}>
+                    <div class="input-container">
+                        { this.renderImage() }
+                        { this.showCountedLabel ? <p>Counted:</p> : null }
+                        <input id="countingResult" type="number" required={this.field.required} value={this.counted} onChange={e => this.onChangeCountedValue(e)}/>
+                    </div>
+                    <div class="camera-button-container">
+                        <button class="camera-button" onClick={() => this.takePictureAndPerformCounting()} disabled={!this.hasConnection}><img src={getIconPNGPath('photo_camera')}></img></button>
+                    </div>
+                    { this.showDeleteButton() }
+                </div>
+            )
         }
+        { this.hasError ? <p class="error-message">{this.ERROR_MESSAGE}</p> : null }
+        { !this.hasConnection ? <p class="no-connection-message">No connection. Please fill manually.</p> : null }
     </div>);
   }
 
@@ -94,21 +106,21 @@ export class ObjectCounter {
       </div> : null;
   }
 
-  private takePhoto() {
-      document.addEventListener("deviceready", () => {
-          navigator.camera.getPicture(
-            async (imageData) => {
-              this.imageInBase64 = imageData;
-              await this.performCountItems();
-              this.onChange();
-            },
-            (err) => {
-              console.error('err', err);
-            },
-            { quality: 100, correctOrientation: true,
-              destinationType: navigator.camera.DestinationType.DATA_URL 
-            });
-        });
+  private async takePictureAndPerformCounting(): Promise<void> {
+    document.addEventListener("deviceready", () => {
+      navigator.camera.getPicture(
+        async(imageData) => {
+          await this.performCountItems(imageData);
+          this.onChange();
+        },
+        (err) => {
+          throw err;
+        },
+        { quality: 100, correctOrientation: true,
+          destinationType: navigator.camera.DestinationType.DATA_URL 
+        }
+      );
+    });
   }
 
   private deletePhoto() : void {
@@ -118,25 +130,36 @@ export class ObjectCounter {
     this.onChange();
   }
 
-  private async performCountItems(): Promise<void> {
-    const blobImage = convertBase64ToBlob(this.imageInBase64, this.IMAGE_TYPE);
-    const file = new File([blobImage], 'image', { type: this.IMAGE_TYPE});
-    const formData = new FormData();
-    formData.append('image', file);
-    await this.sendCountRequest(formData);
+  private async performCountItems(image: string): Promise<void> {
+    try {
+      this.isLoading = true;
+      this.hasError = false;
+      const blobImage = convertBase64ToBlob(image, this.IMAGE_TYPE);
+      const file = new File([blobImage], 'image', { type: this.IMAGE_TYPE});
+      const formData = new FormData();
+      formData.append('image', file);
+      await this.sendCountRequest(formData);
+    } catch(err) {
+      this.hasError = true;
+      throw err;
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   private sendCountRequest(formData: FormData) : Promise<any> {
-    return new Promise(() => {
+    return new Promise((resolve, reject) => {
       let request = new XMLHttpRequest();
       request.open('POST', this.control.counterUrl);
       request.send(formData);
       request.onreadystatechange = () => {
-        if (request.response) {
+        if (request.status === 200) {
           const response = JSON.parse(request.response);
           this.counted = response.totalDetected;
           this.showCountedLabel = true;
+          resolve(this.counted);
         };
+        reject('Error on the detection API');
       }
     });
   }
