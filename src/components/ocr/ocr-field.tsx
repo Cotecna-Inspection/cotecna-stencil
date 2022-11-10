@@ -160,7 +160,7 @@ export class OcrField {
     })
   }
 
-  private setReadonly() {
+  private setReadonly(): void {
     this.readonly = this.field?.readOnly;
   }
 }

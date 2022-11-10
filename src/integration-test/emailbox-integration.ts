@@ -1,5 +1,6 @@
 import { ControlType } from "../enums/controlType";
 import { EMAIL_BOX_FIELD } from "../test-data/email-box-field.mocked";
+import { Field } from '../models/field';
 
 export function configEmailBox() {
   var emailBoxField: any = document.querySelector("cotecna-email-box");
@@ -16,7 +17,7 @@ export function configEmailBox() {
     visible: true,
     valid: false,
     readOnly: false,
-  };
+  } as Field;
 
   emailBoxField.control = {
     defaultEmails: [
