@@ -15,6 +15,12 @@ export namespace Components {
         "control": any;
         "field": Field;
     }
+    interface CotecnaLoader {
+        "color": string;
+        "size": number;
+        "text": string;
+        "thick": number;
+    }
     interface CotecnaMultidropdown {
         "control": any;
         "field": Field;
@@ -72,6 +78,12 @@ declare global {
         prototype: HTMLCotecnaEmailBoxElement;
         new (): HTMLCotecnaEmailBoxElement;
     };
+    interface HTMLCotecnaLoaderElement extends Components.CotecnaLoader, HTMLStencilElement {
+    }
+    var HTMLCotecnaLoaderElement: {
+        prototype: HTMLCotecnaLoaderElement;
+        new (): HTMLCotecnaLoaderElement;
+    };
     interface HTMLCotecnaMultidropdownElement extends Components.CotecnaMultidropdown, HTMLStencilElement {
     }
     var HTMLCotecnaMultidropdownElement: {
@@ -105,6 +117,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "cotecna-dialog": HTMLCotecnaDialogElement;
         "cotecna-email-box": HTMLCotecnaEmailBoxElement;
+        "cotecna-loader": HTMLCotecnaLoaderElement;
         "cotecna-multidropdown": HTMLCotecnaMultidropdownElement;
         "cotecna-multidropdown-editable": HTMLCotecnaMultidropdownEditableElement;
         "cotecna-multidropdown-readable": HTMLCotecnaMultidropdownReadableElement;
@@ -120,6 +133,12 @@ declare namespace LocalJSX {
         "control": any;
         "field": Field;
         "onFieldChange"?: (event: CotecnaEmailBoxCustomEvent<ControlState>) => void;
+    }
+    interface CotecnaLoader {
+        "color"?: string;
+        "size"?: number;
+        "text"?: string;
+        "thick"?: number;
     }
     interface CotecnaMultidropdown {
         "control": any;
@@ -147,6 +166,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "cotecna-dialog": CotecnaDialog;
         "cotecna-email-box": CotecnaEmailBox;
+        "cotecna-loader": CotecnaLoader;
         "cotecna-multidropdown": CotecnaMultidropdown;
         "cotecna-multidropdown-editable": CotecnaMultidropdownEditable;
         "cotecna-multidropdown-readable": CotecnaMultidropdownReadable;
@@ -160,6 +180,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "cotecna-dialog": LocalJSX.CotecnaDialog & JSXBase.HTMLAttributes<HTMLCotecnaDialogElement>;
             "cotecna-email-box": LocalJSX.CotecnaEmailBox & JSXBase.HTMLAttributes<HTMLCotecnaEmailBoxElement>;
+            "cotecna-loader": LocalJSX.CotecnaLoader & JSXBase.HTMLAttributes<HTMLCotecnaLoaderElement>;
             "cotecna-multidropdown": LocalJSX.CotecnaMultidropdown & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownElement>;
             "cotecna-multidropdown-editable": LocalJSX.CotecnaMultidropdownEditable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownEditableElement>;
             "cotecna-multidropdown-readable": LocalJSX.CotecnaMultidropdownReadable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownReadableElement>;
