@@ -1,6 +1,7 @@
 .object-counter-container {    
     max-width: 350px;
     min-width: 350px;
+    background-color: white;
 
     &.readonly {
       pointer-events: none;
@@ -9,6 +10,12 @@
                 filter: invert(70%);
             }
         }
+    }
+
+    &.filled {
+      background-color: #f5f5f5;
+      padding: 2px;
+      border-radius: 5px;
     }
 
     .mandatory-symbol {
