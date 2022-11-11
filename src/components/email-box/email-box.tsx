@@ -34,6 +34,8 @@ export class EmailBox {
   @Element()
   private element: HTMLElement;
 
+  private readonly EMAIL_REGEX: string = `[a-z0-9._%+-]+@[a-z0-9.-]+[.]{1}(?:[a-z]{2,3})$`;
+
   @Watch('field')
   onFieldChanged() {
     this.initValues();
@@ -68,6 +70,7 @@ export class EmailBox {
           <input id="add-email-input" 
             type="email"
             class="add-email-input"
+            pattern={this.EMAIL_REGEX}
             onKeyUp={this.handleKeyPress.bind(this)}></input>
         </div>
       </div>
