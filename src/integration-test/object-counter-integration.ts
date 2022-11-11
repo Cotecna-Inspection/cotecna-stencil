@@ -1,4 +1,5 @@
 import { ControlType } from "../enums/controlType";
+import { Field } from "../models/field";
 
 export function configObjectCounter() {
   var objectCounterField: any = document.querySelector('cotecna-object-counter');
@@ -19,7 +20,7 @@ export function configObjectCounter() {
     visible: true,
     valid: false,
     readOnly: false
-  }
+  } as Field;
 
   objectCounterField.control = {
     counterUrl: "https://cotecna-ai-uat.azurewebsites.net/object/detection"

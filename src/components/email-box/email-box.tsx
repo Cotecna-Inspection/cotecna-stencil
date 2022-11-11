@@ -4,6 +4,7 @@ import { ControlState } from '../../models/controlState';
 import { Field } from '../../models/field';
 import { getIconSVGPath, isValid } from '../../utils/field-utils';
 
+/** @internal **/
 @Component({
   tag: 'cotecna-email-box',
   styleUrl: 'email-box.scss',
@@ -32,6 +33,8 @@ export class EmailBox {
 
   @Element()
   private element: HTMLElement;
+
+  private readonly EMAIL_REGEX: string = `[a-z0-9._%+-]+@[a-z0-9.-]+[.]{1}(?:[a-z]{2,3})$`;
 
   @Watch('field')
   onFieldChanged() {
@@ -67,6 +70,7 @@ export class EmailBox {
           <input id="add-email-input" 
             type="email"
             class="add-email-input"
+            pattern={this.EMAIL_REGEX}
             onKeyUp={this.handleKeyPress.bind(this)}></input>
         </div>
       </div>

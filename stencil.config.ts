@@ -8,7 +8,8 @@ export const config: Config = {
     { components: ['cotecna-dialog'] },
     { components: ['cotecna-email-box'] },
     { components: ['cotecna-ocr'] },
-    { components: ['cotecna-object-counter'] }
+    { components: ['cotecna-object-counter'] },
+    { components: ['cotecna-spinner-loader'] }
   ],
   outputTargets: [
     {

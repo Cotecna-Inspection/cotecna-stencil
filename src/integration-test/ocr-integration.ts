@@ -1,4 +1,5 @@
 import { ControlType } from "../enums/controlType";
+import { Field } from '../models/field';
 
 export function configOcr() {
   var ocrField: any = document.querySelector('cotecna-ocr');
@@ -14,8 +15,8 @@ export function configOcr() {
     required: true,
     visible: true,
     valid: true,
-    readonly: false
-  }
+    readOnly: false
+  } as Field;
 
   ocrField.control = {
     id: 'ocr-field'
