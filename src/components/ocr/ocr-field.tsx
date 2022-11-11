@@ -48,7 +48,7 @@ export class OcrField {
 
   render() {
     return (
-      <div class={{"ocr-field-container": true, "readonly": this.readonly}} part="container">
+      <div class={{"ocr-field-container": true, "readonly": this.readonly, "filled": this.field?.value}} part="container">
         { this.getFieldLabel() }
         { this.getFieldContainer() }
         { this.showFieldMessages() }

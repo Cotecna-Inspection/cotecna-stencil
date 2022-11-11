@@ -58,7 +58,7 @@ export class ObjectCounter {
 
   render() {
     return(
-    <div class={{"object-counter-container": true, "readonly": this.readonly}} part="container">
+    <div class={{"object-counter-container": true, "readonly": this.readonly, "filled": this.isFilled()}} part="container">
         <div class="label-container">
             <label part="label">
               {this.field.label}
@@ -189,6 +189,12 @@ export class ObjectCounter {
 
   private setReadonly(): void {
     this.readonly = this.field?.readOnly;
+  }
+
+  private isFilled(): boolean {
+    return (this.field.value) 
+      ? this.field.value?.counted !== null || this.field.value?.image
+      : false;
   }
 }
 
