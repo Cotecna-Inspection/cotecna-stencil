@@ -1,0 +1,20 @@
+:host {
+    .container {
+        display: inline-grid;
+    }
+
+    .checkbox-container {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: 5px;
+        align-items: center;
+        justify-content: center;
+
+        input {
+            margin-right: 10px;
+            margin-bottom: 0px;
+            margin-top: 0px;
+            margin-left: 0px;
+        }
+    }
+}

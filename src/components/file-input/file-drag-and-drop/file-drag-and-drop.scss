@@ -1,0 +1,32 @@
+$min-height: 10rem;
+
+:host {
+    .title {
+        color: grey;
+        margin-left: 5px;
+    }
+
+    .drag-and-drop-box-container {
+        display: flex;
+        align-items: center;
+        border: 3px dashed lightgrey;
+        border-radius: 0.25rem;
+        min-height: $min-height;
+        max-height: $min-height * 2;
+        background-color: #fafafa;
+        position: relative;
+        overflow: auto;
+        padding: 1rem;
+        height: auto;
+        cursor: pointer;
+
+        &.dragging {
+            border-color: #00ae69;
+            background-color: #e2f5ec;
+            
+            h1 {
+                color: #8ad6b3;
+            }
+        }
+    }
+}

@@ -15,6 +15,16 @@ export namespace Components {
         "control": any;
         "field": Field;
     }
+    interface CotecnaFileDragAndDrop {
+        "dragAndDropContainerText": string;
+    }
+    interface CotecnaFileInput {
+        "dragAndDropContainerText": string;
+        "template": string;
+    }
+    interface CotecnaFileView {
+        "template": string;
+    }
     interface CotecnaMultidropdown {
         "control": any;
         "field": Field;
@@ -42,6 +52,14 @@ export interface CotecnaDialogCustomEvent<T> extends CustomEvent<T> {
 export interface CotecnaEmailBoxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCotecnaEmailBoxElement;
+}
+export interface CotecnaFileDragAndDropCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCotecnaFileDragAndDropElement;
+}
+export interface CotecnaFileViewCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCotecnaFileViewElement;
 }
 export interface CotecnaMultidropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -71,6 +89,24 @@ declare global {
     var HTMLCotecnaEmailBoxElement: {
         prototype: HTMLCotecnaEmailBoxElement;
         new (): HTMLCotecnaEmailBoxElement;
+    };
+    interface HTMLCotecnaFileDragAndDropElement extends Components.CotecnaFileDragAndDrop, HTMLStencilElement {
+    }
+    var HTMLCotecnaFileDragAndDropElement: {
+        prototype: HTMLCotecnaFileDragAndDropElement;
+        new (): HTMLCotecnaFileDragAndDropElement;
+    };
+    interface HTMLCotecnaFileInputElement extends Components.CotecnaFileInput, HTMLStencilElement {
+    }
+    var HTMLCotecnaFileInputElement: {
+        prototype: HTMLCotecnaFileInputElement;
+        new (): HTMLCotecnaFileInputElement;
+    };
+    interface HTMLCotecnaFileViewElement extends Components.CotecnaFileView, HTMLStencilElement {
+    }
+    var HTMLCotecnaFileViewElement: {
+        prototype: HTMLCotecnaFileViewElement;
+        new (): HTMLCotecnaFileViewElement;
     };
     interface HTMLCotecnaMultidropdownElement extends Components.CotecnaMultidropdown, HTMLStencilElement {
     }
@@ -105,6 +141,9 @@ declare global {
     interface HTMLElementTagNameMap {
         "cotecna-dialog": HTMLCotecnaDialogElement;
         "cotecna-email-box": HTMLCotecnaEmailBoxElement;
+        "cotecna-file-drag-and-drop": HTMLCotecnaFileDragAndDropElement;
+        "cotecna-file-input": HTMLCotecnaFileInputElement;
+        "cotecna-file-view": HTMLCotecnaFileViewElement;
         "cotecna-multidropdown": HTMLCotecnaMultidropdownElement;
         "cotecna-multidropdown-editable": HTMLCotecnaMultidropdownEditableElement;
         "cotecna-multidropdown-readable": HTMLCotecnaMultidropdownReadableElement;
@@ -120,6 +159,19 @@ declare namespace LocalJSX {
         "control": any;
         "field": Field;
         "onFieldChange"?: (event: CotecnaEmailBoxCustomEvent<ControlState>) => void;
+    }
+    interface CotecnaFileDragAndDrop {
+        "dragAndDropContainerText"?: string;
+        "onDropFile"?: (event: CotecnaFileDragAndDropCustomEvent<File>) => void;
+    }
+    interface CotecnaFileInput {
+        "dragAndDropContainerText"?: string;
+        "template"?: string;
+    }
+    interface CotecnaFileView {
+        "onDeleteFile"?: (event: CotecnaFileViewCustomEvent<void>) => void;
+        "onDownloadFile"?: (event: CotecnaFileViewCustomEvent<void>) => void;
+        "template"?: string;
     }
     interface CotecnaMultidropdown {
         "control": any;
@@ -147,6 +199,9 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "cotecna-dialog": CotecnaDialog;
         "cotecna-email-box": CotecnaEmailBox;
+        "cotecna-file-drag-and-drop": CotecnaFileDragAndDrop;
+        "cotecna-file-input": CotecnaFileInput;
+        "cotecna-file-view": CotecnaFileView;
         "cotecna-multidropdown": CotecnaMultidropdown;
         "cotecna-multidropdown-editable": CotecnaMultidropdownEditable;
         "cotecna-multidropdown-readable": CotecnaMultidropdownReadable;
@@ -160,6 +215,9 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "cotecna-dialog": LocalJSX.CotecnaDialog & JSXBase.HTMLAttributes<HTMLCotecnaDialogElement>;
             "cotecna-email-box": LocalJSX.CotecnaEmailBox & JSXBase.HTMLAttributes<HTMLCotecnaEmailBoxElement>;
+            "cotecna-file-drag-and-drop": LocalJSX.CotecnaFileDragAndDrop & JSXBase.HTMLAttributes<HTMLCotecnaFileDragAndDropElement>;
+            "cotecna-file-input": LocalJSX.CotecnaFileInput & JSXBase.HTMLAttributes<HTMLCotecnaFileInputElement>;
+            "cotecna-file-view": LocalJSX.CotecnaFileView & JSXBase.HTMLAttributes<HTMLCotecnaFileViewElement>;
             "cotecna-multidropdown": LocalJSX.CotecnaMultidropdown & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownElement>;
             "cotecna-multidropdown-editable": LocalJSX.CotecnaMultidropdownEditable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownEditableElement>;
             "cotecna-multidropdown-readable": LocalJSX.CotecnaMultidropdownReadable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownReadableElement>;
