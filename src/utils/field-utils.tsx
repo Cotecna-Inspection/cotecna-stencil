@@ -10,7 +10,7 @@ export function isValid(field: Field) {
     case ControlType.EmailBox:
       if (field.required) return field?.value?.length > 0;
       else return true;
-    case ControlType.Ocr:
+    case ControlType.OCR:
       if (field.required) return field?.value?.length > 0;
       else return true;
     case ControlType.ObjectCounter:
