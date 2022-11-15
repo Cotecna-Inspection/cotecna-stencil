@@ -19,8 +19,10 @@ export namespace Components {
         "checkboxText": string;
         "dragAndDropContainerText": string;
         "dragAndDropText": string;
+        "fileExtensionAccept": String[];
         "fileViewText": string;
         "templateName": string;
+        "wrongFormatErrorText": string;
     }
     interface CotecnaMultidropdown {
         "control": any;
@@ -143,11 +145,13 @@ declare namespace LocalJSX {
         "checkboxText"?: string;
         "dragAndDropContainerText"?: string;
         "dragAndDropText"?: string;
+        "fileExtensionAccept"?: String[];
         "fileViewText"?: string;
         "onDeleteFile"?: (event: CotecnaFileInputCustomEvent<void>) => void;
         "onDownloadFile"?: (event: CotecnaFileInputCustomEvent<boolean>) => void;
-        "onDropFile"?: (event: CotecnaFileInputCustomEvent<File>) => void;
+        "onSelectedFile"?: (event: CotecnaFileInputCustomEvent<File>) => void;
         "templateName"?: string;
+        "wrongFormatErrorText"?: string;
     }
     interface CotecnaMultidropdown {
         "control": any;

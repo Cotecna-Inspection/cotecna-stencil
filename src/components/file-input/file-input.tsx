@@ -7,23 +7,31 @@ import { getIconSVGPath } from "../../utils/field-utils";
     shadow: true,
 })
 export class FileInput {
+
+// ========== Public properties ==========
+
     @Prop({mutable: true})
-    templateName: string = null;
+    public templateName: string = null;
 
     @Prop()
-    dragAndDropContainerText = "DRAG FILES OR CLICK TO UPLOAD";
+    public dragAndDropContainerText = "DRAG FILES OR CLICK TO UPLOAD";
 
     @Prop()
-    checkboxText = "Set export as PDF as default";
+    public wrongFormatErrorText = "FORMAT NOT ALLOWED";
 
     @Prop()
-    fileViewText = "Template File"
+    public checkboxText = "Set export as PDF as default";
 
     @Prop()
-    dragAndDropText = "Upload File"
+    public fileViewText = "Template File"
 
-    @State()
-    showFileInfo: boolean;
+    @Prop()
+    public dragAndDropText = "Upload File"
+
+    @Prop()
+    public fileExtensionAccept: String[] = [".pdf"]
+
+// ========== Public Events ==========
 
     @Event()
     downloadFile: EventEmitter<boolean>
@@ -32,10 +40,21 @@ export class FileInput {
     deleteFile: EventEmitter<void>
 
     @Event()
-    dropFile: EventEmitter<File>
+    selectedFile: EventEmitter<File>
+
+// ========== App State ==========
+
+    @State()
+    private showFileInfo: boolean;
+
+    @State()
+    private onDragEnter = false;
+
+    @State()
+    private showExtensionError = false;
 
     @Watch('templateName')
-    onTemplateChanged() {
+    private onTemplateChanged() {
         console.log(this.templateName);
         if (this.templateName) {
             this.showFileInfo = true;
@@ -44,11 +63,18 @@ export class FileInput {
         }
     }
 
+    @Watch('onDragEnter')
+    private hideErrors() {
+        this.showExtensionError = false;
+    }
+
     private exportAsPdf: boolean = false;
 
     componentWillLoad() {
         this.onTemplateChanged();
     }
+
+// ========== UI ==========
 
     render() {
         return(
@@ -84,34 +110,51 @@ export class FileInput {
     private buildDragAndDrop() {
         return(
             <div>
-            <p class="title">{ this.dragAndDropText }</p>
-            {/* <div
-            class="drag-and-drop-box-container"
-            onDragOver = {(evt) => evt.preventDefault()}
-            onDragEnter = {(evt) => evt.preventDefault()}
-            onDrop = {(evt) => {
-                console.log(evt)
-                this.dropFile.emit(evt.dataTransfer.files[0]);
-                this.templateName = evt.dataTransfer.files[0].name;
-                evt.preventDefault();
-            }}>               
-             <input type="file" style={{opacity: "0.0", position: "absolute", top: "0", left: "0", bottom: "0", right: "0", width: "100%", height:"100%"}}></input>
-                <h1>{ this.dragAndDropContainerText }</h1>
-            </div> */}
-            <input
-            type="file"
-            class="drag-and-drop-box-container"
-            onDragOver = {(evt) => evt.preventDefault()}
-            onDragEnter = {(evt) => evt.preventDefault()}
-            onDrop = {(evt) => {
-                console.log(evt)
-                this.dropFile.emit(evt.dataTransfer.files[0]);
-                this.templateName = evt.dataTransfer.files[0].name;
-                evt.preventDefault();
-            }}>               
-                <h1>{ this.dragAndDropContainerText }</h1>
-            </input>
-        </div>
+                <p class="title">{ this.dragAndDropText }</p>
+                <div 
+                id= "asd"
+                class={ this.onDragEnter ? 
+                    "drag-and-drop-box-container draggable" : 
+                    this.showExtensionError ? 
+                        "drag-and-drop-box-container error" : 
+                        "drag-and-drop-box-container" }
+                    onDragOver = {(evt) => {
+                            this.onDragEnter = true;
+                            evt.preventDefault();
+                        }
+                    }
+                    onDragLeave = {(evt) => {
+                            this.onDragEnter = false;
+                            evt.preventDefault();
+                        }
+                    }
+                    onDrop = {(evt) => {
+                        this.onDragEnter = false;
+                        const file = evt.dataTransfer.files[0]
+                        if (this.fileExtensionAccept.includes('.' + file.name.split('.').pop())) {
+                            this.onFileSelected(file)
+                        } else {
+                            this.showExtensionError = true;
+                        }
+                        evt.preventDefault();
+                    }}>
+                    <input
+                    type = "file"
+                    accept = {this.fileExtensionAccept.join()}
+                    onChange = {(evt) => {
+                        this.onFileSelected((evt.currentTarget as HTMLInputElement).files[0]);
+                        evt.preventDefault();
+                        }
+                    }/>               
+                    <h1>
+                        { 
+                            this.showExtensionError ? 
+                                this.wrongFormatErrorText :
+                                this.dragAndDropContainerText
+                        }
+                    </h1>
+                </div>
+            </div>
         );
     }
 
@@ -119,11 +162,16 @@ export class FileInput {
         return (
             <div class="checkbox-container">
                 <input type="checkbox"
-                checked = {this.exportAsPdf}
+                checked = { this.exportAsPdf }
                 onChange={ () => this.exportAsPdf = !this.exportAsPdf }/>
                 <label>{ this.checkboxText }</label>
             </div>
         );
+    }
+
+    private onFileSelected(file) {
+        this.selectedFile.emit(file);
+        this.templateName = file.name;
     }
 
     private onDownloadFile() {

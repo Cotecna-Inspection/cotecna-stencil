@@ -1,6 +1,10 @@
 $min-height: 10rem;
 
 :host {
+    ::file-selector-button {
+        display: none;
+    }
+
     .container {
         display: inline-grid;
     }
@@ -11,12 +15,13 @@ $min-height: 10rem;
     }
 
     .drag-and-drop-box-container {
-        display: flex;
+        display: grid;
         align-items: center;
         border: 3px dashed lightgrey;
         border-radius: 0.25rem;
         min-height: $min-height;
         max-height: $min-height * 2;
+        width: 200px;
         background-color: #fafafa;
         position: relative;
         overflow: auto;
@@ -37,17 +42,43 @@ $min-height: 10rem;
             color: #d3d3d3;
             width: 100%;
             line-height: normal;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        h1.draggable {
+            color: #e2f5ec;
+        }
+
+        input {
+            z-index: 3;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            color: transparent;
+            cursor: pointer;
         }
     }
 
-    &.dragging {
+    .drag-and-drop-box-container.draggable {
         border-color: #00ae69;
         background-color: #e2f5ec;
-        
+
         h1 {
-            color: #8ad6b3;
+            color: #00ae69;
         }
     }
+
+    .drag-and-drop-box-container.error {
+        border-color: #ae0000;
+        background-color: #f5e2e2;
+
+        h1 {
+            color: #ae0000;
+        }
+    }
+
+// =====================================================
 
     .file-box-container {
         background-color: #F5F5F5;
