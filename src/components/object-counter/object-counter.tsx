@@ -1,4 +1,4 @@
-import { Component, h, State, Prop, Event, EventEmitter } from "@stencil/core";
+import { Component, h, State, Prop, Event, EventEmitter, Watch } from "@stencil/core";
 import { ControlState } from "../../models/controlState";
 import { Field } from "../../models/field";
 import { hasNetworkConnection } from "../../utils/check-network-connection-utils";
@@ -46,6 +46,9 @@ export class ObjectCounter {
   @Event()
   public fieldChange: EventEmitter<ControlState>;
 
+  @Watch('control')
+  public onControlChanged() {}
+  
   private readonly IMAGE_TYPE: string = "image/jpg";
   private readonly IMAGE_PREFIX: string = "data:image/jpeg;base64";
   private readonly ERROR_MESSAGE: string = `Something went wrong. Please, try it later.`
