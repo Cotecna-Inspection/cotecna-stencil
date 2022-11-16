@@ -5,6 +5,7 @@ import { hasNetworkConnection } from "../../utils/check-network-connection-utils
 import { getIconPNGPath, getSymbol, isValid } from "../../utils/field-utils";
 import { convertBase64ToBlob } from "../../utils/image-utils";
 import { isMobileView } from "../../utils/check-is-mobile-utils";
+import { postMultipartFormData } from '../../utils/http-utils';
 
 declare var navigator;
 
@@ -138,9 +139,9 @@ export class ObjectCounter {
       this.isLoading = true;
       this.hasError = false;
       const blobImage = convertBase64ToBlob(image, this.IMAGE_TYPE);
-      const file = new File([blobImage], 'image', { type: this.IMAGE_TYPE});
+      const blobFile = new Blob([blobImage], { type: this.IMAGE_TYPE });
       const formData = new FormData();
-      formData.append('image', file);
+      formData.append('image', blobFile);
       await this.sendCountRequest(formData);
       this.onChange();
     } catch(err) {
@@ -152,24 +153,18 @@ export class ObjectCounter {
     }
   }
 
-  private sendCountRequest(formData: FormData) : Promise<any> {
-    return new Promise<void>((resolve, reject) => {
-      let request = new XMLHttpRequest();
-      request.open('POST', this.control.counterUrl);
-      request.send(formData);
-      request.onreadystatechange = () => {
-        if (request.readyState === 4) {
-          if (request.response) {
-            if (request.status !== 200) reject( `Error on the detection API: status ${request.status}`);
-            const response = JSON.parse(request.response);
-            this.counted = response.totalDetected;
-            this.showCountedLabel = true;
-            resolve();
-          }
-          else reject(`Error on the detection API: no response`);
-        }
+  private async sendCountRequest(formData: FormData) {
+    try {
+      const response = await postMultipartFormData(this.control.counterUrl, formData);
+      if (response) {
+        const result = JSON.parse(response);
+        this.counted = result.totalDetected;
+        this.showCountedLabel = true;
       }
-    });
+    }
+    catch(err) {
+      throw `Error on the detection API: status ${err}`;
+    }
   }
 
   private onChangeCountedValue(event: Event) {
