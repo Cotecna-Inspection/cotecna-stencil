@@ -3,14 +3,14 @@ import { ControlType } from "../enums/controlType";
 import { Field } from "../models/field";
 
 export function isValid(field: Field) {
-  switch(field.type) {
+  switch(field?.type) {
     case ControlType.MultiDropdown:
       if (field.required) return field?.value?.length > 0;
       else return true;
     case ControlType.EmailBox:
       if (field.required) return field?.value?.length > 0;
       else return true;
-    case ControlType.Ocr:
+    case ControlType.OCR:
       if (field.required) return field?.value?.length > 0;
       else return true;
     case ControlType.ObjectCounter:

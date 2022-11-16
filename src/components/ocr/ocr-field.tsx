@@ -43,12 +43,12 @@ export class OcrField {
   private readonly NO_TEXT_FOUND_MESSAGE: string = `No text found. Try again with another photo or fill it manually.`;
 
   componentWillLoad() {
-    this.setReadonly();
+    this.setInitialValues();
   }
 
   render() {
     return (
-      <div class={{"ocr-field-container": true, "readonly": this.readonly}} part="container">
+      <div class={{"ocr-field-container": true, "readonly": this.readonly, "filled": this.field?.value}} part="container">
         { this.getFieldLabel() }
         { this.getFieldContainer() }
         { this.showFieldMessages() }
@@ -160,7 +160,8 @@ export class OcrField {
     })
   }
 
-  private setReadonly(): void {
+  private setInitialValues(): void {
     this.readonly = this.field?.readOnly;
+    this.ocrResultAsString = this.field?.value;
   }
 }

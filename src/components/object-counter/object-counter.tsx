@@ -1,10 +1,11 @@
-import { Component, h, State, Prop, Event, EventEmitter } from "@stencil/core";
+import { Component, h, State, Prop, Event, EventEmitter, Watch } from "@stencil/core";
 import { ControlState } from "../../models/controlState";
 import { Field } from "../../models/field";
 import { hasNetworkConnection } from "../../utils/check-network-connection-utils";
 import { getIconPNGPath, getSymbol, isValid } from "../../utils/field-utils";
 import { convertBase64ToBlob } from "../../utils/image-utils";
 import { isMobileView } from "../../utils/check-is-mobile-utils";
+import { postMultipartFormData } from '../../utils/http-utils';
 
 declare var navigator;
 
@@ -46,6 +47,9 @@ export class ObjectCounter {
   @Event()
   public fieldChange: EventEmitter<ControlState>;
 
+  @Watch('control')
+  public onControlChanged() {}
+  
   private readonly IMAGE_TYPE: string = "image/jpg";
   private readonly IMAGE_PREFIX: string = "data:image/jpeg;base64";
   private readonly ERROR_MESSAGE: string = `Something went wrong. Please, try it later.`
@@ -53,12 +57,12 @@ export class ObjectCounter {
   componentWillLoad() {
     this.createNetworkListeners();
     this.hasConnection = hasNetworkConnection();
-    this.setReadonly();
+    this.setInitialValues();
   }
 
   render() {
     return(
-    <div class={{"object-counter-container": true, "readonly": this.readonly}} part="container">
+    <div class={{"object-counter-container": true, "readonly": this.readonly, "filled": this.isFilled()}} part="container">
         <div class="label-container">
             <label part="label">
               {this.field.label}
@@ -135,9 +139,9 @@ export class ObjectCounter {
       this.isLoading = true;
       this.hasError = false;
       const blobImage = convertBase64ToBlob(image, this.IMAGE_TYPE);
-      const file = new File([blobImage], 'image', { type: this.IMAGE_TYPE});
+      const blobFile = new Blob([blobImage], { type: this.IMAGE_TYPE });
       const formData = new FormData();
-      formData.append('image', file);
+      formData.append('image', blobFile);
       await this.sendCountRequest(formData);
       this.onChange();
     } catch(err) {
@@ -149,24 +153,18 @@ export class ObjectCounter {
     }
   }
 
-  private sendCountRequest(formData: FormData) : Promise<any> {
-    return new Promise<void>((resolve, reject) => {
-      let request = new XMLHttpRequest();
-      request.open('POST', this.control.counterUrl);
-      request.send(formData);
-      request.onreadystatechange = () => {
-        if (request.readyState === 4) {
-          if (request.response) {
-            if (request.status !== 200) reject( `Error on the detection API: status ${request.status}`);
-            const response = JSON.parse(request.response);
-            this.counted = response.totalDetected;
-            this.showCountedLabel = true;
-            resolve();
-          }
-          else reject(`Error on the detection API: no response`);
-        }
+  private async sendCountRequest(formData: FormData) {
+    try {
+      const response = await postMultipartFormData(this.control.counterUrl, formData);
+      if (response) {
+        const result = JSON.parse(response);
+        this.showCountedLabel = true;
+        this.counted = result.totalDetected;
       }
-    });
+    }
+    catch(err) {
+      throw `Error on the detection API: status ${err}`;
+    }
   }
 
   private onChangeCountedValue(event: Event) {
@@ -187,8 +185,17 @@ export class ObjectCounter {
     this.field.value = { counted: this.counted, image: this.imageInBase64 };
   }
 
-  private setReadonly(): void {
+  private setInitialValues(): void {
     this.readonly = this.field?.readOnly;
+    this.imageInBase64 = this.field?.value?.image;
+    this.counted = this.field?.value?.counted;
+    this.showCountedLabel = this.counted != null;
+  }
+
+  private isFilled(): boolean {
+    return (this.field.value) 
+      ? this.field.value?.counted !== null || this.field.value?.image
+      : false;
   }
 }
 

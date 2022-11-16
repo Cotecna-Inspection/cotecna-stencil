@@ -6,12 +6,12 @@ export function configOcr() {
 
   ocrField.field = {
     id: 'ocr-field',
-    type: ControlType.Ocr,
+    type: ControlType.OCR,
     label: 'Container number',
     order: 2,
     propertyName: 'ocr-field',
-    value: [],
-    readableValue: [],
+    value: null,
+    readableValue: null,
     required: true,
     visible: true,
     valid: true,
