@@ -1,6 +1,6 @@
 export function postMultipartFormData(url: string, formData: FormData): Promise<any> {
   return new Promise<void>((resolve, reject) => {
-    let request = new XMLHttpRequest();
+    const request = new XMLHttpRequest();
     request.open('POST', url);
     request.send(formData);
     request.onreadystatechange = () => {
