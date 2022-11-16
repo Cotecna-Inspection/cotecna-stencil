@@ -57,7 +57,7 @@ export class ObjectCounter {
   componentWillLoad() {
     this.createNetworkListeners();
     this.hasConnection = hasNetworkConnection();
-    this.setReadonly();
+    this.setInitialValues();
   }
 
   render() {
@@ -158,8 +158,8 @@ export class ObjectCounter {
       const response = await postMultipartFormData(this.control.counterUrl, formData);
       if (response) {
         const result = JSON.parse(response);
-        this.counted = result.totalDetected;
         this.showCountedLabel = true;
+        this.counted = result.totalDetected;
       }
     }
     catch(err) {
@@ -185,8 +185,11 @@ export class ObjectCounter {
     this.field.value = { counted: this.counted, image: this.imageInBase64 };
   }
 
-  private setReadonly(): void {
+  private setInitialValues(): void {
     this.readonly = this.field?.readOnly;
+    this.imageInBase64 = this.field?.value?.image;
+    this.counted = this.field?.value?.counted;
+    this.showCountedLabel = this.counted != null;
   }
 
   private isFilled(): boolean {
