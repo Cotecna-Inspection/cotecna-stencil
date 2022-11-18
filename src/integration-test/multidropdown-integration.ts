@@ -1,4 +1,5 @@
 import { ControlType } from "../enums/controlType";
+import { Field } from "../models/field";
 
 export function configMultiDropdown() {
     var multidropdownField: any = document.querySelector('cotecna-multidropdown');
@@ -15,7 +16,7 @@ export function configMultiDropdown() {
       visible: true,
       valid: false,
       readOnly: false
-    }
+    } as Field;
   
     multidropdownField.control = {
       id: '1',

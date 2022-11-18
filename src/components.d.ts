@@ -43,6 +43,12 @@ export namespace Components {
         "control": any;
         "field": Field;
     }
+    interface CotecnaSpinnerLoader {
+        "color": string;
+        "size": number;
+        "text": string;
+        "thick": number;
+    }
 }
 export interface CotecnaDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -121,6 +127,12 @@ declare global {
         prototype: HTMLCotecnaOcrElement;
         new (): HTMLCotecnaOcrElement;
     };
+    interface HTMLCotecnaSpinnerLoaderElement extends Components.CotecnaSpinnerLoader, HTMLStencilElement {
+    }
+    var HTMLCotecnaSpinnerLoaderElement: {
+        prototype: HTMLCotecnaSpinnerLoaderElement;
+        new (): HTMLCotecnaSpinnerLoaderElement;
+    };
     interface HTMLElementTagNameMap {
         "cotecna-dialog": HTMLCotecnaDialogElement;
         "cotecna-email-box": HTMLCotecnaEmailBoxElement;
@@ -130,6 +142,7 @@ declare global {
         "cotecna-multidropdown-readable": HTMLCotecnaMultidropdownReadableElement;
         "cotecna-object-counter": HTMLCotecnaObjectCounterElement;
         "cotecna-ocr": HTMLCotecnaOcrElement;
+        "cotecna-spinner-loader": HTMLCotecnaSpinnerLoaderElement;
     }
 }
 declare namespace LocalJSX {
@@ -176,6 +189,12 @@ declare namespace LocalJSX {
         "field": Field;
         "onFieldChange"?: (event: CotecnaOcrCustomEvent<ControlState>) => void;
     }
+    interface CotecnaSpinnerLoader {
+        "color"?: string;
+        "size"?: number;
+        "text"?: string;
+        "thick"?: number;
+    }
     interface IntrinsicElements {
         "cotecna-dialog": CotecnaDialog;
         "cotecna-email-box": CotecnaEmailBox;
@@ -185,6 +204,7 @@ declare namespace LocalJSX {
         "cotecna-multidropdown-readable": CotecnaMultidropdownReadable;
         "cotecna-object-counter": CotecnaObjectCounter;
         "cotecna-ocr": CotecnaOcr;
+        "cotecna-spinner-loader": CotecnaSpinnerLoader;
     }
 }
 export { LocalJSX as JSX };
@@ -199,6 +219,7 @@ declare module "@stencil/core" {
             "cotecna-multidropdown-readable": LocalJSX.CotecnaMultidropdownReadable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownReadableElement>;
             "cotecna-object-counter": LocalJSX.CotecnaObjectCounter & JSXBase.HTMLAttributes<HTMLCotecnaObjectCounterElement>;
             "cotecna-ocr": LocalJSX.CotecnaOcr & JSXBase.HTMLAttributes<HTMLCotecnaOcrElement>;
+            "cotecna-spinner-loader": LocalJSX.CotecnaSpinnerLoader & JSXBase.HTMLAttributes<HTMLCotecnaSpinnerLoaderElement>;
         }
     }
 }

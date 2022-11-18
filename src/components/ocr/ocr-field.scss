@@ -6,10 +6,38 @@
     min-width: 350px;
     display: flex;
     flex-direction: column;
+    background-color: white;
+
+    &.readonly {
+      pointer-events: none;
+      button {
+        img {
+            filter: invert(70%);
+        }
+      }
+    }
+
+    &.filled {
+      background-color: #f5f5f5;
+      padding: 2px;
+      border-radius: 5px;
+    }
 
     .mandatory-symbol {
       color: #e5a038;
       font-weight: 700;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 12px;
+      margin: 0px;
+    }
+
+    .info-message {
+      color: var(--primary-color);
+      font-size: 12px;
+      margin: 0px;
     }
 
     .label-container {
@@ -29,25 +57,40 @@
       }
 
       textarea {
+        width: 100%;
         border: 0px solid;
         max-height: 80px;
         overflow: auto;
         resize: none;
         font-family: inherit;
-        font-size: inherit;
+        font-size: 14px;
         outline: none;
+        background-color: transparent;
       }
 
-      button {
+      .actions-container {
         display: flex;
         flex-direction: row;
-        align-items: flex-end;
-        border: 0px solid;
-        background: none;
-        font-size: 12px;
-
-        img {
-          width: 24px
+        justify-content: flex-end;
+        &.disabled {
+          button:first-child {
+            pointer-events: none;
+            img {
+                filter: invert(70%);
+            }
+          }
+        }
+        button {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-end;
+          border: 0px solid;
+          background: none;
+          font-size: 12px;
+          user-select: none;
+          img {
+            width: 24px
+          }
         }
       }
     }

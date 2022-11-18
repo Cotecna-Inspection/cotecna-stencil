@@ -2,8 +2,10 @@ import { Component, EventEmitter, h, Prop, State, Event } from '@stencil/core';
 import { Field } from '../../models/field';
 import { getIconPNGPath, getSymbol, isValid } from '../../utils/field-utils';
 import { OCRResult } from './models/ocr-result.model';
-import { Camera, CameraResultType } from '@capacitor/camera';
 import { ControlState } from '../../models/controlState';
+import { isMobileView } from '../../utils/check-is-mobile-utils';
+
+declare var navigator;
 declare var mltext;
 
 /** @internal **/
@@ -25,14 +27,31 @@ export class OcrField {
   @State()
   private ocrResultAsString: string = null;
 
+  @State()
+  private hasError: boolean = false;
+
+  @State()
+  private textFound: boolean = true;
+
+  @State()
+  private readonly: boolean = false;
+
   @Event()
   public fieldChange: EventEmitter<ControlState>;
 
+  private readonly ERROR_MESSAGE: string = `Something went wrong. Please, try it later.`;
+  private readonly NO_TEXT_FOUND_MESSAGE: string = `No text found. Try again with another photo or fill it manually.`;
+
+  componentWillLoad() {
+    this.setInitialValues();
+  }
+
   render() {
     return (
-      <div class="ocr-field-container" part="container">
+      <div class={{"ocr-field-container": true, "readonly": this.readonly, "filled": this.field?.value}} part="container">
         { this.getFieldLabel() }
         { this.getFieldContainer() }
+        { this.showFieldMessages() }
       </div>
     );
   }
@@ -50,14 +69,26 @@ export class OcrField {
 
   private getFieldContainer(): any {
     return (
-      <div class={{"field-container": true, 'invalid-field': !isValid(this.field)}}>
+      <div class={{"field-container": true, 'invalid-field': !isValid(this.field) && !this.readonly}}>
         <textarea id={`ocr-result-${this.field.id}`}
           rows={4} cols={50} 
           value={this.field.value}
           onChange={(e) => this.onChangeOcrResult(e)}>
         </textarea>
-        <button onClick={() => this.takePictureAndPerformOcr()}><img src={getIconPNGPath('photo_camera')}></img></button>
-        <button onClick={() => this.deleteOcrResult()}><img src={getIconPNGPath('delete')}></img></button>
+        {}
+        <div class={{"actions-container": true, 'disabled': !isMobileView()}}>
+          <button onClick={() => this.takePictureAndPerformOcr()}><img src={getIconPNGPath('photo_camera')}></img></button>
+          { this.ocrResultAsString ? <button onClick={() => this.deleteOcrResult()}><img src={getIconPNGPath('delete')}></img></button> : null }
+        </div>
+      </div>
+    )
+  }
+
+  private showFieldMessages(): any {
+    return (
+      <div>
+        { this.hasError ? <p class="error-message">{ this.ERROR_MESSAGE }</p> : null }
+        { !this.textFound ? <p class="info-message">{ this.NO_TEXT_FOUND_MESSAGE }</p> : null }
       </div>
     )
   }
@@ -69,13 +100,21 @@ export class OcrField {
   }
 
   private async takePictureAndPerformOcr(): Promise<void> {
-    try {
-      const image = await Camera.getPhoto({ quality: 100, allowEditing: false, resultType: CameraResultType.Uri });
-      this.performOCR(image.path);
-    } catch(err) {
-      console.error('take picture and perform ocr', err);
-      throw err;
-    }
+    document.addEventListener("deviceready", () => {
+      navigator.camera.getPicture(
+        (imagePath) => {
+          this.performOCR(imagePath);
+        },
+        (err) => {
+          throw err;
+        },
+        {
+          quality: 100,
+          correctOrientation: true,
+          destinationType: navigator.camera.DestinationType.FILE_URI 
+        }
+      )
+    });
   }
 
   private deleteOcrResult(): void {
@@ -85,15 +124,18 @@ export class OcrField {
   }
   
   private performOCR(imageData: any): void {
+    this.hasError = false;
     const ocrOptions = { imgType: 0, imgSrc: imageData };
     mltext.getText((result: any) => {
+      this.textFound = result.foundText;
       if (result.foundText) {
         this.ocrResult = this.mapToOcrResult(result);
         this.setOcrResultAsString();
         this.onChange();
       }
     }, (err) => {
-      console.error('error', err);
+      this.hasError = true;
+      throw err;
     }, ocrOptions);
   }
 
@@ -111,9 +153,15 @@ export class OcrField {
 
   private onChange(): void {
     this.field.value = this.ocrResultAsString;
+    this.textFound = true;
     this.fieldChange.emit({
       isValid: isValid(this.field),
       value: this.field.value
     })
+  }
+
+  private setInitialValues(): void {
+    this.readonly = this.field?.readOnly;
+    this.ocrResultAsString = this.field?.value;
   }
 }
