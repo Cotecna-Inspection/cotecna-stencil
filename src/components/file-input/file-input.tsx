@@ -112,7 +112,6 @@ export class FileInput {
             <div>
                 <p class="title">{ this.dragAndDropText }</p>
                 <div 
-                id= "asd"
                 class={ this.onDragEnter ? 
                     "drag-and-drop-box-container draggable" : 
                     this.showExtensionError ? 
