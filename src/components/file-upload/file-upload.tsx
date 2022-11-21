@@ -2,11 +2,11 @@ import { Component, h, Prop, State, Watch, Event, EventEmitter } from "@stencil/
 import { getIconSVGPath } from "../../utils/field-utils";
 
 @Component({
-    tag: 'cotecna-file-input',
-    styleUrl: 'file-input.scss',
+    tag: 'cotecna-file-upload',
+    styleUrl: 'file-upload.scss',
     shadow: true,
 })
-export class FileInput {
+export class FileUpload {
 
 // ========== Public properties ==========
 
@@ -23,24 +23,27 @@ export class FileInput {
     public checkboxText = "Set export as PDF as default";
 
     @Prop()
-    public fileViewText = "Template File"
+    public fileViewText = "Template File";
 
     @Prop()
-    public dragAndDropText = "Upload File"
+    public dragAndDropText = "Upload File";
 
     @Prop()
-    public fileExtensionAccept: String[] = [".pdf"]
+    public fileExtensionAccept: String[] = [];
 
 // ========== Public Events ==========
 
     @Event()
-    downloadFile: EventEmitter<boolean>
+    downloadFile: EventEmitter<void>
 
     @Event()
     deleteFile: EventEmitter<void>
 
     @Event()
     selectedFile: EventEmitter<File>
+
+    @Event()
+    onCheckboxChange: EventEmitter<boolean>
 
 // ========== App State ==========
 
@@ -64,7 +67,7 @@ export class FileInput {
     }
 
     @Watch('onDragEnter')
-    private hideErrors() {
+    hideErrors() {
         this.showExtensionError = false;
     }
 
@@ -99,9 +102,9 @@ export class FileInput {
             <div class="file-box-container">
                 <p>{ this.templateName }</p>
                 <img src={ getIconSVGPath('download_file') }
-                onClick={ () => this.onDownloadFile() }></img>
+                onClick={ () => this.downloadFile.emit() }></img>
                 <img src={ getIconSVGPath('delete_file') }
-                onClick={ () => this.onDeleteFile() }></img>
+                onClick={ () => this.deleteFile.emit() }></img>
             </div>
         </div> 
         );
@@ -118,6 +121,7 @@ export class FileInput {
                         "drag-and-drop-box-container error" : 
                         "drag-and-drop-box-container" }
                     onDragOver = {(evt) => {
+                        console.log(evt);
                             this.onDragEnter = true;
                             evt.preventDefault();
                         }
@@ -128,13 +132,13 @@ export class FileInput {
                         }
                     }
                     onDrop = {(evt) => {
+                        const file = evt.dataTransfer.files[0];
                         this.onDragEnter = false;
-                        const file = evt.dataTransfer.files[0]
-                        if (this.fileExtensionAccept.includes('.' + file.name.split('.').pop())) {
+                        if (this.fileExtensionAccept.length == 0 || this.fileExtensionAccept.includes('.' + file.name.split('.').pop())) {
                             this.onFileSelected(file)
                         } else {
                             this.showExtensionError = true;
-                        }
+                        }                
                         evt.preventDefault();
                     }}>
                     <input
@@ -162,23 +166,20 @@ export class FileInput {
             <div class="checkbox-container">
                 <input type="checkbox"
                 checked = { this.exportAsPdf }
-                onChange={ () => this.exportAsPdf = !this.exportAsPdf }/>
+                onChange = { () => {
+                    this.exportAsPdf = !this.exportAsPdf;
+                    this.onCheckboxChange.emit(this.exportAsPdf);
+                }}/>
                 <label>{ this.checkboxText }</label>
             </div>
         );
     }
 
+
+
     private onFileSelected(file) {
+
         this.selectedFile.emit(file);
         this.templateName = file.name;
-    }
-
-    private onDownloadFile() {
-        this.downloadFile.emit(this.exportAsPdf);
-    }
-
-    private onDeleteFile() {
-        this.deleteFile.emit();
-        this.templateName = null;
     }
 }

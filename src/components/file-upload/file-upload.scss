@@ -1,6 +1,9 @@
 $min-height: 10rem;
 
 :host {
+
+// ========== DRAG & DROP ==========
+
     ::file-selector-button {
         display: none;
     }
@@ -78,7 +81,7 @@ $min-height: 10rem;
         }
     }
 
-// =====================================================
+// ========== FILE BOX ==========
 
     .file-box-container {
         background-color: #F5F5F5;
