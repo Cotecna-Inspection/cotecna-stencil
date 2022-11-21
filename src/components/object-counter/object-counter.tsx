@@ -81,7 +81,7 @@ export class ObjectCounter {
                     </div>
                     <div class={{"actions-container": true, 'disabled': !isMobileView()}}>
                         <button onClick={() => this.takePictureAndPerformCounting()} disabled={!this.hasConnection}><img src={getIconPNGPath('photo_camera')}></img></button>
-                        { this.imageInBase64 ? <button onClick={() => this.deletePhoto()}><img src={getIconPNGPath('delete')}></img></button> : null }
+                        { this.imageInBase64 || this.counted ? <button onClick={() => this.deletePhoto()}><img src={getIconPNGPath('delete')}></img></button> : null }
                     </div>  
                 </div>
             )
