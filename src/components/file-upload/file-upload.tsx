@@ -43,7 +43,7 @@ export class FileUpload {
     selectedFile: EventEmitter<File>
 
     @Event()
-    onCheckboxChange: EventEmitter<boolean>
+    checkboxChange: EventEmitter<boolean>
 
 // ========== App State ==========
 
@@ -168,7 +168,7 @@ export class FileUpload {
                 checked = { this.exportAsPdf }
                 onChange = { () => {
                     this.exportAsPdf = !this.exportAsPdf;
-                    this.onCheckboxChange.emit(this.exportAsPdf);
+                    this.checkboxChange.emit(this.exportAsPdf);
                 }}/>
                 <label>{ this.checkboxText }</label>
             </div>

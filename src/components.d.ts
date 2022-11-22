@@ -160,9 +160,9 @@ declare namespace LocalJSX {
         "dragAndDropText"?: string;
         "fileExtensionAccept"?: String[];
         "fileViewText"?: string;
+        "onCheckboxChange"?: (event: CotecnaFileUploadCustomEvent<boolean>) => void;
         "onDeleteFile"?: (event: CotecnaFileUploadCustomEvent<void>) => void;
         "onDownloadFile"?: (event: CotecnaFileUploadCustomEvent<void>) => void;
-        "onOnCheckboxChange"?: (event: CotecnaFileUploadCustomEvent<boolean>) => void;
         "onSelectedFile"?: (event: CotecnaFileUploadCustomEvent<File>) => void;
         "templateName"?: string;
         "wrongFormatErrorText"?: string;

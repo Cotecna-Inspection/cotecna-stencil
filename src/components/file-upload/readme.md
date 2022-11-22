@@ -12,7 +12,7 @@
 | `checkboxText`             | `checkbox-text`                |             | `string`   | `"Set export as PDF as default"`  |
 | `dragAndDropContainerText` | `drag-and-drop-container-text` |             | `string`   | `"DRAG FILES OR CLICK TO UPLOAD"` |
 | `dragAndDropText`          | `drag-and-drop-text`           |             | `string`   | `"Upload File"`                   |
-| `fileExtensionAccept`      | --                             |             | `String[]` | `[".pdf"]`                        |
+| `fileExtensionAccept`      | --                             |             | `String[]` | `[]`                              |
 | `fileViewText`             | `file-view-text`               |             | `string`   | `"Template File"`                 |
 | `templateName`             | `template-name`                |             | `string`   | `null`                            |
 | `wrongFormatErrorText`     | `wrong-format-error-text`      |             | `string`   | `"FORMAT NOT ALLOWED"`            |
@@ -20,11 +20,12 @@
 
 ## Events
 
-| Event          | Description | Type                   |
-| -------------- | ----------- | ---------------------- |
-| `deleteFile`   |             | `CustomEvent<void>`    |
-| `downloadFile` |             | `CustomEvent<boolean>` |
-| `selectedFile` |             | `CustomEvent<File>`    |
+| Event            | Description | Type                   |
+| ---------------- | ----------- | ---------------------- |
+| `checkboxChange` |             | `CustomEvent<boolean>` |
+| `deleteFile`     |             | `CustomEvent<void>`    |
+| `downloadFile`   |             | `CustomEvent<void>`    |
+| `selectedFile`   |             | `CustomEvent<File>`    |
 
 
 ----------------------------------------------
