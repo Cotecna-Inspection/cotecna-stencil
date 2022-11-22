@@ -2,8 +2,8 @@
 
 # Cotecna Stencil Components
 
-This project contains some standalone Web Components using Stencil, most of them are form fields: text and numeric inputs, dropdowns and multidropdowns...
-All these components are just Web Components, so they work in any major framework or with no framework at all.
+This project contains some standalone Web Components using StencilJS.
+All these components are just Web Components, so they work in any framework or with no framework at all.
 
 ## Available components
 | Name | Link 
@@ -13,6 +13,7 @@ All these components are just Web Components, so they work in any major framewor
 | Email Box | [Documentation](./src/components/email-box/readme.md) |
 | OCR | [Documentation](./src/components/ocr/readme.md) |
 | Object Counter | [Documentation](./src/components/object-counter/readme.md) |
+| Loader | [Documentation](./src/components/loader-spinner/readme.md) |
 
 
 ## Getting Started
