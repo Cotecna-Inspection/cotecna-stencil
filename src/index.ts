@@ -3,6 +3,7 @@ import { configEmailBox, configEmailBoxEvents } from "./integration-test/emailbo
 import { configMultiDropdown } from "./integration-test/multidropdown-integration";
 import { configOcr } from './integration-test/ocr-integration';
 import { configObjectCounter } from "./integration-test/object-counter-integration";
+import { configFileUploader } from './integration-test/file-uploader-integration';
 
 defineCustomElements(window);
 
@@ -12,6 +13,7 @@ configEmailBox();
 configEmailBoxEvents();
 configOcr();
 configObjectCounter();
+configFileUploader();
 
 document.addEventListener('fieldChange', (event: any) => {
   console.log('fieldChange.event', event.detail);
