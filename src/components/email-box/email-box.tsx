@@ -1,6 +1,6 @@
 import { Component, Element, h, Prop, Event, EventEmitter, State, Watch } from '@stencil/core';
 import { MouseEvent } from '../../enums/mouse-event.enum';
-import { ControlState } from '../../models/controlState';
+import { ControlState } from '../../models/control-state';
 import { Field } from '../../models/field';
 import { getIconSVGPath, isValid } from '../../utils/field-utils';
 
