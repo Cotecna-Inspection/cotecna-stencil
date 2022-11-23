@@ -71,13 +71,31 @@ export class FileUploader {
 
     render() {
         return (
-            <div class="file-uploader-container">
+            <div class="file-uploader-container" part="container">
                 <label part="label">
                     { this.field.label }
                     { getSymbol(this.field) }
                 </label>
                 { this.renderDragAndDrop() }
                 { this.uploadedFiles?.length ? this.renderFilesInfo() : null }
+            </div>
+        );
+    }
+
+    private renderDragAndDrop(): any {
+        return (
+            <div class={this.getDragAndDropContainerClass()}
+                onDragOver={ e => this.handleDragEvent(e, DragType.OVER) }
+                onDragLeave={ e => this.handleDragEvent(e, DragType.LEAVE) }
+                onDrop={(e) => this.handleDropEvent(e) }>
+                <input type="file"
+                    accept={this.acceptedFileExtensions.join(',')}
+                    onChange={ e => this.handleFileInputChangeEvent(e) } 
+                    multiple={this.isMultiple}/>
+                <div class="placeholder">
+                    <img src={getIconSVGPath("add_document")}></img>
+                    <h1> { this.showExtensionError ? this.FORMAT_ERROR : this.placeholder }</h1>
+                </div>
             </div>
         );
     }
@@ -98,22 +116,6 @@ export class FileUploader {
                         )
                     })
                 }
-            </div>
-        );
-    }
-
-    private renderDragAndDrop(): any {
-        return (
-            <div class={this.getDragAndDropContainerClass()}
-                onDragOver={ e => this.handleDragEvent(e, DragType.OVER) }
-                onDragLeave={ e => this.handleDragEvent(e, DragType.LEAVE) }
-                onDrop={(e) => this.handleDropEvent(e) }>
-                <input type="file"
-                    accept={this.acceptedFileExtensions.join(',')}
-                    onChange={ e => this.handleFileInputChangeEvent(e) } 
-                    multiple={this.isMultiple}/>
-                <h1> { this.showExtensionError ? this.FORMAT_ERROR : this.placeholder }
-                </h1>
             </div>
         );
     }
