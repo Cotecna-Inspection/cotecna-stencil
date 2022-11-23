@@ -2,7 +2,7 @@ import { Component, EventEmitter, h, Prop, State, Event } from '@stencil/core';
 import { Field } from '../../models/field';
 import { getIconPNGPath, getSymbol, isValid } from '../../utils/field-utils';
 import { OCRResult } from './models/ocr-result.model';
-import { ControlState } from '../../models/controlState';
+import { ControlState } from '../../models/control-state';
 import { isMobileView } from '../../utils/check-is-mobile-utils';
 
 declare var navigator;

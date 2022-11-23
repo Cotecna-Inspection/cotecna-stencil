@@ -1,6 +1,6 @@
 import { Component, Prop, h, Event, EventEmitter, State, Listen } from '@stencil/core';
 import { FieldMode } from '../../enums/fieldMode';
-import { ControlState } from '../../models/controlState';
+import { ControlState } from '../../models/control-state';
 import { Field } from '../../models/field';
 import { isValid } from '../../utils/field-utils';
 
