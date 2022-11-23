@@ -16,6 +16,9 @@ export function isValid(field: Field) {
     case ControlType.ObjectCounter:
       if (field.required) return field?.value?.counted != null;
       else return true;
+    case ControlType.FileUploader:
+      if (field.required) return field?.value?.length > 0;
+      else return true;
     default:
       throw 'Field type not supported';
   }
