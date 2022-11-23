@@ -22,7 +22,7 @@ export class FileUploader {
     public control: any = [];
 
     @Event()
-    public donwloadedFile: EventEmitter<UploadedFile>;
+    public downloadedFile: EventEmitter<UploadedFile>;
 
     @Event()
     public deletedFile: EventEmitter<UploadedFile>;
@@ -139,6 +139,7 @@ export class FileUploader {
             const fileExtension = this.getFileExtension(file);
             if (this.acceptedFileExtensions.length == 0 || 
                 this.acceptedFileExtensions.includes(`.${fileExtension}`)) {
+                this.showExtensionError = false;
                 this.fileToAdd(file);
             } 
             else {
@@ -172,7 +173,7 @@ export class FileUploader {
     }
 
     private fileToDownload(file: UploadedFile): void {
-        this.donwloadedFile.emit(file);
+        this.downloadedFile.emit(file);
     }
 
     private fileToDelete(fileToDelete: UploadedFile): void {

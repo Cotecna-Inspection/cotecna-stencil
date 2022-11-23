@@ -155,7 +155,7 @@ declare namespace LocalJSX {
         "field": Field;
         "onAddedFile"?: (event: CotecnaFileUploaderCustomEvent<File>) => void;
         "onDeletedFile"?: (event: CotecnaFileUploaderCustomEvent<UploadedFile>) => void;
-        "onDonwloadedFile"?: (event: CotecnaFileUploaderCustomEvent<UploadedFile>) => void;
+        "onDownloadedFile"?: (event: CotecnaFileUploaderCustomEvent<UploadedFile>) => void;
         "onFieldChange"?: (event: CotecnaFileUploaderCustomEvent<ControlState>) => void;
     }
     interface CotecnaMultidropdown {

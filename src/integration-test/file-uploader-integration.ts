@@ -11,9 +11,9 @@ export function configFileUploader() {
     order: 2,
     propertyName: 'file-uploader-field',
     value: [
-      // { id: '1', name: 'my-file-1.pdf' },
-      // { id: '2', name: 'my-file-2.pdf' },
-      // { id: '3', name: 'my-file-3.pdf' }
+      { id: '1', name: 'my-file-1.pdf' },
+      { id: '2', name: 'my-file-2.pdf' },
+      { id: '3', name: 'my-file-3.pdf' }
     ],
     readableValue: null,
     required: true,

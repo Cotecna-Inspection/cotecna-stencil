@@ -117,20 +117,28 @@ $min-height: 5rem;
     background-color: #F5F5F5;
     align-items: center;
     justify-content: center;
+    max-height: 250px;
+    overflow-y: auto;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 
     .file-item {
         display: flex;
         flex-direction: row;
-        padding: 16px;
+        margin-top: 16px;
         justify-content: space-between;
         align-items: center;
         width: 100%;
         p {
-            margin: 0px
+            margin: 0px;
+            width: 80%;
+            max-width: 70%;
+            overflow: auto;
         }
         .file-item-actions {
             display: flex;
             flex-direction: row;
+            width: 20%;
             img {
                 width: 14px;
                 margin-left: 16px;
