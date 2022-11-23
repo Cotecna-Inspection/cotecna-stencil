@@ -1,5 +1,5 @@
 import { Component, h, State, Prop, Event, EventEmitter, Watch } from "@stencil/core";
-import { ControlState } from "../../models/controlState";
+import { ControlState } from "../../models/control-state";
 import { Field } from "../../models/field";
 import { hasNetworkConnection } from "../../utils/check-network-connection-utils";
 import { getIconPNGPath, getSymbol, isValid } from "../../utils/field-utils";

@@ -1,6 +1,6 @@
 {
   "name": "@cotecna/stencil-components",
-  "version": "0.0.4-beta.1",
+  "version": "0.0.4-beta.2",
   "description": "Cotecna Stencil Components",
   "author": "Cotecna",
   "publishConfig": {
@@ -49,6 +49,7 @@
     "@types/jest": "^27.0.3",
     "jest": "^27.4.5",
     "jest-cli": "^27.4.5",
+    "puppeteer": "^19.2.2",
     "typescript": "^4.8.4"
   },
   "optionalDependencies": {

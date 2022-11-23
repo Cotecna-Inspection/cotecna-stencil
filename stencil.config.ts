@@ -9,7 +9,8 @@ export const config: Config = {
     { components: ['cotecna-email-box'] },
     { components: ['cotecna-ocr'] },
     { components: ['cotecna-object-counter'] },
-    { components: ['cotecna-spinner-loader'] }
+    { components: ['cotecna-spinner-loader'] },
+    { components: ['cotecna-file-uploader'] }
   ],
   outputTargets: [
     {

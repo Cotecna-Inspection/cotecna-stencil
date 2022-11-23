@@ -21,5 +21,6 @@ export enum ControlType {
   Timestamp = "Timestamp",
   EmailBox = "EmailBox",
   OCR = "OCR",
-  ObjectCounter = "ObjectCounter"
+  ObjectCounter = "ObjectCounter",
+  FileUploader = "FileUploader"
 }

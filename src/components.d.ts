@@ -7,11 +7,16 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { DialogAction } from "./enums/dialogAction";
 import { Field } from "./models/field";
-import { ControlState } from "./models/controlState";
+import { ControlState } from "./models/control-state";
+import { UploadedFile } from "./models/uploaded-file";
 export namespace Components {
     interface CotecnaDialog {
     }
     interface CotecnaEmailBox {
+        "control": any;
+        "field": Field;
+    }
+    interface CotecnaFileUploader {
         "control": any;
         "field": Field;
     }
@@ -49,6 +54,10 @@ export interface CotecnaEmailBoxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCotecnaEmailBoxElement;
 }
+export interface CotecnaFileUploaderCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCotecnaFileUploaderElement;
+}
 export interface CotecnaMultidropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCotecnaMultidropdownElement;
@@ -77,6 +86,12 @@ declare global {
     var HTMLCotecnaEmailBoxElement: {
         prototype: HTMLCotecnaEmailBoxElement;
         new (): HTMLCotecnaEmailBoxElement;
+    };
+    interface HTMLCotecnaFileUploaderElement extends Components.CotecnaFileUploader, HTMLStencilElement {
+    }
+    var HTMLCotecnaFileUploaderElement: {
+        prototype: HTMLCotecnaFileUploaderElement;
+        new (): HTMLCotecnaFileUploaderElement;
     };
     interface HTMLCotecnaMultidropdownElement extends Components.CotecnaMultidropdown, HTMLStencilElement {
     }
@@ -117,6 +132,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "cotecna-dialog": HTMLCotecnaDialogElement;
         "cotecna-email-box": HTMLCotecnaEmailBoxElement;
+        "cotecna-file-uploader": HTMLCotecnaFileUploaderElement;
         "cotecna-multidropdown": HTMLCotecnaMultidropdownElement;
         "cotecna-multidropdown-editable": HTMLCotecnaMultidropdownEditableElement;
         "cotecna-multidropdown-readable": HTMLCotecnaMultidropdownReadableElement;
@@ -133,6 +149,14 @@ declare namespace LocalJSX {
         "control": any;
         "field": Field;
         "onFieldChange"?: (event: CotecnaEmailBoxCustomEvent<ControlState>) => void;
+    }
+    interface CotecnaFileUploader {
+        "control"?: any;
+        "field": Field;
+        "onAddedFile"?: (event: CotecnaFileUploaderCustomEvent<File>) => void;
+        "onDeletedFile"?: (event: CotecnaFileUploaderCustomEvent<UploadedFile>) => void;
+        "onDownloadedFile"?: (event: CotecnaFileUploaderCustomEvent<UploadedFile>) => void;
+        "onFieldChange"?: (event: CotecnaFileUploaderCustomEvent<ControlState>) => void;
     }
     interface CotecnaMultidropdown {
         "control": any;
@@ -166,6 +190,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "cotecna-dialog": CotecnaDialog;
         "cotecna-email-box": CotecnaEmailBox;
+        "cotecna-file-uploader": CotecnaFileUploader;
         "cotecna-multidropdown": CotecnaMultidropdown;
         "cotecna-multidropdown-editable": CotecnaMultidropdownEditable;
         "cotecna-multidropdown-readable": CotecnaMultidropdownReadable;
@@ -180,6 +205,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "cotecna-dialog": LocalJSX.CotecnaDialog & JSXBase.HTMLAttributes<HTMLCotecnaDialogElement>;
             "cotecna-email-box": LocalJSX.CotecnaEmailBox & JSXBase.HTMLAttributes<HTMLCotecnaEmailBoxElement>;
+            "cotecna-file-uploader": LocalJSX.CotecnaFileUploader & JSXBase.HTMLAttributes<HTMLCotecnaFileUploaderElement>;
             "cotecna-multidropdown": LocalJSX.CotecnaMultidropdown & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownElement>;
             "cotecna-multidropdown-editable": LocalJSX.CotecnaMultidropdownEditable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownEditableElement>;
             "cotecna-multidropdown-readable": LocalJSX.CotecnaMultidropdownReadable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownReadableElement>;

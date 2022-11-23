@@ -1,7 +1,7 @@
 import { Component, EventEmitter, h, Listen, Prop, State, Event } from "@stencil/core";
 import { DialogAction } from "../../../enums/dialogAction";
 import { Field } from "../../../models/field";
-import { SelectedOption } from "../../../models/selectedOption";
+import { SelectedOption } from "../../../models/selected-option";
 
 /** @internal **/
 @Component({
