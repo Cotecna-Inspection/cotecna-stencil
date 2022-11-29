@@ -14,6 +14,7 @@ All these components are just Web Components, so they work in any framework or w
 | OCR | [Documentation](./src/components/ocr/readme.md) |
 | Object Counter | [Documentation](./src/components/object-counter/readme.md) |
 | Loader | [Documentation](./src/components/loader-spinner/readme.md) |
+| File Uploader | [Documentation](./src/components/file-upload/readme.md) |
 
 
 ## Getting Started
