@@ -1,5 +1,9 @@
 # Changelog
 This document contains the historical changes of the **@cotecna/stencil-components** npm public library.
+## [0.0.4] - 2022-11-29
+### Added
+- File Uploader component
+
 ## [0.0.3] - 2022-11-09
 ### Added
 - Email box component
