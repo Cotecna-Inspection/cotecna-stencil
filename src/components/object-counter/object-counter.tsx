@@ -1,11 +1,11 @@
-import { Component, h, State, Prop, Event, EventEmitter, Watch } from "@stencil/core";
+import { Component, h, State, Prop, Event, EventEmitter, Watch, Listen } from "@stencil/core";
 import { ControlState } from "../../models/control-state";
 import { Field } from "../../models/field";
 import { hasNetworkConnection } from "../../utils/check-network-connection-utils";
 import { getIconPNGPath, getSymbol, isValid } from "../../utils/field-utils";
 import { convertBase64ToBlob } from "../../utils/image-utils";
 import { isMobileView } from "../../utils/check-is-mobile-utils";
-import { postMultipartFormData } from '../../utils/http-utils';
+import { postMultipartFormData } from "../../utils/http-utils";
 
 declare var navigator;
 
@@ -44,12 +44,26 @@ export class ObjectCounter {
   @State()
   private readonly: boolean = false;
 
+  @State()
+  private showEnlargedImage: boolean = false;
+
+  @State()
+  private predictions: any = null;
+
+  
   @Event()
   public fieldChange: EventEmitter<ControlState>;
-
+  
   @Watch('control')
   public onControlChanged() {}
   
+  @Listen('closeImage')
+  public onCloseImageViewer() {
+    this.showEnlargedImage = false;
+    this.deletePhoto();
+  }
+  
+  private myPhoto: string = null;
   private readonly IMAGE_TYPE: string = "image/jpg";
   private readonly IMAGE_PREFIX: string = "data:image/jpeg;base64";
   private readonly ERROR_MESSAGE: string = `Something went wrong. Please, try it later.`
@@ -88,7 +102,9 @@ export class ObjectCounter {
         }
         { this.hasError ? <p class="error-message">{this.ERROR_MESSAGE}</p> : null }
         { !this.hasConnection ? <p class="no-connection-message">No connection. Please fill manually.</p> : null }
-    </div>);
+        { this.showEnlargedImage ? <cotecna-image-viewer image={this.myPhoto} predictions={this.predictions}></cotecna-image-viewer> : null}
+    </div>
+   );
   }
 
   private createNetworkListeners() {
@@ -102,26 +118,35 @@ export class ObjectCounter {
 
   private renderImage() {
     if (this.field?.value?.image) {
-      const myPhoto: string = `${this.IMAGE_PREFIX}, ${this.field.value.image}`;
-      return <div class="image-container"><img src={myPhoto}/></div>;
+      this.myPhoto = `${this.IMAGE_PREFIX}, ${this.field.value.image}`;
+      return <div class="image-container">
+        <img onClick={() => this.enlargeImage()} src={this.myPhoto}/>
+        </div>;
     }
     return null;
   }
 
+  private enlargeImage() {
+    this.showEnlargedImage = true;
+  }
+
   private takePictureAndPerformCounting(): void {
+    window.screen.orientation.lock('portrait');
     document.addEventListener("deviceready", () => {
       navigator.camera.getPicture(
         (imageData) => {
-          this.imageInBase64 = imageData;
+          this.imageInBase64 = imageData; 
           this.performCountItems(imageData);
         },
         (err) => {
-          throw err;
+          throw err; 
         },
         { 
           quality: 80, 
-          correctOrientation: true,
-          destinationType: navigator.camera.DestinationType.DATA_URL 
+          correctOrientation: false,
+          destinationType: navigator.camera.DestinationType.DATA_URL,
+          targetWidth: window.innerWidth,
+          targetHeight: window.innerHeight
         }
       );
     });
@@ -141,7 +166,7 @@ export class ObjectCounter {
       const blobImage = convertBase64ToBlob(image, this.IMAGE_TYPE);
       const blobFile = new Blob([blobImage], { type: this.IMAGE_TYPE });
       const formData = new FormData();
-      formData.append('image', blobFile);
+      formData.append('image', blobFile, "objectCount.jpg");
       await this.sendCountRequest(formData);
       this.onChange();
     } catch(err) {
@@ -158,6 +183,7 @@ export class ObjectCounter {
       const response = await postMultipartFormData(this.control.counterUrl, formData);
       if (response) {
         const result = JSON.parse(response);
+        this.predictions = result.predictions;
         this.showCountedLabel = true;
         this.counted = result.totalDetected;
       }
