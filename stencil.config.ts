@@ -56,7 +56,7 @@ export const config: Config = {
    */
   devServer: {
     reloadStrategy: 'pageReload',
-    port: 3333,
-    address: 'http://192.168.0.11:3333'
+    port: 3334,
+    address: 'http://192.168.0.11:3334'
   }
 };

@@ -21,8 +21,10 @@ export namespace Components {
         "field": Field;
     }
     interface CotecnaImageViewer {
+        "counted": any;
         "image": string;
         "predictions": any;
+        "showItemMarks": boolean;
     }
     interface CotecnaMultidropdown {
         "control": any;
@@ -174,9 +176,14 @@ declare namespace LocalJSX {
         "onFieldChange"?: (event: CotecnaFileUploaderCustomEvent<ControlState>) => void;
     }
     interface CotecnaImageViewer {
+        "counted"?: any;
         "image": string;
-        "onCloseImage"?: (event: CotecnaImageViewerCustomEvent<boolean>) => void;
+        "onCloseImageViewer"?: (event: CotecnaImageViewerCustomEvent<boolean>) => void;
+        "onConfirmCount"?: (event: CotecnaImageViewerCustomEvent<boolean>) => void;
+        "onDeleteImage"?: (event: CotecnaImageViewerCustomEvent<boolean>) => void;
+        "onRetakePhoto"?: (event: CotecnaImageViewerCustomEvent<boolean>) => void;
         "predictions"?: any;
+        "showItemMarks"?: boolean;
     }
     interface CotecnaMultidropdown {
         "control": any;
@@ -195,6 +202,7 @@ declare namespace LocalJSX {
         "control": any;
         "field": Field;
         "onFieldChange"?: (event: CotecnaObjectCounterCustomEvent<ControlState>) => void;
+        "onIsEnlarged"?: (event: CotecnaObjectCounterCustomEvent<boolean>) => void;
     }
     interface CotecnaOcr {
         "control": any;

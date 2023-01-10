@@ -45,7 +45,10 @@ export class ObjectCounter {
   private readonly: boolean = false;
 
   @State()
-  private showEnlargedImage: boolean = false;
+  private showImageDialog: boolean = false;
+
+  @State()
+  private showMarks: boolean = false;
 
   @State()
   private predictions: any = null;
@@ -53,14 +56,34 @@ export class ObjectCounter {
   
   @Event()
   public fieldChange: EventEmitter<ControlState>;
+
+  @Event()
+  public isEnlarged: EventEmitter<boolean>;
+  
   
   @Watch('control')
   public onControlChanged() {}
   
-  @Listen('closeImage')
-  public onCloseImageViewer() {
-    this.showEnlargedImage = false;
+  @Listen('deleteImage')
+  public onDeleteImageFromViewer() {
+    this.showImageDialog = false;
     this.deletePhoto();
+  }
+
+  @Listen('closeImageViewer')
+  public onCloseImageViewer() {
+    this.showImageDialog = false;
+  }
+
+  @Listen('confirmCount')
+  public onConfirmCount() {
+    this.showImageDialog = false;
+  }
+
+  @Listen('retakePhoto')
+  public onRetakePhoto() {
+    this.showImageDialog = false;
+    this.takePictureAndPerformCounting();
   }
   
   private myPhoto: string = null;
@@ -85,11 +108,10 @@ export class ObjectCounter {
         </div>
         {
           this.isLoading
-            ? ( <cotecna-spinner-loader color="#000087"></cotecna-spinner-loader> )
-            : (
+            ? (<cotecna-spinner-loader color="#000087"></cotecna-spinner-loader>): (
                 <div class={{"field-container": true, 'invalid-field': !isValid(this.field) && !this.readonly}}>
                     <div class="input-container">
-                        { this.renderImage() }
+                        { this.showThumbnail() }
                         { this.showCountedLabel ? <p>Counted:</p> : null }
                         <input id="countingResult" type="number" required={this.field.required} value={this.counted} onChange={e => this.onChangeCountedValue(e)}/>
                     </div>
@@ -102,9 +124,24 @@ export class ObjectCounter {
         }
         { this.hasError ? <p class="error-message">{this.ERROR_MESSAGE}</p> : null }
         { !this.hasConnection ? <p class="no-connection-message">No connection. Please fill manually.</p> : null }
-        { this.showEnlargedImage ? <cotecna-image-viewer image={this.myPhoto} predictions={this.predictions}></cotecna-image-viewer> : null}
+        { this.showImageDialog ? <cotecna-image-viewer image={this.myPhoto} predictions={this.predictions} counted={this.counted} showItemMarks={this.showMarks}></cotecna-image-viewer> : null}
     </div>
    );
+  }
+
+  private showThumbnail() {
+    if (this.field?.value?.image) {
+      return <div class="image-container">
+        <img onClick={() => this.enlargeImage()} src={this.myPhoto}/>
+        </div>;
+    }
+    return null;
+  }
+
+  private enlargeImage() {
+    this.showImageDialog = true;
+    this.showMarks = false;
+    this.isEnlarged.emit(true);
   }
 
   private createNetworkListeners() {
@@ -116,26 +153,12 @@ export class ObjectCounter {
     }, false);
   }
 
-  private renderImage() {
-    if (this.field?.value?.image) {
-      this.myPhoto = `${this.IMAGE_PREFIX}, ${this.field.value.image}`;
-      return <div class="image-container">
-        <img onClick={() => this.enlargeImage()} src={this.myPhoto}/>
-        </div>;
-    }
-    return null;
-  }
-
-  private enlargeImage() {
-    this.showEnlargedImage = true;
-  }
-
   private takePictureAndPerformCounting(): void {
-    window.screen.orientation.lock('portrait');
     document.addEventListener("deviceready", () => {
       navigator.camera.getPicture(
         (imageData) => {
           this.imageInBase64 = imageData; 
+          this.myPhoto = `${this.IMAGE_PREFIX}, ${this.imageInBase64}`;
           this.performCountItems(imageData);
         },
         (err) => {
@@ -155,6 +178,7 @@ export class ObjectCounter {
   private deletePhoto() : void {
     this.imageInBase64 = null;
     this.counted = null;
+    this.myPhoto = null;
     this.showCountedLabel = false;
     this.onChange();
   }
@@ -186,6 +210,8 @@ export class ObjectCounter {
         this.predictions = result.predictions;
         this.showCountedLabel = true;
         this.counted = result.totalDetected;
+        this.showImageDialog = true;
+        this.showMarks = true;
       }
     }
     catch(err) {
