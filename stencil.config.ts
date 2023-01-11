@@ -8,7 +8,7 @@ export const config: Config = {
     { components: ['cotecna-dialog'] },
     { components: ['cotecna-email-box'] },
     { components: ['cotecna-ocr'] },
-    { components: ['cotecna-object-counter'] },
+    { components: ['cotecna-object-counter', 'cotecna-image-viewer'] },
     { components: ['cotecna-spinner-loader'] },
     { components: ['cotecna-file-uploader'] }
   ],
@@ -54,9 +54,9 @@ export const config: Config = {
   /**
    * NOTE: UNCOMMENT THE NEXT LINES TO DEBUG, SET YOUR PORT AND IP ADDRESS
    */
-  // devServer: {
-  //   reloadStrategy: 'pageReload',
-  //   port: 0,
-  //   address: ''
-  // }
+  devServer: {
+    reloadStrategy: 'pageReload',
+    port: 0,
+    address: ''
+  }
 };

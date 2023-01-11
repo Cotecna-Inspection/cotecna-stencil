@@ -8,11 +8,11 @@ const config: CapacitorConfig = {
   /**
    * NOTE: UNCOMMENT THE NEXT LINES TO DEBUG, SET YOUR IP ADDRESS AND PORT ON THE URL PROPERTY
    */
-  // server: {
-  //   iosScheme: "http",
-  //   androidScheme: "http",
-  //   url:""
-  // }
+  server: {
+    iosScheme: "http",
+    androidScheme: "http",
+    url:""
+  }
 }
 
 export default config;
