@@ -11,7 +11,7 @@ const config: CapacitorConfig = {
   server: {
     iosScheme: "http",
     androidScheme: "http",
-    url:"http://192.168.0.11:3334"
+    url:""
   }
 }
 
