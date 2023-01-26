@@ -51,6 +51,8 @@ export namespace Components {
         "text": string;
         "thick": number;
     }
+    interface StyledComponent {
+    }
 }
 export interface CotecnaDialogCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -145,6 +147,12 @@ declare global {
         prototype: HTMLCotecnaSpinnerLoaderElement;
         new (): HTMLCotecnaSpinnerLoaderElement;
     };
+    interface HTMLStyledComponentElement extends Components.StyledComponent, HTMLStencilElement {
+    }
+    var HTMLStyledComponentElement: {
+        prototype: HTMLStyledComponentElement;
+        new (): HTMLStyledComponentElement;
+    };
     interface HTMLElementTagNameMap {
         "cotecna-dialog": HTMLCotecnaDialogElement;
         "cotecna-email-box": HTMLCotecnaEmailBoxElement;
@@ -156,6 +164,7 @@ declare global {
         "cotecna-object-counter": HTMLCotecnaObjectCounterElement;
         "cotecna-ocr": HTMLCotecnaOcrElement;
         "cotecna-spinner-loader": HTMLCotecnaSpinnerLoaderElement;
+        "styled-component": HTMLStyledComponentElement;
     }
 }
 declare namespace LocalJSX {
@@ -215,6 +224,8 @@ declare namespace LocalJSX {
         "text"?: string;
         "thick"?: number;
     }
+    interface StyledComponent {
+    }
     interface IntrinsicElements {
         "cotecna-dialog": CotecnaDialog;
         "cotecna-email-box": CotecnaEmailBox;
@@ -226,6 +237,7 @@ declare namespace LocalJSX {
         "cotecna-object-counter": CotecnaObjectCounter;
         "cotecna-ocr": CotecnaOcr;
         "cotecna-spinner-loader": CotecnaSpinnerLoader;
+        "styled-component": StyledComponent;
     }
 }
 export { LocalJSX as JSX };
@@ -242,6 +254,7 @@ declare module "@stencil/core" {
             "cotecna-object-counter": LocalJSX.CotecnaObjectCounter & JSXBase.HTMLAttributes<HTMLCotecnaObjectCounterElement>;
             "cotecna-ocr": LocalJSX.CotecnaOcr & JSXBase.HTMLAttributes<HTMLCotecnaOcrElement>;
             "cotecna-spinner-loader": LocalJSX.CotecnaSpinnerLoader & JSXBase.HTMLAttributes<HTMLCotecnaSpinnerLoaderElement>;
+            "styled-component": LocalJSX.StyledComponent & JSXBase.HTMLAttributes<HTMLStyledComponentElement>;
         }
     }
 }

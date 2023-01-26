@@ -100,7 +100,7 @@ export class ObjectCounter {
   render() {
     return(
     <div class={{"object-counter-container": true, "readonly": this.readonly, "filled": this.isFilled()}} part="container">
-        <div class="label-container">
+        <div class="label-container bg-indigo-500">
             <label part="label">
               {this.field.label}
               {getSymbol(this.field)}

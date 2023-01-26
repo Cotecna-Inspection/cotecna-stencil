@@ -44,7 +44,7 @@ export const config: Config = {
       ]
     },
   ],
-  globalStyle: "src/styles.scss",
+  globalStyle: "src/tailwind.css",
   plugins: [
     sass({
       includePaths: ['./node_modules'],
@@ -56,7 +56,7 @@ export const config: Config = {
    */
   devServer: {
     reloadStrategy: 'pageReload',
-    port: 0,
-    address: ''
+    port: 3334,
+    address: '192.168.0.11:3334'
   }
 };
