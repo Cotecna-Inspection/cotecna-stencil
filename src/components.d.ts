@@ -45,6 +45,9 @@ export namespace Components {
         "control": any;
         "field": Field;
     }
+    interface CotecnaPocButton {
+        "styleType": any;
+    }
     interface CotecnaSpinnerLoader {
         "color": string;
         "size": number;
@@ -141,6 +144,12 @@ declare global {
         prototype: HTMLCotecnaOcrElement;
         new (): HTMLCotecnaOcrElement;
     };
+    interface HTMLCotecnaPocButtonElement extends Components.CotecnaPocButton, HTMLStencilElement {
+    }
+    var HTMLCotecnaPocButtonElement: {
+        prototype: HTMLCotecnaPocButtonElement;
+        new (): HTMLCotecnaPocButtonElement;
+    };
     interface HTMLCotecnaSpinnerLoaderElement extends Components.CotecnaSpinnerLoader, HTMLStencilElement {
     }
     var HTMLCotecnaSpinnerLoaderElement: {
@@ -163,6 +172,7 @@ declare global {
         "cotecna-multidropdown-readable": HTMLCotecnaMultidropdownReadableElement;
         "cotecna-object-counter": HTMLCotecnaObjectCounterElement;
         "cotecna-ocr": HTMLCotecnaOcrElement;
+        "cotecna-poc-button": HTMLCotecnaPocButtonElement;
         "cotecna-spinner-loader": HTMLCotecnaSpinnerLoaderElement;
         "styled-component": HTMLStyledComponentElement;
     }
@@ -218,6 +228,9 @@ declare namespace LocalJSX {
         "field": Field;
         "onFieldChange"?: (event: CotecnaOcrCustomEvent<ControlState>) => void;
     }
+    interface CotecnaPocButton {
+        "styleType": any;
+    }
     interface CotecnaSpinnerLoader {
         "color"?: string;
         "size"?: number;
@@ -236,6 +249,7 @@ declare namespace LocalJSX {
         "cotecna-multidropdown-readable": CotecnaMultidropdownReadable;
         "cotecna-object-counter": CotecnaObjectCounter;
         "cotecna-ocr": CotecnaOcr;
+        "cotecna-poc-button": CotecnaPocButton;
         "cotecna-spinner-loader": CotecnaSpinnerLoader;
         "styled-component": StyledComponent;
     }
@@ -253,6 +267,7 @@ declare module "@stencil/core" {
             "cotecna-multidropdown-readable": LocalJSX.CotecnaMultidropdownReadable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownReadableElement>;
             "cotecna-object-counter": LocalJSX.CotecnaObjectCounter & JSXBase.HTMLAttributes<HTMLCotecnaObjectCounterElement>;
             "cotecna-ocr": LocalJSX.CotecnaOcr & JSXBase.HTMLAttributes<HTMLCotecnaOcrElement>;
+            "cotecna-poc-button": LocalJSX.CotecnaPocButton & JSXBase.HTMLAttributes<HTMLCotecnaPocButtonElement>;
             "cotecna-spinner-loader": LocalJSX.CotecnaSpinnerLoader & JSXBase.HTMLAttributes<HTMLCotecnaSpinnerLoaderElement>;
             "styled-component": LocalJSX.StyledComponent & JSXBase.HTMLAttributes<HTMLStyledComponentElement>;
         }

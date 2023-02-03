@@ -571,9 +571,9 @@ video {
   border-width: 1px;
 }
 
-.bg-indigo-500 {
+.bg-cotecna {
   --tw-bg-opacity: 1;
-  background-color: rgb(99 102 241 / var(--tw-bg-opacity));
+  background-color: rgb(0 0 135 / var(--tw-bg-opacity));
 }
 
 .p-6 {

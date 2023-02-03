@@ -2,7 +2,11 @@
 module.exports = {
   content: ['./src/**/*.{ts,tsx,html}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'cotecna':'#000087'
+      }
+    },
   },
   plugins: [],
 }

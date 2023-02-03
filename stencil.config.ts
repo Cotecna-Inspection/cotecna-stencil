@@ -10,7 +10,8 @@ export const config: Config = {
     { components: ['cotecna-ocr'] },
     { components: ['cotecna-object-counter', 'cotecna-image-viewer'] },
     { components: ['cotecna-spinner-loader'] },
-    { components: ['cotecna-file-uploader'] }
+    { components: ['cotecna-file-uploader'] },
+    { components: ['cotecna-poc-button'] }
   ],
   outputTargets: [
     {
@@ -57,6 +58,6 @@ export const config: Config = {
   devServer: {
     reloadStrategy: 'pageReload',
     port: 3334,
-    address: '192.168.0.11:3334'
+    address: '192.168.0.15:3334'
   }
 };
