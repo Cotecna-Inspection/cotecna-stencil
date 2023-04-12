@@ -1,6 +1,6 @@
-import { Component, EventEmitter, h, Prop, State, Event } from '@stencil/core';
+import { Component, EventEmitter, h, Prop, State, Event, Watch } from '@stencil/core';
 import { Field } from '../../models/field';
-import { getIconPNGPath, getSymbol, isValid } from '../../utils/field-utils';
+import { getIconPNGPath, isValid } from '../../utils/field-utils';
 import { OCRResult } from './models/ocr-result.model';
 import { ControlState } from '../../models/control-state';
 import { isMobileView } from '../../utils/check-is-mobile-utils';
@@ -36,8 +36,17 @@ export class OcrField {
   @State()
   private readonly: boolean = false;
 
+  @State()
+  private required: boolean = false;
+
   @Event()
   public fieldChange: EventEmitter<ControlState>;
+
+  @Watch('field')
+  watchFieldChange(newValue: Field) {
+    this.required = newValue.required;
+    this.readonly = newValue.readOnly;
+  }
 
   private readonly ERROR_MESSAGE: string = `Something went wrong. Please, try it later.`;
   private readonly NO_TEXT_FOUND_MESSAGE: string = `No text found. Try again with another photo or fill it manually.`;
@@ -61,7 +70,7 @@ export class OcrField {
       <div class="label-container">
           <label part="label">
             {this.field.label}
-            {getSymbol(this.field)}
+            {this.required ? <span class="mandatory-symbol">*</span> : null}
           </label>
         </div>
     )
@@ -161,6 +170,7 @@ export class OcrField {
   }
 
   private setInitialValues(): void {
+    this.required = this.field?.required;
     this.readonly = this.field?.readOnly;
     this.ocrResultAsString = this.field?.value;
   }

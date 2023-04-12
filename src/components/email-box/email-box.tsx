@@ -26,6 +26,9 @@ export class EmailBox {
   private readonly: boolean;
 
   @State()
+  private required: boolean;
+
+  @State()
   private defaultEmails: string[] = [];
 
   @State() 
@@ -79,6 +82,7 @@ export class EmailBox {
 
   private initValues() {
     this.readonly = this.field.readOnly;
+    this.required = this.field.required;
     this.addedEmails = [...this.field.value];
     this.defaultEmails = (this.control?.defaultEmails?.length) 
       ? [...this.control.defaultEmails] 
@@ -94,7 +98,7 @@ export class EmailBox {
   }
 
   private getSymbol(): string {
-    return this.field.required ? <span class="mandatory-symbol">*</span> : null;
+    return this.required ? <span class="mandatory-symbol">*</span> : null;
   }
 
   private displayDefaultEmails(): any {

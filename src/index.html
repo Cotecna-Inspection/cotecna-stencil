@@ -11,6 +11,18 @@
     <script nomodule src="/build/ionicpwaelements/ionicpwaelements.js"></script>
     <script type="module" src="/build/index.esm.js"></script>
     <link rel="stylesheet" type="text/scss" href="/src/styles.scss"/>
+
+    <script>
+      function configOCRReq() {
+        var ocrField = document.querySelector('cotecna-ocr');
+        debugger;
+        ocrField.field.required = !ocrField.field.required;
+        ocrField.field.readOnly = !ocrField.field.readOnly;
+        
+        //ocrField.field = { ...ocrField.field };
+      }
+      </script>
+
   </head>
   <body>
     <cotecna-spinner-loader text="My custom loader" color="orange"></cotecna-spinner-loader>
@@ -24,5 +36,6 @@
     <cotecna-object-counter></cotecna-object-counter>
     </br>
     <cotecna-file-uploader></cotecna-file-uploader>
+    <button onclick="configOCRReq()">REQ</button>
   </body>
 </html>

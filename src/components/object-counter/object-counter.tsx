@@ -45,6 +45,9 @@ export class ObjectCounter {
   private readonly: boolean = false;
 
   @State()
+  private required: boolean = false;
+
+  @State()
   private showImageDialog: boolean = false;
 
   @State()
@@ -113,7 +116,7 @@ export class ObjectCounter {
                     <div class="input-container">
                         { this.showThumbnail() }
                         { this.showCountedLabel ? <p>Counted:</p> : null }
-                        <input id="countingResult" type="number" required={this.field.required} value={this.counted} onChange={e => this.onChangeCountedValue(e)}/>
+                        <input id="countingResult" type="number" required={this.required} value={this.counted} onChange={e => this.onChangeCountedValue(e)}/>
                     </div>
                     <div class={{"actions-container": true, 'disabled': !isMobileView()}}>
                         <button onClick={() => this.takePictureAndPerformCounting()} disabled={!this.hasConnection}><img src={getIconPNGPath('photo_camera')}></img></button>
@@ -239,6 +242,7 @@ export class ObjectCounter {
 
   private setInitialValues(): void {
     this.readonly = this.field?.readOnly;
+    this.required = this.field.required;
     this.imageInBase64 = this.field?.value?.image;
     this.counted = this.field?.value?.counted;
     this.showCountedLabel = this.counted != null;
