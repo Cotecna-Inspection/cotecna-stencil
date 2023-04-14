@@ -45,6 +45,9 @@ export namespace Components {
         "control": any;
         "field": Field;
     }
+    interface CotecnaSidenav {
+        "toggle": () => Promise<void>;
+    }
     interface CotecnaSpinnerLoader {
         "color": string;
         "size": number;
@@ -83,6 +86,10 @@ export interface CotecnaObjectCounterCustomEvent<T> extends CustomEvent<T> {
 export interface CotecnaOcrCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLCotecnaOcrElement;
+}
+export interface CotecnaSidenavCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCotecnaSidenavElement;
 }
 declare global {
     interface HTMLCotecnaDialogElement extends Components.CotecnaDialog, HTMLStencilElement {
@@ -139,6 +146,12 @@ declare global {
         prototype: HTMLCotecnaOcrElement;
         new (): HTMLCotecnaOcrElement;
     };
+    interface HTMLCotecnaSidenavElement extends Components.CotecnaSidenav, HTMLStencilElement {
+    }
+    var HTMLCotecnaSidenavElement: {
+        prototype: HTMLCotecnaSidenavElement;
+        new (): HTMLCotecnaSidenavElement;
+    };
     interface HTMLCotecnaSpinnerLoaderElement extends Components.CotecnaSpinnerLoader, HTMLStencilElement {
     }
     var HTMLCotecnaSpinnerLoaderElement: {
@@ -155,6 +168,7 @@ declare global {
         "cotecna-multidropdown-readable": HTMLCotecnaMultidropdownReadableElement;
         "cotecna-object-counter": HTMLCotecnaObjectCounterElement;
         "cotecna-ocr": HTMLCotecnaOcrElement;
+        "cotecna-sidenav": HTMLCotecnaSidenavElement;
         "cotecna-spinner-loader": HTMLCotecnaSpinnerLoaderElement;
     }
 }
@@ -209,6 +223,9 @@ declare namespace LocalJSX {
         "field": Field;
         "onFieldChange"?: (event: CotecnaOcrCustomEvent<ControlState>) => void;
     }
+    interface CotecnaSidenav {
+        "onBackgroundToggle"?: (event: CotecnaSidenavCustomEvent<any>) => void;
+    }
     interface CotecnaSpinnerLoader {
         "color"?: string;
         "size"?: number;
@@ -225,6 +242,7 @@ declare namespace LocalJSX {
         "cotecna-multidropdown-readable": CotecnaMultidropdownReadable;
         "cotecna-object-counter": CotecnaObjectCounter;
         "cotecna-ocr": CotecnaOcr;
+        "cotecna-sidenav": CotecnaSidenav;
         "cotecna-spinner-loader": CotecnaSpinnerLoader;
     }
 }
@@ -241,6 +259,7 @@ declare module "@stencil/core" {
             "cotecna-multidropdown-readable": LocalJSX.CotecnaMultidropdownReadable & JSXBase.HTMLAttributes<HTMLCotecnaMultidropdownReadableElement>;
             "cotecna-object-counter": LocalJSX.CotecnaObjectCounter & JSXBase.HTMLAttributes<HTMLCotecnaObjectCounterElement>;
             "cotecna-ocr": LocalJSX.CotecnaOcr & JSXBase.HTMLAttributes<HTMLCotecnaOcrElement>;
+            "cotecna-sidenav": LocalJSX.CotecnaSidenav & JSXBase.HTMLAttributes<HTMLCotecnaSidenavElement>;
             "cotecna-spinner-loader": LocalJSX.CotecnaSpinnerLoader & JSXBase.HTMLAttributes<HTMLCotecnaSpinnerLoaderElement>;
         }
     }

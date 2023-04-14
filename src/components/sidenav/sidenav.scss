@@ -1,0 +1,54 @@
+
+
+.actual-menu {
+    position: absolute;
+    // top: 0px;
+    // left: 0px;
+    width: 0px;
+    // min-height: 100%;
+    // background-color: white;
+    // z-index: 30;
+    // transition: all 0.3s;
+}
+
+.expanded {
+    position: absolute;
+    width: 350px;
+    min-height: 100%;
+    background-color: white;
+    z-index: 30;
+    transition: all 0.3s;
+    top: 0px;
+    left: 0px;
+}
+
+.menu-background {
+    position: absolute;
+    background-color: rgba(38,38,38, 0.2);
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    min-height: 100%;
+    z-index: 5;
+}
+
+// .sidenav {
+//     display: none;
+
+//     &.show-sidenav {
+//         display: block;
+//     }
+    
+//     &.hide-sidenav {
+//         display: none;
+//     }
+// }
+
+
+// .sidenav {
+//     width: 250px;
+//     height: 130px;
+//     border: 1px solid blue;
+//     background-color: lightgrey;
+//     transition: all 0.3s;
+// }

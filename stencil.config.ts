@@ -10,7 +10,8 @@ export const config: Config = {
     { components: ['cotecna-ocr'] },
     { components: ['cotecna-object-counter', 'cotecna-image-viewer'] },
     { components: ['cotecna-spinner-loader'] },
-    { components: ['cotecna-file-uploader'] }
+    { components: ['cotecna-file-uploader'] },
+    { components: ['cotecna-sidenav'] }
   ],
   outputTargets: [
     {
