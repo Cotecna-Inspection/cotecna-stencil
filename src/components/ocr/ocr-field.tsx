@@ -22,10 +22,10 @@ export class OcrField {
   public readOnly: boolean;
 
   @Prop()
-  public control!: any;
+  public required: boolean;
 
   @Prop()
-  public required: boolean;
+  public control!: any;
 
   @State()
   private ocrResult: OCRResult = null;
