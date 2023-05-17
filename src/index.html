@@ -12,16 +12,6 @@
     <script type="module" src="/build/index.esm.js"></script>
     <link rel="stylesheet" type="text/scss" href="/src/styles.scss"/>
 
-    <script>
-      function configOCRReq() {
-        var ocrField = document.querySelector('cotecna-ocr');
-        debugger;
-        ocrField.field.required = !ocrField.field.required;
-        ocrField.field.readOnly = !ocrField.field.readOnly;
-        
-        //ocrField.field = { ...ocrField.field };
-      }
-      </script>
 
   </head>
   <body>
@@ -36,6 +26,5 @@
     <cotecna-object-counter></cotecna-object-counter>
     </br>
     <cotecna-file-uploader></cotecna-file-uploader>
-    <button onclick="configOCRReq()">REQ</button>
   </body>
 </html>

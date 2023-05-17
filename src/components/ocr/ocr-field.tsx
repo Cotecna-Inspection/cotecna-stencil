@@ -1,4 +1,4 @@
-import { Component, EventEmitter, h, Prop, State, Event, Watch } from '@stencil/core';
+import { Component, EventEmitter, h, Prop, State, Event } from '@stencil/core';
 import { Field } from '../../models/field';
 import { getIconPNGPath, isValid } from '../../utils/field-utils';
 import { OCRResult } from './models/ocr-result.model';
@@ -19,7 +19,13 @@ export class OcrField {
   public field!: Field;
 
   @Prop()
+  public readOnly: boolean;
+
+  @Prop()
   public control!: any;
+
+  @Prop()
+  public required: boolean;
 
   @State()
   private ocrResult: OCRResult = null;
@@ -33,20 +39,8 @@ export class OcrField {
   @State()
   private textFound: boolean = true;
 
-  @State()
-  private readonly: boolean = false;
-
-  @State()
-  private required: boolean = false;
-
   @Event()
   public fieldChange: EventEmitter<ControlState>;
-
-  @Watch('field')
-  watchFieldChange(newValue: Field) {
-    this.required = newValue.required;
-    this.readonly = newValue.readOnly;
-  }
 
   private readonly ERROR_MESSAGE: string = `Something went wrong. Please, try it later.`;
   private readonly NO_TEXT_FOUND_MESSAGE: string = `No text found. Try again with another photo or fill it manually.`;
@@ -57,7 +51,7 @@ export class OcrField {
 
   render() {
     return (
-      <div class={{"ocr-field-container": true, "readonly": this.readonly, "filled": this.field?.value}} part="container">
+      <div class={{"ocr-field-container": true, "readonly": this.readOnly, "filled": this.field?.value}} part="container">
         { this.getFieldLabel() }
         { this.getFieldContainer() }
         { this.showFieldMessages() }
@@ -78,7 +72,7 @@ export class OcrField {
 
   private getFieldContainer(): any {
     return (
-      <div class={{"field-container": true, 'invalid-field': !isValid(this.field) && !this.readonly}}>
+      <div class={{"field-container": true, 'invalid-field': !isValid(this.field) && !this.readOnly}}>
         <textarea id={`ocr-result-${this.field.id}`}
           rows={4} cols={50} 
           value={this.field.value}
@@ -170,8 +164,12 @@ export class OcrField {
   }
 
   private setInitialValues(): void {
-    this.required = this.field?.required;
-    this.readonly = this.field?.readOnly;
+    if (!this.readOnly) {
+      this.readOnly = this.field.readOnly;
+    }
+    if (!this.required) {
+      this.required = this.field.required;
+    }
     this.ocrResultAsString = this.field?.value;
   }
 }

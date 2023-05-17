@@ -14,19 +14,19 @@ export class EmailBox {
   private readonly enterCode = 'Enter';
 
   @Prop()
-  field!: Field;
+  public field!: Field;
 
   @Prop()
-  control!: any;
+  public control!: any;
+
+  @Prop()
+  public readOnly: boolean;
+
+  @Prop()
+  public required: boolean;
 
   @Event()
   fieldChange: EventEmitter<ControlState>;
-
-  @State()
-  private readonly: boolean;
-
-  @State()
-  private required: boolean;
 
   @State()
   private defaultEmails: string[] = [];
@@ -81,8 +81,12 @@ export class EmailBox {
   }
 
   private initValues() {
-    this.readonly = this.field.readOnly;
-    this.required = this.field.required;
+    if (!this.readOnly) {
+      this.readOnly = this.field.readOnly;
+    }
+    if (!this.required) {
+      this.required = this.field.required;
+    }
     this.addedEmails = [...this.field.value];
     this.defaultEmails = (this.control?.defaultEmails?.length) 
       ? [...this.control.defaultEmails] 
@@ -92,7 +96,7 @@ export class EmailBox {
 
   private getContainerClass(): string {
     let containerClass = 'email-box-container';
-    if (this.readonly) containerClass = `${containerClass} readonly`;
+    if (this.readOnly) containerClass = `${containerClass} readonly`;
     if (!isValid(this.field)) containerClass = `${containerClass} invalid-field`;
     return containerClass;
   }
@@ -132,11 +136,11 @@ export class EmailBox {
   }
 
   private getPlaceholderText(): string {
-    return (!this.readonly) ? 'Enter your emails here' : 'No emails available';
+    return (!this.readOnly) ? 'Enter your emails here' : 'No emails available';
   }
 
   private handleMouseEvent(mouseEvent: MouseEvent) {
-    if (!this.readonly && isValid(this.field)) {
+    if (!this.readOnly && isValid(this.field)) {
       let border: any = this.element.shadowRoot.querySelector('.border');
       switch(mouseEvent) {
         case MouseEvent.ENTER:

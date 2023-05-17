@@ -23,6 +23,12 @@ export class ObjectCounter {
   @Prop()
   public control!: any;
 
+  @Prop()
+  public readOnly: boolean;
+  
+  @Prop()
+  public required: boolean;
+
   @State()
   private imageInBase64: string = null;
 
@@ -40,12 +46,6 @@ export class ObjectCounter {
 
   @State()
   private hasError: boolean = false;
-
-  @State()
-  private readonly: boolean = false;
-
-  @State()
-  private required: boolean = false;
 
   @State()
   private showImageDialog: boolean = false;
@@ -102,7 +102,7 @@ export class ObjectCounter {
 
   render() {
     return(
-    <div class={{"object-counter-container": true, "readonly": this.readonly, "filled": this.isFilled()}} part="container">
+    <div class={{"object-counter-container": true, "readonly": this.readOnly, "filled": this.isFilled()}} part="container">
         <div class="label-container">
             <label part="label">
               {this.field.label}
@@ -112,7 +112,7 @@ export class ObjectCounter {
         {
           this.isLoading
             ? (<cotecna-spinner-loader color="#000087"></cotecna-spinner-loader>): (
-                <div class={{"field-container": true, 'invalid-field': !isValid(this.field) && !this.readonly}}>
+                <div class={{"field-container": true, 'invalid-field': !isValid(this.field) && !this.readOnly}}>
                     <div class="input-container">
                         { this.showThumbnail() }
                         { this.showCountedLabel ? <p>Counted:</p> : null }
@@ -241,8 +241,12 @@ export class ObjectCounter {
   }
 
   private setInitialValues(): void {
-    this.readonly = this.field?.readOnly;
-    this.required = this.field.required;
+    if (!this.readOnly) {
+      this.readOnly = this.field.readOnly;
+    }
+    if (!this.required) {
+      this.required = this.field.required;
+    }
     this.imageInBase64 = this.field?.value?.image;
     this.counted = this.field?.value?.counted;
     this.showCountedLabel = this.counted != null;
