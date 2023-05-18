@@ -35,12 +35,10 @@
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@capacitor/camera": "^4.0.0",
     "@capacitor/core": "^4.0.0",
     "@ionic/pwa-elements": "^3.1.1",
     "@stencil/core": "^2.13.0",
     "@stencil/sass": "^1.5.2",
-    "cordova-plugin-camera": "^6.0.0",
     "cordova-plugin-ml-text": "^3.1.0",
     "cordova-plugin-network-information": "^3.0.0"
   },
