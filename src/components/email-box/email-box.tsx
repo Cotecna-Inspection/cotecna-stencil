@@ -19,7 +19,7 @@ export class EmailBox {
   @Prop()
   public control!: any;
 
-/** TODO: WORAROUND - The DOM can't detect changes in a property of a complex object that is passed as Prop()
+/** TODO: WORKAROUND - The DOM can't detect changes in a property of a complex object that is passed as Prop()
  * For this reason, the variables we want to render the UI have been separated into new Props:
  * - readOnly
  * - required
