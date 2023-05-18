@@ -1,6 +1,6 @@
 import { Component, EventEmitter, h, Prop, State, Event } from '@stencil/core';
 import { Field } from '../../models/field';
-import { getIconPNGPath, getSymbol, isValid } from '../../utils/field-utils';
+import { getIconPNGPath, isValid } from '../../utils/field-utils';
 import { OCRResult } from './models/ocr-result.model';
 import { ControlState } from '../../models/control-state';
 import { isMobileView } from '../../utils/check-is-mobile-utils';
@@ -21,6 +21,17 @@ export class OcrField {
   @Prop()
   public control!: any;
 
+/** TODO: WORKAROUND - The DOM can't detect changes in a property of a complex object that is passed as Prop()
+ * For this reason, the variables we want to render the UI have been separated into new Props:
+ * - readOnly
+ * - required
+ */
+  @Prop()
+  public readOnly: boolean;
+
+  @Prop()
+  public required: boolean;
+
   @State()
   private ocrResult: OCRResult = null;
 
@@ -32,9 +43,6 @@ export class OcrField {
 
   @State()
   private textFound: boolean = true;
-
-  @State()
-  private readonly: boolean = false;
 
   @Event()
   public fieldChange: EventEmitter<ControlState>;
@@ -48,7 +56,7 @@ export class OcrField {
 
   render() {
     return (
-      <div class={{"ocr-field-container": true, "readonly": this.readonly, "filled": this.field?.value}} part="container">
+      <div class={{"ocr-field-container": true, "readonly": this.readOnly, "filled": this.field?.value}} part="container">
         { this.getFieldLabel() }
         { this.getFieldContainer() }
         { this.showFieldMessages() }
@@ -61,7 +69,7 @@ export class OcrField {
       <div class="label-container">
           <label part="label">
             {this.field.label}
-            {getSymbol(this.field)}
+            {this.required ? <span class="mandatory-symbol">*</span> : null}
           </label>
         </div>
     )
@@ -69,7 +77,7 @@ export class OcrField {
 
   private getFieldContainer(): any {
     return (
-      <div class={{"field-container": true, 'invalid-field': !isValid(this.field) && !this.readonly}}>
+      <div class={{"field-container": true, 'invalid-field': !isValid(this.field) && !this.readOnly}}>
         <textarea id={`ocr-result-${this.field.id}`}
           rows={4} cols={50} 
           value={this.field.value}
@@ -161,7 +169,12 @@ export class OcrField {
   }
 
   private setInitialValues(): void {
-    this.readonly = this.field?.readOnly;
+    if (!this.readOnly) {
+      this.readOnly = this.field.readOnly;
+    }
+    if (!this.required) {
+      this.required = this.field.required;
+    }
     this.ocrResultAsString = this.field?.value;
   }
 }

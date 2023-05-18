@@ -12,7 +12,7 @@ export function configOcr() {
     propertyName: 'ocr-field',
     value: null,
     readableValue: null,
-    required: true,
+    required: false,
     visible: true,
     valid: true,
     readOnly: false
