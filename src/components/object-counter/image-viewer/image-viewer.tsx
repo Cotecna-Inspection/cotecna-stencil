@@ -17,10 +17,10 @@ export class ImageViewer {
     public predictions: any;
 
     @Prop()
-    public counted: any;
+    public countResult: any;
 
     @Prop()
-    public showItemMarks: boolean;
+    public showItemMarks: boolean = true;
 
     @Event()
     deleteImage: EventEmitter<boolean>;
@@ -39,7 +39,7 @@ export class ImageViewer {
             <div id="image-viewer-container" class="image-viewer-container">
                 <div class="header-container">
                     <button class="close-button" onClick={() => this.closeViewer()}><img src={getIconPNGPath('close')}></img></button>
-                    <div class="count-result">Count Result: {this.counted}</div>
+                    <div class="count-result">Count Result: {this.countResult.totalDetected}</div>
                     { this.showItemMarks ? <button class="delete-button" onClick={() => this.retakePicture()}><img src={getIconPNGPath('photo_camera')}></img></button> : 
                         <button class="delete-button" onClick={() => this.delete()}><img src={getIconPNGPath('delete')}></img></button>}
                     
@@ -47,7 +47,7 @@ export class ImageViewer {
                 <div id="image-container">
                     <img id="image" src={this.image}></img>
                     { this.showItemMarks ? this.predictions.map((item:any={})=>
-                            <div class="zone-dot" style={{["left"]:(item.coordX*1000).toString()+'px',["top"]:(item.coordY*1000).toString()+'px'}}></div>) : null }
+                            <div class="zone-dot" style={{["left"]:(item.coordX).toString()+'px',["top"]:(item.coordY).toString()+'px'}}></div>) : null }
                 </div>
                 {
                     this.showItemMarks ? <div class="footer-container">
@@ -66,7 +66,7 @@ export class ImageViewer {
     }
 
     private confirm(): void {
-        this.confirmCount.emit(true);
+        this.confirmCount.emit(this.countResult.totalDetected);
         this.showItemMarks = false;
     }
 
