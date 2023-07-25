@@ -15,9 +15,6 @@ export class ImageViewer {
     public image!: string;
 
     @Prop()
-    public predictions: Prediction[];
-
-    @Prop()
     public countResult: ObjectCounterResponse;
 
     @Prop()
@@ -47,7 +44,7 @@ export class ImageViewer {
                 </div>
                 <div id="image-container">
                     <img id="image" src={this.image}></img>
-                    { this.showItemMarks ? this.predictions.map((item:Prediction)=>
+                    { this.showItemMarks ? this.countResult.predictions.map((item:Prediction)=>
                             <div class="zone-dot" style={{["left"]:(item.coordX).toString()+'px',["top"]:(item.coordY).toString()+'px'}}></div>) : null }
                 </div>
                 {

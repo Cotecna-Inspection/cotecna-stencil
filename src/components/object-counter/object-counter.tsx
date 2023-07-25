@@ -61,9 +61,6 @@ export class ObjectCounter {
 
   @State()
   private showMarks: boolean = false;
-  @State()
-  private predictions: Prediction[] = [];
-
   
   @Event()
   public fieldChange: EventEmitter<ControlState>;
@@ -136,7 +133,7 @@ export class ObjectCounter {
         }
         { this.hasError ? <p class="error-message">{this.ERROR_MESSAGE}</p> : null }
         { !this.hasConnection ? <p class="no-connection-message">No connection. Please fill manually.</p> : null }
-        { this.showImageDialog ? <cotecna-image-viewer image={this.myPhoto} predictions={this.predictions} countResult={this.countResult} showItemMarks={this.showMarks}></cotecna-image-viewer> : null}
+        { this.showImageDialog ? <cotecna-image-viewer image={this.myPhoto} countResult={this.countResult} showItemMarks={this.showMarks}></cotecna-image-viewer> : null}
     </div>
    );
   }
@@ -219,7 +216,6 @@ export class ObjectCounter {
       const response = await postMultipartFormData(this.control.counterUrl, formData);
       if (response) {
         const result: ObjectCounterResponse = JSON.parse(response);
-        this.predictions = result.predictions;
         this.showCountedLabel = true;
         this.countResult = result;
         this.showImageDialog = true;
