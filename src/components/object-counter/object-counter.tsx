@@ -6,6 +6,7 @@ import { getIconPNGPath, getSymbol, isValid } from "../../utils/field-utils";
 import { convertBase64ToBlob } from "../../utils/image-utils";
 import { isMobileView } from "../../utils/check-is-mobile-utils";
 import { postMultipartFormData } from "../../utils/http-utils";
+import { ObjectCounterResponse, Prediction } from "../../models/object-counter-response";
 
 declare var navigator;
 
@@ -41,7 +42,7 @@ export class ObjectCounter {
   private counted: number = null;
 
   @State()
-  private countResult: any;
+  private countResult: ObjectCounterResponse;
 
   @State() 
   private showCountedLabel: boolean = false;
@@ -61,7 +62,7 @@ export class ObjectCounter {
   @State()
   private showMarks: boolean = false;
   @State()
-  private predictions: any = null;
+  private predictions: Prediction[] = [];
 
   
   @Event()
@@ -217,7 +218,7 @@ export class ObjectCounter {
     try {
       const response = await postMultipartFormData(this.control.counterUrl, formData);
       if (response) {
-        const result = JSON.parse(response);
+        const result: ObjectCounterResponse = JSON.parse(response);
         this.predictions = result.predictions;
         this.showCountedLabel = true;
         this.countResult = result;
