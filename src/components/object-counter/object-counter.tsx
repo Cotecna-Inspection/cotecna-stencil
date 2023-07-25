@@ -6,6 +6,7 @@ import { getIconPNGPath, getSymbol, isValid } from "../../utils/field-utils";
 import { convertBase64ToBlob } from "../../utils/image-utils";
 import { isMobileView } from "../../utils/check-is-mobile-utils";
 import { postMultipartFormData } from "../../utils/http-utils";
+import { ObjectCounterResponse, Prediction } from "../../models/object-counter-response";
 
 declare var navigator;
 
@@ -40,6 +41,9 @@ export class ObjectCounter {
   @State()
   private counted: number = null;
 
+  @State()
+  private countResult: ObjectCounterResponse;
+
   @State() 
   private showCountedLabel: boolean = false;
 
@@ -57,10 +61,6 @@ export class ObjectCounter {
 
   @State()
   private showMarks: boolean = false;
-
-  @State()
-  private predictions: any = null;
-
   
   @Event()
   public fieldChange: EventEmitter<ControlState>;
@@ -84,7 +84,8 @@ export class ObjectCounter {
   }
 
   @Listen('confirmCount')
-  public onConfirmCount() {
+  public onConfirmCount(event: any) {
+    this.counted = event.detail;
     this.showImageDialog = false;
   }
 
@@ -120,25 +121,25 @@ export class ObjectCounter {
                 <div class={{"field-container": true, 'invalid-field': !isValid(this.field) && !this.readOnly}}>
                     <div class="input-container">
                         { this.showThumbnail() }
-                        { this.showCountedLabel ? <p>Counted:</p> : null }
+                        { this.counted != null && this.showCountedLabel ? <p>Counted:</p> : null }
                         <input id="countingResult" type="number" required={this.required} value={this.counted} onChange={e => this.onChangeCountedValue(e)}/>
                     </div>
                     <div class={{"actions-container": true, 'disabled': !isMobileView()}}>
                         <button onClick={() => this.takePictureAndPerformCounting()} disabled={!this.hasConnection}><img src={getIconPNGPath('photo_camera')}></img></button>
-                        { this.imageInBase64 || this.counted ? <button onClick={() => this.deletePhoto()}><img src={getIconPNGPath('delete')}></img></button> : null }
+                        { this.imageInBase64 && this.counted != null ? <button onClick={() => this.deletePhoto()}><img src={getIconPNGPath('delete')}></img></button> : null }
                     </div>  
                 </div>
             )
         }
         { this.hasError ? <p class="error-message">{this.ERROR_MESSAGE}</p> : null }
         { !this.hasConnection ? <p class="no-connection-message">No connection. Please fill manually.</p> : null }
-        { this.showImageDialog ? <cotecna-image-viewer image={this.myPhoto} predictions={this.predictions} counted={this.counted} showItemMarks={this.showMarks}></cotecna-image-viewer> : null}
+        { this.showImageDialog ? <cotecna-image-viewer image={this.myPhoto} countResult={this.countResult} showItemMarks={this.showMarks}></cotecna-image-viewer> : null}
     </div>
    );
   }
 
   private showThumbnail() {
-    if (this.field?.value?.image) {
+    if (this.field?.value?.image && this.counted >= 0 && this.showCountedLabel) {
       return <div class="image-container">
         <img onClick={() => this.enlargeImage()} src={this.myPhoto}/>
         </div>;
@@ -214,10 +215,9 @@ export class ObjectCounter {
     try {
       const response = await postMultipartFormData(this.control.counterUrl, formData);
       if (response) {
-        const result = JSON.parse(response);
-        this.predictions = result.predictions;
+        const result: ObjectCounterResponse = JSON.parse(response);
         this.showCountedLabel = true;
-        this.counted = result.totalDetected;
+        this.countResult = result;
         this.showImageDialog = true;
         this.showMarks = true;
       }
@@ -255,6 +255,7 @@ export class ObjectCounter {
     this.imageInBase64 = this.field?.value?.image;
     this.counted = this.field?.value?.counted;
     this.showCountedLabel = this.counted != null;
+    this.myPhoto = `${this.IMAGE_PREFIX}, ${this.imageInBase64}`;
   }
 
   private isFilled(): boolean {
