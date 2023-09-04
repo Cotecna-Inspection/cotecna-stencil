@@ -1,4 +1,4 @@
-import { Component, h, State, Prop, Event, EventEmitter, Watch, Listen } from "@stencil/core";
+import { Component, h, State, Prop, Event, EventEmitter, Watch, Listen, Element } from "@stencil/core";
 import { ControlState } from "../../models/control-state";
 import { Field } from "../../models/field";
 import { hasNetworkConnection } from "../../utils/check-network-connection-utils";
@@ -6,7 +6,7 @@ import { getIconPNGPath, getSymbol, isValid } from "../../utils/field-utils";
 import { convertBase64ToBlob } from "../../utils/image-utils";
 import { isMobileView } from "../../utils/check-is-mobile-utils";
 import { postMultipartFormData } from "../../utils/http-utils";
-import { ObjectCounterResponse, Prediction } from "../../models/object-counter-response";
+import { ObjectCounterResponse } from "../../models/object-counter-response";
 
 declare var navigator;
 
@@ -87,6 +87,7 @@ export class ObjectCounter {
   public onConfirmCount(event: any) {
     this.counted = event.detail;
     this.showImageDialog = false;
+    this.onChangeCountedValue();
   }
 
   @Listen('retakePhoto')
@@ -94,6 +95,9 @@ export class ObjectCounter {
     this.showImageDialog = false;
     this.takePictureAndPerformCounting();
   }
+
+  @Element()
+  private element: HTMLElement;
   
   private myPhoto: string = null;
   private readonly IMAGE_TYPE: string = "image/jpg";
@@ -122,7 +126,8 @@ export class ObjectCounter {
                     <div class="input-container">
                         { this.showThumbnail() }
                         { this.counted != null && this.showCountedLabel ? <p>Counted:</p> : null }
-                        <input id="countingResult" type="number" required={this.required} value={this.counted} onChange={e => this.onChangeCountedValue(e)}/>
+                        <input id="countingResult" type="number" required={this.required}/>
+
                     </div>
                     <div class={{"actions-container": true, 'disabled': !isMobileView()}}>
                         <button onClick={() => this.takePictureAndPerformCounting()} disabled={!this.hasConnection}><img src={getIconPNGPath('photo_camera')}></img></button>
@@ -189,6 +194,8 @@ export class ObjectCounter {
     this.counted = null;
     this.myPhoto = null;
     this.showCountedLabel = false;
+    var inputElement = this.element.shadowRoot.querySelector('#countingResult') as HTMLInputElement;
+    inputElement.valueAsNumber = null;
     this.onChange();
   }
 
@@ -201,7 +208,6 @@ export class ObjectCounter {
       const formData = new FormData();
       formData.append('image', blobFile, "objectCount.jpg");
       await this.sendCountRequest(formData);
-      this.onChange();
     } catch(err) {
       this.hasError = true;
       this.deletePhoto();
@@ -227,9 +233,9 @@ export class ObjectCounter {
     }
   }
 
-  private onChangeCountedValue(event: Event) {
-    const target: any = event.target;
-    this.counted = (target.value != '') ? +target.value : null;
+  private onChangeCountedValue() {
+    var inputElement = this.element.shadowRoot.querySelector('#countingResult') as HTMLInputElement;
+    inputElement.valueAsNumber = this.counted;
     this.onChange();
   }
 
@@ -242,7 +248,7 @@ export class ObjectCounter {
   }
 
   private updateFieldValue(): void {
-    this.field.value = { counted: this.counted, image: this.imageInBase64 };
+    this.field.value = { counted: this.counted, image: this.imageInBase64, thumbnail: this.myPhoto };
   }
 
   private setInitialValues(): void {
