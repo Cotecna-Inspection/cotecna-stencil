@@ -36,6 +36,9 @@ export class ObjectCounter {
   public required: boolean;
 
   @State()
+  private previousImageInBase64: string = null;
+
+  @State()
   private imageInBase64: string = null;
 
   @State()
@@ -57,10 +60,16 @@ export class ObjectCounter {
   private hasError: boolean = false;
 
   @State()
+  private thumbnailVisible: boolean = false;
+
+  @State()
   private showImageDialog: boolean = false;
 
   @State()
   private showMarks: boolean = false;
+
+  @State()
+  private isDeleting: boolean = false;
   
   @Event()
   public fieldChange: EventEmitter<ControlState>;
@@ -75,18 +84,23 @@ export class ObjectCounter {
   @Listen('deleteImage')
   public onDeleteImageFromViewer() {
     this.showImageDialog = false;
+    this.isDeleting = true;
     this.deletePhoto();
   }
 
   @Listen('closeImageViewer')
   public onCloseImageViewer() {
     this.showImageDialog = false;
+    // this.onChangeCountedValue();
   }
 
   @Listen('confirmCount')
   public onConfirmCount(event: any) {
+    this.previousImageInBase64 = this.imageInBase64;
     this.counted = event.detail;
     this.showImageDialog = false;
+    this.thumbnailVisible = true;
+    this.countedPhoto = this.currentPhoto;
     this.onChangeCountedValue();
   }
 
@@ -99,9 +113,16 @@ export class ObjectCounter {
   @Element()
   private element: HTMLElement;
   
-  private myPhoto: string = null;
+  private countedPhoto: string = null;
+  private currentPhoto: string = null;
+
   private readonly IMAGE_TYPE: string = "image/jpg";
+  private readonly DATA_IMAGE_PREFIX: string = 'data:image/';
   private readonly IMAGE_PREFIX: string = "data:image/jpeg;base64";
+  private readonly DATA_IMAGE_PNG_BASE64_PREFIX: string = 'data:image/png;base64,';
+  private readonly DATA_IMAGE_JPEG_BASE64_PREFIX: string = 'data:image/jpeg;base64,';
+
+
   private readonly ERROR_MESSAGE: string = `Something went wrong. Please, try it later.`
   
   componentWillLoad() {
@@ -138,15 +159,15 @@ export class ObjectCounter {
         }
         { this.hasError ? <p class="error-message">{this.ERROR_MESSAGE}</p> : null }
         { !this.hasConnection ? <p class="no-connection-message">No connection. Please fill manually.</p> : null }
-        { this.showImageDialog ? <cotecna-image-viewer image={this.myPhoto} countResult={this.countResult} showItemMarks={this.showMarks}></cotecna-image-viewer> : null}
+        { this.showImageDialog ? <cotecna-image-viewer image={this.currentPhoto} countResult={this.countResult} showItemMarks={this.showMarks}></cotecna-image-viewer> : null}
     </div>
    );
   }
 
   private showThumbnail() {
-    if (this.field?.value?.image && this.counted >= 0 && this.showCountedLabel) {
+    if (this.thumbnailVisible && this.counted >= 0 && this.showCountedLabel) {
       return <div class="image-container">
-        <img onClick={() => this.enlargeImage()} src={this.myPhoto}/>
+        <img onClick={() => this.enlargeImage()} src={this.countedPhoto}/>
         </div>;
     }
     return null;
@@ -155,6 +176,7 @@ export class ObjectCounter {
   private enlargeImage() {
     this.showImageDialog = true;
     this.showMarks = false;
+    this.currentPhoto = this.countedPhoto;
     this.isEnlarged.emit(true);
   }
 
@@ -172,7 +194,7 @@ export class ObjectCounter {
       navigator.camera.getPicture(
         (imageData) => {
           this.imageInBase64 = imageData; 
-          this.myPhoto = `${this.IMAGE_PREFIX}, ${this.imageInBase64}`;
+          this.currentPhoto = `${this.IMAGE_PREFIX}, ${this.imageInBase64}`;
           this.performCountItems(imageData);
         },
         (err) => {
@@ -191,11 +213,14 @@ export class ObjectCounter {
 
   private deletePhoto() : void {
     this.imageInBase64 = null;
+    this.previousImageInBase64 = null;
     this.counted = null;
-    this.myPhoto = null;
+    this.countedPhoto = null;
+    this.currentPhoto = null;
     this.showCountedLabel = false;
     var inputElement = this.element.shadowRoot.querySelector('#countingResult') as HTMLInputElement;
-    inputElement.valueAsNumber = null;
+    inputElement.value = null;
+    this.isDeleting = true;
     this.onChange();
   }
 
@@ -239,16 +264,23 @@ export class ObjectCounter {
     this.onChange();
   }
 
-  private onChange() {
-    this.updateFieldValue();
+  private async onChange() {
+    await this.updateFieldValue();
     this.fieldChange.emit({
       isValid: isValid(this.field),
       value: this.field.value
     });
   }
 
-  private updateFieldValue(): void {
-    this.field.value = { counted: this.counted, image: this.imageInBase64, thumbnail: this.myPhoto };
+  private async updateFieldValue(): Promise<void> {
+    if (!this.isDeleting) {
+      const thumbnailPhoto = await this.thumbnailFromBase64(this.previousImageInBase64);
+      this.field.value = { counted: this.counted, image: this.previousImageInBase64, thumbnail: this.removeDataPrefixFromBase64(thumbnailPhoto)};
+    }
+    else {
+      this.field.value = { counted: null, image: null, thumbnail: null};
+      this.isDeleting = false;
+    }
   }
 
   private setInitialValues(): void {
@@ -261,13 +293,48 @@ export class ObjectCounter {
     this.imageInBase64 = this.field?.value?.image;
     this.counted = this.field?.value?.counted;
     this.showCountedLabel = this.counted != null;
-    this.myPhoto = `${this.IMAGE_PREFIX}, ${this.imageInBase64}`;
+    this.countedPhoto = `${this.IMAGE_PREFIX}, ${this.imageInBase64}`;
   }
 
   private isFilled(): boolean {
     return (this.field.value) 
       ? this.field.value?.counted !== null || this.field.value?.image
       : false;
+  }
+
+  private async thumbnailFromBase64(base64Image: string): Promise<string> {
+    const staticSize = 250;
+    const fullImage = await this.getImageFromBase64(base64Image);        
+
+    let canvas = document.createElement('canvas');
+    let aspectRatio = fullImage.width/fullImage.height;
+    canvas.width = staticSize;
+    canvas.height = staticSize/aspectRatio;
+    canvas?.getContext("2d")?.drawImage(fullImage, 0, 0, canvas.width, canvas.height);
+    return canvas.toDataURL("image/jpeg", 0.5);
+  }
+
+  private getImageFromBase64(base64: string):Promise<any> {
+    return new Promise<any>(resolve => {
+      var imgData;
+      if (base64.includes(this.DATA_IMAGE_PREFIX)) {
+        imgData = base64;
+      }
+      else {
+        imgData = this.DATA_IMAGE_PNG_BASE64_PREFIX + base64;
+      }
+      var img = new Image();
+      img.onload = function () {
+        resolve(img);
+      };
+      img.src = imgData;
+    })
+  }
+
+  private removeDataPrefixFromBase64(base64image: string): string {
+    base64image = base64image.replace(this.DATA_IMAGE_PNG_BASE64_PREFIX, '');
+    base64image = base64image.replace(this.DATA_IMAGE_JPEG_BASE64_PREFIX, '');
+    return base64image;
   }
 }
 
