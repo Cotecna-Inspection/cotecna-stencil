@@ -1,6 +1,10 @@
 # Changelog
 This document contains the historical changes of the **@cotecna/stencil-components** npm public library.
 
+## [2.0.0] - 2023-09-14
+### Added
+- Upgrade to Capacitor 5
+
 ## [1.0.1] - 2023-05-18
 ### Fixed
 - Workaround to update the UI from the outside using props with simple types.
