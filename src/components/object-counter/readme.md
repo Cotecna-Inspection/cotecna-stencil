@@ -6,6 +6,8 @@ This StencilJS component allows you to render an Object Counter field as standal
 | Name | Description | Type | Mandatory |
 | -------- | --------------- | -------- | ----------- |
 | `field` | The field definition that will be rendered | `Field` | `true` |
+| `readOnly` | The readOnly property in field but it triggers the UI when is changed | `boolean` | `false` |
+| `required` | The requied property in field but it triggers the UI when is changed | `boolean` | `false` |
 | `control` | The control definition of this field | `any` | `true` |
 
 ## Events

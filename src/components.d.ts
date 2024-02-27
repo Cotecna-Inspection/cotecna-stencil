@@ -15,6 +15,8 @@ export namespace Components {
     interface CotecnaEmailBox {
         "control": any;
         "field": Field;
+        "readOnly": boolean;
+        "required": boolean;
     }
     interface CotecnaFileUploader {
         "control": any;
@@ -40,10 +42,14 @@ export namespace Components {
     interface CotecnaObjectCounter {
         "control": any;
         "field": Field;
+        "readOnly": boolean;
+        "required": boolean;
     }
     interface CotecnaOcr {
         "control": any;
         "field": Field;
+        "readOnly": boolean;
+        "required": boolean;
     }
     interface CotecnaSpinnerLoader {
         "color": string;
@@ -166,6 +172,8 @@ declare namespace LocalJSX {
         "control": any;
         "field": Field;
         "onFieldChange"?: (event: CotecnaEmailBoxCustomEvent<ControlState>) => void;
+        "readOnly"?: boolean;
+        "required"?: boolean;
     }
     interface CotecnaFileUploader {
         "control"?: any;
@@ -203,11 +211,15 @@ declare namespace LocalJSX {
         "field": Field;
         "onFieldChange"?: (event: CotecnaObjectCounterCustomEvent<ControlState>) => void;
         "onIsEnlarged"?: (event: CotecnaObjectCounterCustomEvent<boolean>) => void;
+        "readOnly"?: boolean;
+        "required"?: boolean;
     }
     interface CotecnaOcr {
         "control": any;
         "field": Field;
         "onFieldChange"?: (event: CotecnaOcrCustomEvent<ControlState>) => void;
+        "readOnly"?: boolean;
+        "required"?: boolean;
     }
     interface CotecnaSpinnerLoader {
         "color"?: string;
