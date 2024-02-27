@@ -23,6 +23,6 @@ export function configObjectCounter() {
   } as Field;
 
   objectCounterField.control = {
-    counterUrl: "https://cotecna-ai-uat.azurewebsites.net/object/detection"
+    datasourceUrl: "https://cotecna-ai-uat.azurewebsites.net/object/detection"
   }
 }
