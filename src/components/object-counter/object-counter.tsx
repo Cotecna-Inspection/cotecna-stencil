@@ -6,7 +6,7 @@ import { getIconPNGPath, getSymbol, isValid } from "../../utils/field-utils";
 import { convertBase64ToBlob } from "../../utils/image-utils";
 import { isMobileView } from "../../utils/check-is-mobile-utils";
 import { postMultipartFormData } from "../../utils/http-utils";
-import { ObjectCounterResponse, Prediction } from "../../models/object-counter-response";
+import { ObjectCounterResponse } from "../../models/object-counter-response";
 
 declare var navigator;
 
