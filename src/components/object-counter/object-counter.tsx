@@ -213,7 +213,7 @@ export class ObjectCounter {
 
   private async sendCountRequest(formData: FormData) {
     try {
-      const response = await postMultipartFormData(this.control.counterUrl, formData);
+      const response = await postMultipartFormData(this.control.datasourceUrl, formData);
       if (response) {
         const result: ObjectCounterResponse = JSON.parse(response);
         this.showCountedLabel = true;
