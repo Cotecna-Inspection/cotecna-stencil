@@ -4,7 +4,7 @@ This document contains the historical changes of the **@cotecna/stencil-componen
 
 ## [3.1.0] - 2024-04-30
 ### Added
-- Email-Box component now can add multiple mails at the same time when separeted by comma or semicolon and pressing Enter.
+- Email-Box component now can add multiple emails at the same time when separeted by comma or semicolon and pressing Enter.
 
 ## [3.0.0] - 2024-03-11
 ### Added
