@@ -2,7 +2,7 @@
 This document contains the historical changes of the **@cotecna/stencil-components** npm public library.
 
 
-## [3.1.0] - 2024-04-30
+## [3.1.0] - 2024-05-30
 ### Added
 - Email-Box component now can add multiple emails at the same time when separeted by comma or semicolon and pressing Enter.
 
