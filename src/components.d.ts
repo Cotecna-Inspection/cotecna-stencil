@@ -9,12 +9,16 @@ import { DialogAction } from "./enums/dialogAction";
 import { Field } from "./models/field";
 import { ControlState } from "./models/control-state";
 import { UploadedFile } from "./models/uploaded-file";
+import { ObjectCounterResponse } from "./models/object-counter-response";
 export namespace Components {
     interface CotecnaDialog {
     }
     interface CotecnaEmailBox {
         "control": any;
         "field": Field;
+        /**
+          * TODO: WORKAROUND - The DOM can't detect changes in a property of a complex object that is passed as Prop() For this reason, the variables we want to render the UI have been separated into new Props: - readOnly - required
+         */
         "readOnly": boolean;
         "required": boolean;
     }
@@ -23,9 +27,8 @@ export namespace Components {
         "field": Field;
     }
     interface CotecnaImageViewer {
-        "counted": any;
+        "countResult": ObjectCounterResponse;
         "image": string;
-        "predictions": any;
         "showItemMarks": boolean;
     }
     interface CotecnaMultidropdown {
@@ -42,12 +45,18 @@ export namespace Components {
     interface CotecnaObjectCounter {
         "control": any;
         "field": Field;
+        /**
+          * TODO: WORKAROUND - The DOM can't detect changes in a property of a complex object that is passed as Prop() For this reason, the variables we want to render the UI have been separated into new Props: - readOnly - required
+         */
         "readOnly": boolean;
         "required": boolean;
     }
     interface CotecnaOcr {
         "control": any;
         "field": Field;
+        /**
+          * TODO: WORKAROUND - The DOM can't detect changes in a property of a complex object that is passed as Prop() For this reason, the variables we want to render the UI have been separated into new Props: - readOnly - required
+         */
         "readOnly": boolean;
         "required": boolean;
     }
@@ -172,6 +181,9 @@ declare namespace LocalJSX {
         "control": any;
         "field": Field;
         "onFieldChange"?: (event: CotecnaEmailBoxCustomEvent<ControlState>) => void;
+        /**
+          * TODO: WORKAROUND - The DOM can't detect changes in a property of a complex object that is passed as Prop() For this reason, the variables we want to render the UI have been separated into new Props: - readOnly - required
+         */
         "readOnly"?: boolean;
         "required"?: boolean;
     }
@@ -184,13 +196,12 @@ declare namespace LocalJSX {
         "onFieldChange"?: (event: CotecnaFileUploaderCustomEvent<ControlState>) => void;
     }
     interface CotecnaImageViewer {
-        "counted"?: any;
+        "countResult"?: ObjectCounterResponse;
         "image": string;
         "onCloseImageViewer"?: (event: CotecnaImageViewerCustomEvent<boolean>) => void;
-        "onConfirmCount"?: (event: CotecnaImageViewerCustomEvent<boolean>) => void;
+        "onConfirmCount"?: (event: CotecnaImageViewerCustomEvent<number>) => void;
         "onDeleteImage"?: (event: CotecnaImageViewerCustomEvent<boolean>) => void;
         "onRetakePhoto"?: (event: CotecnaImageViewerCustomEvent<boolean>) => void;
-        "predictions"?: any;
         "showItemMarks"?: boolean;
     }
     interface CotecnaMultidropdown {
@@ -211,6 +222,9 @@ declare namespace LocalJSX {
         "field": Field;
         "onFieldChange"?: (event: CotecnaObjectCounterCustomEvent<ControlState>) => void;
         "onIsEnlarged"?: (event: CotecnaObjectCounterCustomEvent<boolean>) => void;
+        /**
+          * TODO: WORKAROUND - The DOM can't detect changes in a property of a complex object that is passed as Prop() For this reason, the variables we want to render the UI have been separated into new Props: - readOnly - required
+         */
         "readOnly"?: boolean;
         "required"?: boolean;
     }
@@ -218,6 +232,9 @@ declare namespace LocalJSX {
         "control": any;
         "field": Field;
         "onFieldChange"?: (event: CotecnaOcrCustomEvent<ControlState>) => void;
+        /**
+          * TODO: WORKAROUND - The DOM can't detect changes in a property of a complex object that is passed as Prop() For this reason, the variables we want to render the UI have been separated into new Props: - readOnly - required
+         */
         "readOnly"?: boolean;
         "required"?: boolean;
     }
