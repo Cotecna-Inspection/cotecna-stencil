@@ -1,6 +1,9 @@
 # Changelog
 This document contains the historical changes of the **@cotecna/stencil-components** npm public library.
 
+## [3.2.0] - 2024-05-31
+### Changed
+- Email-Box component now allows emails that contains capital letters.
 
 ## [3.1.0] - 2024-05-30
 ### Added

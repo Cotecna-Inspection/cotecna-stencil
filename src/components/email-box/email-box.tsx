@@ -42,7 +42,7 @@ export class EmailBox {
   @Element()
   private element: HTMLElement;
 
-  private readonly MULTI_EMAIL_REGEX = /^(?:[a-z0-9._%+-]+@[a-z0-9.-]+[.]{1}(?:[a-z]{2,3})\s?[,;]\s?)*(:?[a-z0-9._%+-]+@[a-z0-9.-]+[.]{1}(?:[a-z]{2,3}))$/;
+  private readonly MULTI_EMAIL_REGEX = /^(?:[a-z0-9._%+-]+@[a-z0-9.-]+[.]{1}(?:[a-z]{2,3})\s?[,;]\s?)*(:?[a-z0-9._%+-]+@[a-z0-9.-]+[.]{1}(?:[a-z]{2,3}))$/i;
 
   @Watch('field')
   onFieldChanged() {
