@@ -42,7 +42,7 @@ export class EmailBox {
   @Element()
   private element: HTMLElement;
 
-  private readonly EMAIL_REGEX: string = `[a-z0-9._%+-]+@[a-z0-9.-]+[.]{1}(?:[a-z]{2,3})$`;
+  private readonly MULTI_EMAIL_REGEX = /^(?:[a-z0-9._%+-]+@[a-z0-9.-]+[.]{1}(?:[a-z]{2,3})\s?[,;]\s?)*(:?[a-z0-9._%+-]+@[a-z0-9.-]+[.]{1}(?:[a-z]{2,3}))$/;
 
   @Watch('field')
   onFieldChanged() {
@@ -76,9 +76,9 @@ export class EmailBox {
             { this.displayPlaceholder() }
           </div>
           <input id="add-email-input" 
-            type="email"
+            type="text"
             class="add-email-input"
-            pattern={this.EMAIL_REGEX}
+            pattern={this.MULTI_EMAIL_REGEX.source}
             onKeyUp={this.handleKeyPress.bind(this)}></input>
         </div>
       </div>
@@ -167,18 +167,19 @@ export class EmailBox {
   private handleKeyPress(event: KeyboardEvent) {
     event.stopPropagation();
     const field = event.target as any;
-    this.markFieldValidityStatus(field);
+    const emails = (field.value as String).split(/\s?[,;]\s?/);
+    
+    const isValid = this.markFieldValidityStatus(field);
 
-    if (event.key === this.enterCode && field?.validity?.valid && field?.value?.trim()?.length) {
-      if (!this.emailAlreadyExists(field.value)) {
-        const emailToAdd = field.value;
-        this.addEmail(emailToAdd);
-        this.updateAndTriggerOnChange();
-        field.value = '';
-      }
-      else {
-        this.markFieldValidityStatus(field,'Email already exists');
-      }
+    if (event.key === this.enterCode && isValid && field?.value?.trim()?.length) {
+      for(const email of emails) {
+        const emailToAdd = email.trim();
+        if (!this.emailAlreadyExists(emailToAdd)) {
+          this.addEmail(emailToAdd);
+          this.updateAndTriggerOnChange();
+        }
+      } 
+      field.value = '';
     } 
   }
 
@@ -195,11 +196,11 @@ export class EmailBox {
            this.control?.defaultEmails?.some(defaultEmail => defaultEmail?.toLowerCase() === email?.toLowerCase());
   }
 
-  private markFieldValidityStatus(element, errorMessage: string = '') {
-    element.setCustomValidity(errorMessage);
-    element.validity.valid
-      ? element.classList.remove('invalid') 
+  private markFieldValidityStatus(element): boolean {
+    const isValid = this.MULTI_EMAIL_REGEX.test(element.value);
+    isValid ? element.classList.remove('invalid') 
       : element.classList.add('invalid');
+    return isValid;
   }
 
   private addEmail(email: string) {
