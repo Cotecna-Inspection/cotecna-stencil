@@ -1,6 +1,10 @@
 # Changelog
 This document contains the historical changes of the **@cotecna/stencil-components** npm public library.
 
+## [3.2.1] - 2024-06-26
+### Fixed
+- Improved Email-box regex to prevent bad emails like multiple dot.
+
 ## [3.2.0] - 2024-05-31
 ### Changed
 - Email-Box component now allows emails that contains capital letters.
