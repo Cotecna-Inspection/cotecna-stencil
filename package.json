@@ -1,6 +1,6 @@
 {
   "name": "@cotecna/stencil-components",
-  "version": "3.2.1",
+  "version": "3.3.0",
   "description": "Cotecna Stencil Components",
   "author": "Cotecna",
   "publishConfig": {
@@ -35,8 +35,10 @@
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@capacitor/camera": "6.0.0-rc.0",
-    "@capacitor/core": "6.0.0-nightly-20240307T150431.0",
+    "@capacitor/app": "7.0.1",
+    "@capacitor/app-launcher": "7.0.1",
+    "@capacitor/camera": "7.0.1",
+    "@capacitor/core": "7.4.2",
     "@ionic/pwa-elements": "^3.1.1",
     "@stencil/core": "^2.13.0",
     "@stencil/sass": "^1.5.2",

@@ -4,6 +4,9 @@ import { getIconPNGPath, isValid } from '../../utils/field-utils';
 import { OCRResult } from './models/ocr-result.model';
 import { ControlState } from '../../models/control-state';
 import { isMobileView } from '../../utils/check-is-mobile-utils';
+import { App } from '@capacitor/app';
+import { AppLauncher } from '@capacitor/app-launcher';
+import { OcrByDeeplinkConfig } from './models/ocr-by-deeplink-config.model';
 
 declare var navigator;
 declare var mltext;
@@ -32,6 +35,9 @@ export class OcrField {
   @Prop()
   public required: boolean;
 
+  @Prop()
+  public ocrByDeeplinkConfig?: OcrByDeeplinkConfig;
+
   @State()
   private ocrResult: OCRResult = null;
 
@@ -50,8 +56,24 @@ export class OcrField {
   private readonly ERROR_MESSAGE: string = `Something went wrong. Please, try it later.`;
   private readonly NO_TEXT_FOUND_MESSAGE: string = `No text found. Try again with another photo or fill it manually.`;
 
-  componentWillLoad() {
+  componentDidLoad() {
     this.setInitialValues();
+    if (this.ocrByDeeplinkConfig?.isEnabled) {
+      this.connectDeeplinkCallback();
+    }
+  }
+
+  connectDeeplinkCallback() {
+    App.addListener('appUrlOpen', (data: any) => {
+      const url = new URL(data.url);
+      const path = url.pathname;
+      const result = url.searchParams.get(this.ocrByDeeplinkConfig.deeplinkParamToListen);
+
+      if (path === this.ocrByDeeplinkConfig.deeplinkPathToListen && result) {
+        this.ocrResultAsString = result;
+        this.onChange();
+      }
+    });
   }
 
   render() {
@@ -108,21 +130,27 @@ export class OcrField {
   }
 
   private async takePictureAndPerformOcr(): Promise<void> {
-    document.addEventListener("deviceready", () => {
-      navigator.camera.getPicture(
-        (imagePath) => {
-          this.performOCR(imagePath);
-        },
-        (err) => {
-          throw err;
-        },
-        {
-          quality: 100,
-          correctOrientation: true,
-          destinationType: navigator.camera.DestinationType.FILE_URI 
-        }
-      )
-    });
+    if (this.ocrByDeeplinkConfig?.isEnabled) {
+      AppLauncher.openUrl({
+        url: this.ocrByDeeplinkConfig.deeplinkToOpen
+      });
+    } else {
+      document.addEventListener("deviceready", () => {
+        navigator.camera.getPicture(
+          (imagePath) => {
+            this.performOCR(imagePath);
+          },
+          (err) => {
+            throw err;
+          },
+          {
+            quality: 100,
+            correctOrientation: true,
+            destinationType: navigator.camera.DestinationType.FILE_URI 
+          }
+        )
+      });
+    }
   }
 
   private deleteOcrResult(): void {
