@@ -10,6 +10,7 @@ import { Field } from "./models/field";
 import { ControlState } from "./models/control-state";
 import { UploadedFile } from "./models/uploaded-file";
 import { ObjectCounterResponse } from "./models/object-counter-response";
+import { OcrByDeeplinkConfig } from "./components/ocr/models/ocr-by-deeplink-config.model";
 export namespace Components {
     interface CotecnaDialog {
     }
@@ -54,6 +55,7 @@ export namespace Components {
     interface CotecnaOcr {
         "control": any;
         "field": Field;
+        "ocrByDeeplinkConfig"?: OcrByDeeplinkConfig;
         /**
           * TODO: WORKAROUND - The DOM can't detect changes in a property of a complex object that is passed as Prop() For this reason, the variables we want to render the UI have been separated into new Props: - readOnly - required
          */
@@ -231,6 +233,7 @@ declare namespace LocalJSX {
     interface CotecnaOcr {
         "control": any;
         "field": Field;
+        "ocrByDeeplinkConfig"?: OcrByDeeplinkConfig;
         "onFieldChange"?: (event: CotecnaOcrCustomEvent<ControlState>) => void;
         /**
           * TODO: WORKAROUND - The DOM can't detect changes in a property of a complex object that is passed as Prop() For this reason, the variables we want to render the UI have been separated into new Props: - readOnly - required
