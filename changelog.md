@@ -1,6 +1,10 @@
 # Changelog
 This document contains the historical changes of the **@cotecna/stencil-components** npm public library.
 
+## [3.3.1] - 2025-07-16
+### Fixed
+- Fix optional dependencies versions in package.json to pass the pipeline.
+
 ## [3.3.0] - 2025-07-16
 ### Added
 - [OCR] Introduced the new ocrByDeeplinkConfig property. When set, the component will launch the specified app via deeplink to perform its own OCR and return the result back to the component.
