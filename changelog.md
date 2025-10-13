@@ -1,6 +1,10 @@
 # Changelog
 This document contains the historical changes of the **@cotecna/stencil-components** npm public library.
 
+## [3.3.2] - 2025-10-13
+### Fixed
+- [OCR] Added FieldId validation to ensure values are not applied to all OCR widgets indiscriminately.
+
 ## [3.3.1] - 2025-07-16
 ### Fixed
 - Fix optional dependencies versions in package.json to pass the pipeline.
