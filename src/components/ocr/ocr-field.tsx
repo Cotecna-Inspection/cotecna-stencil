@@ -68,8 +68,9 @@ export class OcrField {
       const url = new URL(data.url);
       const path = url.pathname;
       const result = url.searchParams.get(this.ocrByDeeplinkConfig.deeplinkParamToListen);
+      const id = url.searchParams.get("id");
 
-      if (path === this.ocrByDeeplinkConfig.deeplinkPathToListen && result) {
+      if (path === this.ocrByDeeplinkConfig.deeplinkPathToListen && result && id == this.field.id) {
         this.ocrResultAsString = result;
         this.onChange();
       }
@@ -132,7 +133,7 @@ export class OcrField {
   private async takePictureAndPerformOcr(): Promise<void> {
     if (this.ocrByDeeplinkConfig?.isEnabled) {
       AppLauncher.openUrl({
-        url: this.ocrByDeeplinkConfig.deeplinkToOpen
+        url: `${this.ocrByDeeplinkConfig.deeplinkToOpen}?id=${this.field.id}`
       });
     } else {
       document.addEventListener("deviceready", () => {
