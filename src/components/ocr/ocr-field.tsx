@@ -1,12 +1,13 @@
 import { Component, EventEmitter, h, Prop, State, Event } from '@stencil/core';
 import { Field } from '../../models/field';
-import { getIconPNGPath, isValid } from '../../utils/field-utils';
+import { getIconPNGPath, getIconSVGPath, isValid } from '../../utils/field-utils';
 import { OCRResult } from './models/ocr-result.model';
 import { ControlState } from '../../models/control-state';
 import { isMobileView } from '../../utils/check-is-mobile-utils';
 import { App } from '@capacitor/app';
 import { AppLauncher } from '@capacitor/app-launcher';
 import { OcrByDeeplinkConfig } from './models/ocr-by-deeplink-config.model';
+import { Clipboard } from '@capacitor/clipboard';
 
 declare var navigator;
 declare var mltext;
@@ -37,6 +38,9 @@ export class OcrField {
 
   @Prop()
   public ocrByDeeplinkConfig?: OcrByDeeplinkConfig;
+
+  @Prop()
+  public showPasteFromClipboardButton?: boolean;
 
   @State()
   private ocrResult: OCRResult = null;
@@ -107,7 +111,8 @@ export class OcrField {
           onChange={(e) => this.onChangeOcrResult(e)}>
         </textarea>
         {}
-        <div class={{"actions-container": true, 'disabled': !isMobileView()}}>
+        <div class={{"actions-container": true, 'enabled': !isMobileView()}}>
+          { this.showPasteFromClipboardButton ? <button onClick={() => this.pasteContent()}><img src={getIconSVGPath('paste_content')}></img></button> : null }
           <button onClick={() => this.takePictureAndPerformOcr()}><img src={getIconPNGPath('photo_camera')}></img></button>
           { this.ocrResultAsString ? <button onClick={() => this.deleteOcrResult()}><img src={getIconPNGPath('delete')}></img></button> : null }
         </div>
@@ -153,6 +158,19 @@ export class OcrField {
       });
     }
   }
+
+  private async pasteContent(): Promise<void> {
+    try {
+      const { value } = await Clipboard.read();
+      this.ocrResultAsString = value;
+      this.onChange();
+    } catch (error) {
+      console.error("There was an issue trying to paste from clipboard:", error);
+      this.hasError = true;
+      throw error;
+    }
+  }
+
 
   private deleteOcrResult(): void {
     this.ocrResult = null;
