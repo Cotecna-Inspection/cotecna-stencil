@@ -1,6 +1,10 @@
 # Changelog
 This document contains the historical changes of the **@cotecna/stencil-components** npm public library.
 
+## [3.4.1] - 2025-11-12
+### Fixed
+- [OCR] Component was not disabled for web.
+
 ## [3.4.0] - 2025-11-12
 ### Added
 - [OCR] New optional button to Paste Clipboard content into the Field.
