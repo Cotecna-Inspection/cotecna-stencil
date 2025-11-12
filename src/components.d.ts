@@ -61,6 +61,7 @@ export namespace Components {
          */
         "readOnly": boolean;
         "required": boolean;
+        "showPasteFromClipboardButton"?: boolean;
     }
     interface CotecnaSpinnerLoader {
         "color": string;
@@ -240,6 +241,7 @@ declare namespace LocalJSX {
          */
         "readOnly"?: boolean;
         "required"?: boolean;
+        "showPasteFromClipboardButton"?: boolean;
     }
     interface CotecnaSpinnerLoader {
         "color"?: string;
