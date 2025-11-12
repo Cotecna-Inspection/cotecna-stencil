@@ -111,7 +111,7 @@ export class OcrField {
           onChange={(e) => this.onChangeOcrResult(e)}>
         </textarea>
         {}
-        <div class={{"actions-container": true, 'enabled': !isMobileView()}}>
+        <div class={{"actions-container": true, 'disabled': !isMobileView()}}>
           { this.showPasteFromClipboardButton ? <button onClick={() => this.pasteContent()}><img src={getIconSVGPath('paste_content')}></img></button> : null }
           <button onClick={() => this.takePictureAndPerformOcr()}><img src={getIconPNGPath('photo_camera')}></img></button>
           { this.ocrResultAsString ? <button onClick={() => this.deleteOcrResult()}><img src={getIconPNGPath('delete')}></img></button> : null }
