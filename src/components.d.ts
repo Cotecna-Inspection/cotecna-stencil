@@ -11,6 +11,12 @@ import { ControlState } from "./models/control-state";
 import { UploadedFile } from "./models/uploaded-file";
 import { ObjectCounterResponse } from "./models/object-counter-response";
 import { OcrByDeeplinkConfig } from "./components/ocr/models/ocr-by-deeplink-config.model";
+export { DialogAction } from "./enums/dialogAction";
+export { Field } from "./models/field";
+export { ControlState } from "./models/control-state";
+export { UploadedFile } from "./models/uploaded-file";
+export { ObjectCounterResponse } from "./models/object-counter-response";
+export { OcrByDeeplinkConfig } from "./components/ocr/models/ocr-by-deeplink-config.model";
 export namespace Components {
     interface CotecnaDialog {
     }
@@ -24,12 +30,18 @@ export namespace Components {
         "required": boolean;
     }
     interface CotecnaFileUploader {
+        /**
+          * @default []
+         */
         "control": any;
         "field": Field;
     }
     interface CotecnaImageViewer {
         "countResult": ObjectCounterResponse;
         "image": string;
+        /**
+          * @default true
+         */
         "showItemMarks": boolean;
     }
     interface CotecnaMultidropdown {
@@ -64,9 +76,21 @@ export namespace Components {
         "showPasteFromClipboardButton"?: boolean;
     }
     interface CotecnaSpinnerLoader {
+        /**
+          * @default "red"
+         */
         "color": string;
+        /**
+          * @default 32
+         */
         "size": number;
+        /**
+          * @default ''
+         */
         "text": string;
+        /**
+          * @default 4
+         */
         "thick": number;
     }
 }
@@ -103,37 +127,109 @@ export interface CotecnaOcrCustomEvent<T> extends CustomEvent<T> {
     target: HTMLCotecnaOcrElement;
 }
 declare global {
+    interface HTMLCotecnaDialogElementEventMap {
+        "clickDialogAction": DialogAction;
+    }
     interface HTMLCotecnaDialogElement extends Components.CotecnaDialog, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCotecnaDialogElementEventMap>(type: K, listener: (this: HTMLCotecnaDialogElement, ev: CotecnaDialogCustomEvent<HTMLCotecnaDialogElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCotecnaDialogElementEventMap>(type: K, listener: (this: HTMLCotecnaDialogElement, ev: CotecnaDialogCustomEvent<HTMLCotecnaDialogElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCotecnaDialogElement: {
         prototype: HTMLCotecnaDialogElement;
         new (): HTMLCotecnaDialogElement;
     };
+    interface HTMLCotecnaEmailBoxElementEventMap {
+        "fieldChange": ControlState;
+    }
     interface HTMLCotecnaEmailBoxElement extends Components.CotecnaEmailBox, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCotecnaEmailBoxElementEventMap>(type: K, listener: (this: HTMLCotecnaEmailBoxElement, ev: CotecnaEmailBoxCustomEvent<HTMLCotecnaEmailBoxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCotecnaEmailBoxElementEventMap>(type: K, listener: (this: HTMLCotecnaEmailBoxElement, ev: CotecnaEmailBoxCustomEvent<HTMLCotecnaEmailBoxElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCotecnaEmailBoxElement: {
         prototype: HTMLCotecnaEmailBoxElement;
         new (): HTMLCotecnaEmailBoxElement;
     };
+    interface HTMLCotecnaFileUploaderElementEventMap {
+        "downloadedFile": UploadedFile;
+        "deletedFile": UploadedFile;
+        "addedFile": File;
+        "fieldChange": ControlState;
+    }
     interface HTMLCotecnaFileUploaderElement extends Components.CotecnaFileUploader, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCotecnaFileUploaderElementEventMap>(type: K, listener: (this: HTMLCotecnaFileUploaderElement, ev: CotecnaFileUploaderCustomEvent<HTMLCotecnaFileUploaderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCotecnaFileUploaderElementEventMap>(type: K, listener: (this: HTMLCotecnaFileUploaderElement, ev: CotecnaFileUploaderCustomEvent<HTMLCotecnaFileUploaderElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCotecnaFileUploaderElement: {
         prototype: HTMLCotecnaFileUploaderElement;
         new (): HTMLCotecnaFileUploaderElement;
     };
+    interface HTMLCotecnaImageViewerElementEventMap {
+        "deleteImage": boolean;
+        "closeImageViewer": boolean;
+        "confirmCount": number;
+        "retakePhoto": boolean;
+    }
     interface HTMLCotecnaImageViewerElement extends Components.CotecnaImageViewer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCotecnaImageViewerElementEventMap>(type: K, listener: (this: HTMLCotecnaImageViewerElement, ev: CotecnaImageViewerCustomEvent<HTMLCotecnaImageViewerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCotecnaImageViewerElementEventMap>(type: K, listener: (this: HTMLCotecnaImageViewerElement, ev: CotecnaImageViewerCustomEvent<HTMLCotecnaImageViewerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCotecnaImageViewerElement: {
         prototype: HTMLCotecnaImageViewerElement;
         new (): HTMLCotecnaImageViewerElement;
     };
+    interface HTMLCotecnaMultidropdownElementEventMap {
+        "fieldChange": ControlState;
+    }
     interface HTMLCotecnaMultidropdownElement extends Components.CotecnaMultidropdown, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCotecnaMultidropdownElementEventMap>(type: K, listener: (this: HTMLCotecnaMultidropdownElement, ev: CotecnaMultidropdownCustomEvent<HTMLCotecnaMultidropdownElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCotecnaMultidropdownElementEventMap>(type: K, listener: (this: HTMLCotecnaMultidropdownElement, ev: CotecnaMultidropdownCustomEvent<HTMLCotecnaMultidropdownElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCotecnaMultidropdownElement: {
         prototype: HTMLCotecnaMultidropdownElement;
         new (): HTMLCotecnaMultidropdownElement;
     };
+    interface HTMLCotecnaMultidropdownEditableElementEventMap {
+        "editionFinished": { field: Field, isChanged: boolean};
+    }
     interface HTMLCotecnaMultidropdownEditableElement extends Components.CotecnaMultidropdownEditable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCotecnaMultidropdownEditableElementEventMap>(type: K, listener: (this: HTMLCotecnaMultidropdownEditableElement, ev: CotecnaMultidropdownEditableCustomEvent<HTMLCotecnaMultidropdownEditableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCotecnaMultidropdownEditableElementEventMap>(type: K, listener: (this: HTMLCotecnaMultidropdownEditableElement, ev: CotecnaMultidropdownEditableCustomEvent<HTMLCotecnaMultidropdownEditableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCotecnaMultidropdownEditableElement: {
         prototype: HTMLCotecnaMultidropdownEditableElement;
@@ -145,13 +241,36 @@ declare global {
         prototype: HTMLCotecnaMultidropdownReadableElement;
         new (): HTMLCotecnaMultidropdownReadableElement;
     };
+    interface HTMLCotecnaObjectCounterElementEventMap {
+        "fieldChange": ControlState;
+        "isEnlarged": boolean;
+    }
     interface HTMLCotecnaObjectCounterElement extends Components.CotecnaObjectCounter, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCotecnaObjectCounterElementEventMap>(type: K, listener: (this: HTMLCotecnaObjectCounterElement, ev: CotecnaObjectCounterCustomEvent<HTMLCotecnaObjectCounterElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCotecnaObjectCounterElementEventMap>(type: K, listener: (this: HTMLCotecnaObjectCounterElement, ev: CotecnaObjectCounterCustomEvent<HTMLCotecnaObjectCounterElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCotecnaObjectCounterElement: {
         prototype: HTMLCotecnaObjectCounterElement;
         new (): HTMLCotecnaObjectCounterElement;
     };
+    interface HTMLCotecnaOcrElementEventMap {
+        "fieldChange": ControlState;
+    }
     interface HTMLCotecnaOcrElement extends Components.CotecnaOcr, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLCotecnaOcrElementEventMap>(type: K, listener: (this: HTMLCotecnaOcrElement, ev: CotecnaOcrCustomEvent<HTMLCotecnaOcrElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLCotecnaOcrElementEventMap>(type: K, listener: (this: HTMLCotecnaOcrElement, ev: CotecnaOcrCustomEvent<HTMLCotecnaOcrElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLCotecnaOcrElement: {
         prototype: HTMLCotecnaOcrElement;
@@ -191,6 +310,9 @@ declare namespace LocalJSX {
         "required"?: boolean;
     }
     interface CotecnaFileUploader {
+        /**
+          * @default []
+         */
         "control"?: any;
         "field": Field;
         "onAddedFile"?: (event: CotecnaFileUploaderCustomEvent<File>) => void;
@@ -205,6 +327,9 @@ declare namespace LocalJSX {
         "onConfirmCount"?: (event: CotecnaImageViewerCustomEvent<number>) => void;
         "onDeleteImage"?: (event: CotecnaImageViewerCustomEvent<boolean>) => void;
         "onRetakePhoto"?: (event: CotecnaImageViewerCustomEvent<boolean>) => void;
+        /**
+          * @default true
+         */
         "showItemMarks"?: boolean;
     }
     interface CotecnaMultidropdown {
@@ -244,9 +369,21 @@ declare namespace LocalJSX {
         "showPasteFromClipboardButton"?: boolean;
     }
     interface CotecnaSpinnerLoader {
+        /**
+          * @default "red"
+         */
         "color"?: string;
+        /**
+          * @default 32
+         */
         "size"?: number;
+        /**
+          * @default ''
+         */
         "text"?: string;
+        /**
+          * @default 4
+         */
         "thick"?: number;
     }
     interface IntrinsicElements {

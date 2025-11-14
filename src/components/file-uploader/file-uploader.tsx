@@ -186,7 +186,7 @@ export class FileUploader {
         this.isMultiple = this.control['isMultiple'] ?? false;
         this.placeholder = this.control['placeholder'] ?? this.DEFAULT_PLACEHOLDER;
         this.acceptedFileExtensions = this.control['acceptedFileExtensions'] ?? [];
-        this.uploadedFiles = [...this.field.value] ?? [];
+        this.uploadedFiles = [...(this.field?.value ?? [])];
     }
 
     private updateAndTriggerOnChange(): void {
