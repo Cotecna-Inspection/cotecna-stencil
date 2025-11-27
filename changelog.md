@@ -1,6 +1,30 @@
 # Changelog
 This document contains the historical changes of the **@cotecna/stencil-components** npm public library.
 
+## [3.4.1] - 2025-11-12
+### Fixed
+- [OCR] Component was not disabled for web.
+
+## [3.4.0] - 2025-11-12
+### Added
+- [OCR] New optional button to Paste Clipboard content into the Field.
+
+## [3.3.2] - 2025-10-13
+### Fixed
+- [OCR] Added FieldId validation to ensure values are not applied to all OCR widgets indiscriminately.
+
+## [3.3.1] - 2025-07-16
+### Fixed
+- Fix optional dependencies versions in package.json to pass the pipeline.
+
+## [3.3.0] - 2025-07-16
+### Added
+- [OCR] Introduced the new ocrByDeeplinkConfig property. When set, the component will launch the specified app via deeplink to perform its own OCR and return the result back to the component.
+
+## [3.2.1] - 2024-06-26
+### Fixed
+- Improved Email-box regex to prevent bad emails like multiple dot.
+
 ## [3.2.0] - 2024-05-31
 ### Changed
 - Email-Box component now allows emails that contains capital letters.
